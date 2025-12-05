@@ -1,4 +1,4 @@
-namespace EksamenSemEt
+﻿namespace EksamenSemEt
 {
     internal static class Program
     {
@@ -7,7 +7,7 @@ namespace EksamenSemEt
         /// </summary>
         [STAThread]
         static void Main()
-        {
+        {◘
             Console.WriteLine("Hello Eggplant lovers!");
 
             // To customize application configuration such as set high DPI settings or default font,
