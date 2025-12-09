@@ -1,4 +1,6 @@
-﻿namespace EksamenSemEt
+﻿using FitHubUI;
+
+namespace EksamenSemEt
 {
     internal static class Program
     {
@@ -7,13 +9,13 @@
         /// </summary>
         [STAThread]
         static void Main()
-        {◘
+        {
             Console.WriteLine("Hello Eggplant lovers!");
 
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new Hovedmenu());
         }
     }
 }

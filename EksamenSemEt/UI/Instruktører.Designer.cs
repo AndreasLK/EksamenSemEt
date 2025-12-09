@@ -134,9 +134,10 @@
             label3.AutoSize = true;
             label3.Location = new Point(13, 446);
             label3.Name = "label3";
-            label3.Size = new Size(86, 15);
+            label3.Size = new Size(72, 15);
             label3.TabIndex = 10;
-            label3.Text = "Vælg tilmeldte:";
+            label3.Text = "Se tilmeldte:";
+            label3.Click += label3_Click;
             // 
             // tilmeldteTilHold
             // 

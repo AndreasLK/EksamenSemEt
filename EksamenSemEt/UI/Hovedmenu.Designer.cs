@@ -49,6 +49,7 @@ namespace FitHubUI
             kunder.TabIndex = 0;
             kunder.Text = "Kunder";
             kunder.UseVisualStyleBackColor = true;
+            kunder.Click += btnKunderClick;
             // 
             // instruktører
             // 
@@ -58,6 +59,7 @@ namespace FitHubUI
             instruktører.TabIndex = 1;
             instruktører.Text = "Instruktører";
             instruktører.UseVisualStyleBackColor = true;
+            instruktører.Click += btnInstruktorer_Click;
             // 
             // planlægHold
             // 
@@ -67,6 +69,7 @@ namespace FitHubUI
             planlægHold.TabIndex = 2;
             planlægHold.Text = "Planlæg hold";
             planlægHold.UseVisualStyleBackColor = true;
+            planlægHold.Click += btnPlanlaegHold_Click;
             // 
             // bookHold
             // 
@@ -76,24 +79,27 @@ namespace FitHubUI
             bookHold.TabIndex = 3;
             bookHold.Text = "Book hold";
             bookHold.UseVisualStyleBackColor = true;
+            bookHold.Click += btnBookHold_Click;
             // 
             // rapporter
             // 
             rapporter.Location = new Point(12, 472);
             rapporter.Name = "rapporter";
-            rapporter.Size = new Size(86, 30);
+            rapporter.Size = new Size(108, 30);
             rapporter.TabIndex = 4;
-            rapporter.Text = "Rapporter";
+            rapporter.Text = "Udskriv Rapport";
             rapporter.UseVisualStyleBackColor = true;
+            rapporter.Click += btnRapportUdskriv_Click;
             // 
             // systemstatus
             // 
-            systemstatus.Location = new Point(104, 472);
+            systemstatus.Location = new Point(126, 472);
             systemstatus.Name = "systemstatus";
-            systemstatus.Size = new Size(86, 30);
+            systemstatus.Size = new Size(108, 30);
             systemstatus.TabIndex = 5;
             systemstatus.Text = "Systemstatus";
             systemstatus.UseVisualStyleBackColor = true;
+            systemstatus.Click += btnSystemStatus_Click;
             // 
             // kundeLabel
             // 

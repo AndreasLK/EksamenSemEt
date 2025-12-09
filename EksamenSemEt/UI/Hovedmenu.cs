@@ -9,14 +9,39 @@ namespace FitHubUI
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void btnKunderClick(object sender, EventArgs e)
+        {
+            var kunderForm = new Kundestyring();
+            kunderForm.ShowDialog();
+        }
+
+        private void btnInstruktorer_Click(object sender, EventArgs e)
+        {
+            var instrForm = new Instruktører();
+            instrForm.ShowDialog();
+        }
+
+        private void btnPlanlaegHold_Click(object sender, EventArgs e)
+        {
+            var planForm = new Planlægning();
+            planForm.ShowDialog();
+        }
+
+        private void btnBookHold_Click(object sender, EventArgs e)
+        {
+            var bookingForm = new Booking();
+            bookingForm.ShowDialog();
+        }
+
+        private void btnRapportUdskriv_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnSystemStatus_Click(object sender, EventArgs e)
         {
-
+            var statusForm = new SystemStatus();
+            statusForm.ShowDialog();
         }
     }
 }

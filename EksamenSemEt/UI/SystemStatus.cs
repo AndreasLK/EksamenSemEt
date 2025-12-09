@@ -6,18 +6,13 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace FitHubUI
+namespace EksamenSemEt.UI
 {
-    public partial class Instruktører : Form
+    public partial class SystemStatus : Form
     {
-        public Instruktører()
+        public SystemStatus()
         {
             InitializeComponent();
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
