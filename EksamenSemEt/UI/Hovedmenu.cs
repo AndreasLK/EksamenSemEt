@@ -1,3 +1,5 @@
+using EksamenSemEt.UI;
+
 namespace FitHubUI
 {
     public partial class Hovedmenu : Form
