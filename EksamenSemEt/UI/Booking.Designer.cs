@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             kommendeHold = new DataGridView();
-            tildmeldteMedlemmer = new DataGridView();
+            tilmeldteMedlemmer = new DataGridView();
             label1 = new Label();
-            comboBox1 = new ComboBox();
             bookTilHold = new Button();
+            afmeldMedlem = new Button();
+            valgtMedlemmer = new CheckedListBox();
             ((System.ComponentModel.ISupportInitialize)kommendeHold).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)tildmeldteMedlemmer).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)tilmeldteMedlemmer).BeginInit();
             SuspendLayout();
             // 
             // kommendeHold
@@ -45,13 +46,13 @@
             kommendeHold.Size = new Size(240, 150);
             kommendeHold.TabIndex = 0;
             // 
-            // tildmeldteMedlemmer
+            // tilmeldteMedlemmer
             // 
-            tildmeldteMedlemmer.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            tildmeldteMedlemmer.Location = new Point(279, 12);
-            tildmeldteMedlemmer.Name = "tildmeldteMedlemmer";
-            tildmeldteMedlemmer.Size = new Size(240, 150);
-            tildmeldteMedlemmer.TabIndex = 1;
+            tilmeldteMedlemmer.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tilmeldteMedlemmer.Location = new Point(279, 12);
+            tilmeldteMedlemmer.Name = "tilmeldteMedlemmer";
+            tilmeldteMedlemmer.Size = new Size(240, 150);
+            tilmeldteMedlemmer.TabIndex = 1;
             // 
             // label1
             // 
@@ -62,14 +63,6 @@
             label1.TabIndex = 2;
             label1.Text = "Vælg Medlem:";
             // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(101, 186);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
-            comboBox1.TabIndex = 3;
-            // 
             // bookTilHold
             // 
             bookTilHold.Location = new Point(279, 185);
@@ -79,20 +72,38 @@
             bookTilHold.Text = "Book Medlem";
             bookTilHold.UseVisualStyleBackColor = true;
             // 
+            // afmeldMedlem
+            // 
+            afmeldMedlem.Location = new Point(416, 185);
+            afmeldMedlem.Name = "afmeldMedlem";
+            afmeldMedlem.Size = new Size(103, 23);
+            afmeldMedlem.TabIndex = 5;
+            afmeldMedlem.Text = "Afmeld Medlem";
+            afmeldMedlem.UseVisualStyleBackColor = true;
+            // 
+            // valgtMedlemmer
+            // 
+            valgtMedlemmer.FormattingEnabled = true;
+            valgtMedlemmer.Location = new Point(101, 189);
+            valgtMedlemmer.Name = "valgtMedlemmer";
+            valgtMedlemmer.Size = new Size(151, 94);
+            valgtMedlemmer.TabIndex = 6;
+            // 
             // Booking
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(578, 450);
+            Controls.Add(valgtMedlemmer);
+            Controls.Add(afmeldMedlem);
             Controls.Add(bookTilHold);
-            Controls.Add(comboBox1);
             Controls.Add(label1);
-            Controls.Add(tildmeldteMedlemmer);
+            Controls.Add(tilmeldteMedlemmer);
             Controls.Add(kommendeHold);
             Name = "Booking";
             Text = "Booking";
             ((System.ComponentModel.ISupportInitialize)kommendeHold).EndInit();
-            ((System.ComponentModel.ISupportInitialize)tildmeldteMedlemmer).EndInit();
+            ((System.ComponentModel.ISupportInitialize)tilmeldteMedlemmer).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -100,9 +111,10 @@
         #endregion
 
         private DataGridView kommendeHold;
-        private DataGridView tildmeldteMedlemmer;
+        private DataGridView tilmeldteMedlemmer;
         private Label label1;
-        private ComboBox comboBox1;
         private Button bookTilHold;
+        private Button afmeldMedlem;
+        private CheckedListBox valgtMedlemmer;
     }
 }

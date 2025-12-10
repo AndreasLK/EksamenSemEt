@@ -2,15 +2,8 @@
 {
     partial class Instruktører
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,170 +15,160 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            instuktører = new DataGridView();
-            opretInstruktør = new Button();
-            gemInstruktør = new Button();
-            sletInstruktør = new Button();
-            navnInstruktør = new TextBox();
-            emailInstruktør = new TextBox();
-            comboBox1 = new ComboBox();
-            label1 = new Label();
-            label2 = new Label();
-            kommendeHold = new DataGridView();
-            label3 = new Label();
-            tilmeldteTilHold = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)instuktører).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)kommendeHold).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)tilmeldteTilHold).BeginInit();
-            SuspendLayout();
+            this.instruktørGrid = new System.Windows.Forms.DataGridView();
+            this.navnInstruktør = new System.Windows.Forms.TextBox();
+            this.emailInstruktør = new System.Windows.Forms.TextBox();
+            this.certifikater = new System.Windows.Forms.ComboBox();
+            this.opretInstruktør = new System.Windows.Forms.Button();
+            this.gemInstruktør = new System.Windows.Forms.Button();
+            this.sletInstruktør = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.vælgInstruktørKommendeHold = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.kommendeHold = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.instruktørGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kommendeHold)).BeginInit();
+            this.SuspendLayout();
             // 
-            // instuktører
+            // instruktørGrid
             // 
-            instuktører.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            instuktører.Location = new Point(12, 12);
-            instuktører.Name = "instuktører";
-            instuktører.Size = new Size(343, 132);
-            instuktører.TabIndex = 0;
-            // 
-            // opretInstruktør
-            // 
-            opretInstruktør.Location = new Point(12, 208);
-            opretInstruktør.Name = "opretInstruktør";
-            opretInstruktør.Size = new Size(75, 23);
-            opretInstruktør.TabIndex = 1;
-            opretInstruktør.Text = "Opret";
-            opretInstruktør.UseVisualStyleBackColor = true;
-            // 
-            // gemInstruktør
-            // 
-            gemInstruktør.Location = new Point(146, 208);
-            gemInstruktør.Name = "gemInstruktør";
-            gemInstruktør.Size = new Size(75, 23);
-            gemInstruktør.TabIndex = 2;
-            gemInstruktør.Text = "Gem";
-            gemInstruktør.UseVisualStyleBackColor = true;
-            // 
-            // sletInstruktør
-            // 
-            sletInstruktør.Location = new Point(280, 208);
-            sletInstruktør.Name = "sletInstruktør";
-            sletInstruktør.Size = new Size(75, 23);
-            sletInstruktør.TabIndex = 3;
-            sletInstruktør.Text = "Slet";
-            sletInstruktør.UseVisualStyleBackColor = true;
+            this.instruktørGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.instruktørGrid.Location = new System.Drawing.Point(12, 12);
+            this.instruktørGrid.Name = "instruktørGrid";
+            this.instruktørGrid.RowTemplate.Height = 25;
+            this.instruktørGrid.Size = new System.Drawing.Size(600, 180);
+            this.instruktørGrid.TabIndex = 0;
+            this.instruktørGrid.SelectionChanged += new System.EventHandler(this.instruktører_SelectionChanged);
             // 
             // navnInstruktør
             // 
-            navnInstruktør.Location = new Point(12, 150);
-            navnInstruktør.Name = "navnInstruktør";
-            navnInstruktør.Size = new Size(100, 23);
-            navnInstruktør.TabIndex = 4;
-            navnInstruktør.Text = "Navn";
+            this.navnInstruktør.Location = new System.Drawing.Point(80, 210);
+            this.navnInstruktør.Name = "navnInstruktør";
+            this.navnInstruktør.Size = new System.Drawing.Size(200, 23);
+            this.navnInstruktør.TabIndex = 1;
             // 
             // emailInstruktør
             // 
-            emailInstruktør.Location = new Point(12, 179);
-            emailInstruktør.Name = "emailInstruktør";
-            emailInstruktør.Size = new Size(100, 23);
-            emailInstruktør.TabIndex = 5;
-            emailInstruktør.Text = "E-mail";
+            this.emailInstruktør.Location = new System.Drawing.Point(80, 240);
+            this.emailInstruktør.Name = "emailInstruktør";
+            this.emailInstruktør.Size = new System.Drawing.Size(200, 23);
+            this.emailInstruktør.TabIndex = 2;
             // 
-            // comboBox1
+            // certifikater
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(108, 271);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
-            comboBox1.TabIndex = 6;
+            this.certifikater.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.certifikater.FormattingEnabled = true;
+            this.certifikater.Location = new System.Drawing.Point(290, 210);
+            this.certifikater.Name = "certifikater";
+            this.certifikater.Size = new System.Drawing.Size(150, 23);
+            this.certifikater.TabIndex = 3;
             // 
-            // label1
+            // opretInstruktør
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(13, 274);
-            label1.Name = "label1";
-            label1.Size = new Size(0, 15);
-            label1.TabIndex = 7;
+            this.opretInstruktør.Location = new System.Drawing.Point(12, 280);
+            this.opretInstruktør.Name = "opretInstruktør";
+            this.opretInstruktør.Size = new System.Drawing.Size(75, 23);
+            this.opretInstruktør.TabIndex = 4;
+            this.opretInstruktør.Text = "Opret";
+            this.opretInstruktør.UseVisualStyleBackColor = true;
+            this.opretInstruktør.Click += new System.EventHandler(this.opretInstruktør_Click);
             // 
-            // label2
+            // gemInstruktør
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(12, 274);
-            label2.Name = "label2";
-            label2.Size = new Size(90, 15);
-            label2.TabIndex = 8;
-            label2.Text = "Vælg Instruktør:";
+            this.gemInstruktør.Location = new System.Drawing.Point(110, 280);
+            this.gemInstruktør.Name = "gemInstruktør";
+            this.gemInstruktør.Size = new System.Drawing.Size(75, 23);
+            this.gemInstruktør.TabIndex = 5;
+            this.gemInstruktør.Text = "Gem";
+            this.gemInstruktør.UseVisualStyleBackColor = true;
+            this.gemInstruktør.Click += new System.EventHandler(this.gemInstruktør_Click);
+            // 
+            // sletInstruktør
+            // 
+            this.sletInstruktør.Location = new System.Drawing.Point(210, 280);
+            this.sletInstruktør.Name = "sletInstruktør";
+            this.sletInstruktør.Size = new System.Drawing.Size(75, 23);
+            this.sletInstruktør.TabIndex = 6;
+            this.sletInstruktør.Text = "Slet";
+            this.sletInstruktør.UseVisualStyleBackColor = true;
+            this.sletInstruktør.Click += new System.EventHandler(this.sletInstruktør_Click);
+            // 
+            // Labels ...
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 213);
+            this.label1.Text = "Navn:";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 243);
+            this.label2.Text = "Email:";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(290, 192);
+            this.label4.Text = "Certifikat:";
+            // 
+            // vælgInstruktørKommendeHold
+            // 
+            this.vælgInstruktørKommendeHold.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.vælgInstruktørKommendeHold.Location = new System.Drawing.Point(130, 330);
+            this.vælgInstruktørKommendeHold.Name = "vælgInstruktørKommendeHold";
+            this.vælgInstruktørKommendeHold.Size = new System.Drawing.Size(200, 23);
+            this.vælgInstruktørKommendeHold.SelectedIndexChanged += new System.EventHandler(this.vælgInstruktørKommendeHold_SelectedIndexChanged);
+            // 
+            // label3 (Vælg instruktør)
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 333);
+            this.label3.Text = "Vælg instruktør:";
             // 
             // kommendeHold
             // 
-            kommendeHold.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            kommendeHold.Location = new Point(12, 300);
-            kommendeHold.Name = "kommendeHold";
-            kommendeHold.Size = new Size(343, 108);
-            kommendeHold.TabIndex = 9;
+            this.kommendeHold.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.kommendeHold.Location = new System.Drawing.Point(12, 370);
+            this.kommendeHold.Name = "kommendeHold";
+            this.kommendeHold.Size = new System.Drawing.Size(600, 200);
+            this.kommendeHold.TabIndex = 12;
             // 
-            // label3
+            // Instruktører (Form settings)
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(13, 446);
-            label3.Name = "label3";
-            label3.Size = new Size(72, 15);
-            label3.TabIndex = 10;
-            label3.Text = "Se tilmeldte:";
-            label3.Click += label3_Click;
-            // 
-            // tilmeldteTilHold
-            // 
-            tilmeldteTilHold.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            tilmeldteTilHold.Location = new Point(12, 467);
-            tilmeldteTilHold.Name = "tilmeldteTilHold";
-            tilmeldteTilHold.Size = new Size(343, 108);
-            tilmeldteTilHold.TabIndex = 11;
-            // 
-            // Instruktører
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 587);
-            Controls.Add(tilmeldteTilHold);
-            Controls.Add(label3);
-            Controls.Add(kommendeHold);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(comboBox1);
-            Controls.Add(emailInstruktør);
-            Controls.Add(navnInstruktør);
-            Controls.Add(sletInstruktør);
-            Controls.Add(gemInstruktør);
-            Controls.Add(opretInstruktør);
-            Controls.Add(instuktører);
-            Name = "Instruktører";
-            Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)instuktører).EndInit();
-            ((System.ComponentModel.ISupportInitialize)kommendeHold).EndInit();
-            ((System.ComponentModel.ISupportInitialize)tilmeldteTilHold).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.ClientSize = new System.Drawing.Size(640, 600);
+            this.Controls.Add(this.kommendeHold);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.vælgInstruktørKommendeHold);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.sletInstruktør);
+            this.Controls.Add(this.gemInstruktør);
+            this.Controls.Add(this.opretInstruktør);
+            this.Controls.Add(this.certifikater);
+            this.Controls.Add(this.emailInstruktør);
+            this.Controls.Add(this.navnInstruktør);
+            this.Controls.Add(this.instruktørGrid);
+            this.Name = "Instruktører";
+            this.Text = "Instruktøradministration";
+            ((System.ComponentModel.ISupportInitialize)(this.instruktørGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kommendeHold)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         #endregion
 
-        private DataGridView instuktører;
-        private Button opretInstruktør;
-        private Button gemInstruktør;
-        private Button sletInstruktør;
-        private TextBox navnInstruktør;
-        private TextBox emailInstruktør;
-        private ComboBox comboBox1;
-        private Label label1;
-        private Label label2;
-        private DataGridView kommendeHold;
-        private Label label3;
-        private DataGridView tilmeldteTilHold;
+        private System.Windows.Forms.DataGridView instruktørGrid;
+        private System.Windows.Forms.TextBox navnInstruktør;
+        private System.Windows.Forms.TextBox emailInstruktør;
+        private System.Windows.Forms.ComboBox certifikater;
+        private System.Windows.Forms.Button opretInstruktør;
+        private System.Windows.Forms.Button gemInstruktør;
+        private System.Windows.Forms.Button sletInstruktør;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox vælgInstruktørKommendeHold;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridView kommendeHold;
     }
 }
