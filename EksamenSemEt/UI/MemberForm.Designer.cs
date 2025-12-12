@@ -1,0 +1,334 @@
+﻿namespace Sem1BackupForms
+{
+    partial class MemberForm
+    {
+        /// <summary>
+        ///  Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            tableLayoutPanel1 = new TableLayoutPanel();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            label1 = new Label();
+            label2 = new Label();
+            LastNameTextBox = new TextBox();
+            FirstNameTextBox = new TextBox();
+            PhoneNumberTextBox = new TextBox();
+            EmailTextBox = new TextBox();
+            label3 = new Label();
+            label4 = new Label();
+            label5 = new Label();
+            BirthdaySelector = new MonthCalendar();
+            AddMemberButton = new Button();
+            label7 = new Label();
+            comboBox1 = new ComboBox();
+            ActivityCheckBox = new CheckBox();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            memberListView = new DataGridView();
+            label6 = new Label();
+            SearchFieldText = new TextBox();
+            tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)memberListView).BeginInit();
+            SuspendLayout();
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 1);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
+            tableLayoutPanel1.Size = new Size(1540, 1041);
+            tableLayoutPanel1.TabIndex = 2;
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.ColumnCount = 6;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20.7468872F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20.7468872F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20.7468872F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.8630676F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24.8962669F));
+            tableLayoutPanel2.Controls.Add(label1, 0, 1);
+            tableLayoutPanel2.Controls.Add(label2, 0, 2);
+            tableLayoutPanel2.Controls.Add(LastNameTextBox, 1, 2);
+            tableLayoutPanel2.Controls.Add(FirstNameTextBox, 1, 1);
+            tableLayoutPanel2.Controls.Add(PhoneNumberTextBox, 3, 2);
+            tableLayoutPanel2.Controls.Add(EmailTextBox, 3, 1);
+            tableLayoutPanel2.Controls.Add(label3, 2, 1);
+            tableLayoutPanel2.Controls.Add(label4, 2, 2);
+            tableLayoutPanel2.Controls.Add(label5, 4, 1);
+            tableLayoutPanel2.Controls.Add(BirthdaySelector, 5, 1);
+            tableLayoutPanel2.Controls.Add(AddMemberButton, 4, 3);
+            tableLayoutPanel2.Controls.Add(label7, 0, 3);
+            tableLayoutPanel2.Controls.Add(comboBox1, 1, 3);
+            tableLayoutPanel2.Controls.Add(ActivityCheckBox, 2, 3);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(3, 3);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 5;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 40F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
+            tableLayoutPanel2.Size = new Size(1534, 306);
+            tableLayoutPanel2.TabIndex = 1;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Dock = DockStyle.Top;
+            label1.Location = new Point(3, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(87, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Fornavn* :";
+            label1.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Dock = DockStyle.Top;
+            label2.Location = new Point(3, 137);
+            label2.Name = "label2";
+            label2.Size = new Size(87, 15);
+            label2.TabIndex = 1;
+            label2.Text = "Efternavn* :";
+            label2.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // LastNameTextBox
+            // 
+            LastNameTextBox.Dock = DockStyle.Top;
+            LastNameTextBox.Location = new Point(96, 140);
+            LastNameTextBox.Name = "LastNameTextBox";
+            LastNameTextBox.Size = new Size(292, 23);
+            LastNameTextBox.TabIndex = 2;
+            // 
+            // FirstNameTextBox
+            // 
+            FirstNameTextBox.Dock = DockStyle.Top;
+            FirstNameTextBox.Location = new Point(96, 18);
+            FirstNameTextBox.Name = "FirstNameTextBox";
+            FirstNameTextBox.Size = new Size(292, 23);
+            FirstNameTextBox.TabIndex = 3;
+            // 
+            // PhoneNumberTextBox
+            // 
+            PhoneNumberTextBox.Dock = DockStyle.Top;
+            PhoneNumberTextBox.Location = new Point(692, 140);
+            PhoneNumberTextBox.Name = "PhoneNumberTextBox";
+            PhoneNumberTextBox.Size = new Size(292, 23);
+            PhoneNumberTextBox.TabIndex = 4;
+            // 
+            // EmailTextBox
+            // 
+            EmailTextBox.Dock = DockStyle.Top;
+            EmailTextBox.Location = new Point(692, 18);
+            EmailTextBox.Name = "EmailTextBox";
+            EmailTextBox.Size = new Size(292, 23);
+            EmailTextBox.TabIndex = 5;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Dock = DockStyle.Top;
+            label3.Location = new Point(394, 15);
+            label3.Name = "label3";
+            label3.Size = new Size(292, 15);
+            label3.TabIndex = 8;
+            label3.Text = "Email :";
+            label3.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Dock = DockStyle.Top;
+            label4.Location = new Point(394, 137);
+            label4.Name = "label4";
+            label4.Size = new Size(292, 15);
+            label4.TabIndex = 9;
+            label4.Text = "Telefon Nummer :";
+            label4.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Dock = DockStyle.Top;
+            label5.Location = new Point(990, 15);
+            label5.Name = "label5";
+            label5.Size = new Size(179, 15);
+            label5.TabIndex = 10;
+            label5.Text = "Fødselsdag: ";
+            label5.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // BirthdaySelector
+            // 
+            BirthdaySelector.CalendarDimensions = new Size(2, 1);
+            BirthdaySelector.Dock = DockStyle.Fill;
+            BirthdaySelector.Location = new Point(1181, 24);
+            BirthdaySelector.Name = "BirthdaySelector";
+            tableLayoutPanel2.SetRowSpan(BirthdaySelector, 2);
+            BirthdaySelector.TabIndex = 12;
+            // 
+            // AddMemberButton
+            // 
+            AddMemberButton.Dock = DockStyle.Fill;
+            AddMemberButton.Location = new Point(990, 216);
+            AddMemberButton.Name = "AddMemberButton";
+            AddMemberButton.Size = new Size(179, 39);
+            AddMemberButton.TabIndex = 13;
+            AddMemberButton.Text = "Tilføj Medlem";
+            AddMemberButton.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Dock = DockStyle.Top;
+            label7.Location = new Point(3, 213);
+            label7.Name = "label7";
+            label7.Size = new Size(87, 15);
+            label7.TabIndex = 15;
+            label7.Text = "MedlemsType :";
+            label7.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // comboBox1
+            // 
+            comboBox1.Dock = DockStyle.Top;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(96, 216);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(292, 23);
+            comboBox1.TabIndex = 16;
+            // 
+            // ActivityCheckBox
+            // 
+            ActivityCheckBox.AutoSize = true;
+            ActivityCheckBox.CheckAlign = ContentAlignment.MiddleRight;
+            ActivityCheckBox.Dock = DockStyle.Top;
+            ActivityCheckBox.Location = new Point(394, 216);
+            ActivityCheckBox.Name = "ActivityCheckBox";
+            ActivityCheckBox.Size = new Size(292, 19);
+            ActivityCheckBox.TabIndex = 14;
+            ActivityCheckBox.Text = "Aktiv?";
+            ActivityCheckBox.TextAlign = ContentAlignment.MiddleRight;
+            ActivityCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel3
+            // 
+            tableLayoutPanel3.ColumnCount = 2;
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel3.Controls.Add(memberListView, 0, 1);
+            tableLayoutPanel3.Controls.Add(label6, 0, 0);
+            tableLayoutPanel3.Controls.Add(SearchFieldText, 1, 0);
+            tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.Location = new Point(3, 315);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 2;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 85F));
+            tableLayoutPanel3.Size = new Size(1534, 723);
+            tableLayoutPanel3.TabIndex = 2;
+            // 
+            // memberListView
+            // 
+            memberListView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableLayoutPanel3.SetColumnSpan(memberListView, 2);
+            memberListView.Dock = DockStyle.Fill;
+            memberListView.Location = new Point(3, 111);
+            memberListView.Name = "memberListView";
+            memberListView.Size = new Size(1528, 609);
+            memberListView.TabIndex = 0;
+            memberListView.UserDeletingRow += memberListView_UserDeletingRow;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Dock = DockStyle.Fill;
+            label6.Location = new Point(3, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(30, 108);
+            label6.TabIndex = 1;
+            label6.Text = "Søg:";
+            label6.TextAlign = ContentAlignment.BottomRight;
+            // 
+            // SearchFieldText
+            // 
+            SearchFieldText.Dock = DockStyle.Bottom;
+            SearchFieldText.Location = new Point(39, 82);
+            SearchFieldText.Name = "SearchFieldText";
+            SearchFieldText.Size = new Size(1492, 23);
+            SearchFieldText.TabIndex = 2;
+            // 
+            // MemberForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(tableLayoutPanel1);
+            Margin = new Padding(3, 2, 3, 2);
+            Name = "MemberForm";
+            Size = new Size(1540, 1041);
+            Load += MainForm_Load;
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel2.PerformLayout();
+            tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)memberListView).EndInit();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tableLayoutPanel2;
+        private Label label1;
+        private Label label2;
+        private TextBox LastNameTextBox;
+        private TextBox FirstNameTextBox;
+        private TextBox PhoneNumberTextBox;
+        private TextBox EmailTextBox;
+        private Label label3;
+        private Label label4;
+        private Label label5;
+        private MonthCalendar BirthdaySelector;
+        private Button AddMemberButton;
+        private Label label7;
+        private ComboBox comboBox1;
+        private CheckBox ActivityCheckBox;
+        private TableLayoutPanel tableLayoutPanel3;
+        private DataGridView memberListView;
+        private Label label6;
+        private TextBox SearchFieldText;
+    }
+}
