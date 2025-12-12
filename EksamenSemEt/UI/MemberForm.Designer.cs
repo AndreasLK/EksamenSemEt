@@ -39,11 +39,11 @@
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
-            BirthdaySelector = new MonthCalendar();
             AddMemberButton = new Button();
             label7 = new Label();
-            comboBox1 = new ComboBox();
+            MemberTypeComboBox = new ComboBox();
             ActivityCheckBox = new CheckBox();
+            BirthdaySelector = new DateTimePicker();
             tableLayoutPanel3 = new TableLayoutPanel();
             memberListView = new DataGridView();
             label6 = new Label();
@@ -87,11 +87,11 @@
             tableLayoutPanel2.Controls.Add(label3, 2, 1);
             tableLayoutPanel2.Controls.Add(label4, 2, 2);
             tableLayoutPanel2.Controls.Add(label5, 4, 1);
-            tableLayoutPanel2.Controls.Add(BirthdaySelector, 5, 1);
             tableLayoutPanel2.Controls.Add(AddMemberButton, 4, 3);
             tableLayoutPanel2.Controls.Add(label7, 0, 3);
-            tableLayoutPanel2.Controls.Add(comboBox1, 1, 3);
+            tableLayoutPanel2.Controls.Add(MemberTypeComboBox, 1, 3);
             tableLayoutPanel2.Controls.Add(ActivityCheckBox, 2, 3);
+            tableLayoutPanel2.Controls.Add(BirthdaySelector, 5, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -191,15 +191,6 @@
             label5.Text = "Fødselsdag: ";
             label5.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // BirthdaySelector
-            // 
-            BirthdaySelector.CalendarDimensions = new Size(2, 1);
-            BirthdaySelector.Dock = DockStyle.Fill;
-            BirthdaySelector.Location = new Point(1181, 24);
-            BirthdaySelector.Name = "BirthdaySelector";
-            tableLayoutPanel2.SetRowSpan(BirthdaySelector, 2);
-            BirthdaySelector.TabIndex = 12;
-            // 
             // AddMemberButton
             // 
             AddMemberButton.Dock = DockStyle.Fill;
@@ -222,14 +213,14 @@
             label7.Text = "MedlemsType :";
             label7.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // comboBox1
+            // MemberTypeComboBox
             // 
-            comboBox1.Dock = DockStyle.Top;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(96, 216);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(292, 23);
-            comboBox1.TabIndex = 16;
+            MemberTypeComboBox.Dock = DockStyle.Top;
+            MemberTypeComboBox.FormattingEnabled = true;
+            MemberTypeComboBox.Location = new Point(96, 216);
+            MemberTypeComboBox.Name = "MemberTypeComboBox";
+            MemberTypeComboBox.Size = new Size(292, 23);
+            MemberTypeComboBox.TabIndex = 16;
             // 
             // ActivityCheckBox
             // 
@@ -243,6 +234,14 @@
             ActivityCheckBox.Text = "Aktiv?";
             ActivityCheckBox.TextAlign = ContentAlignment.MiddleRight;
             ActivityCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // BirthdaySelector
+            // 
+            BirthdaySelector.Dock = DockStyle.Top;
+            BirthdaySelector.Location = new Point(1175, 18);
+            BirthdaySelector.Name = "BirthdaySelector";
+            BirthdaySelector.Size = new Size(356, 23);
+            BirthdaySelector.TabIndex = 17;
             // 
             // tableLayoutPanel3
             // 
@@ -292,6 +291,7 @@
             SearchFieldText.Name = "SearchFieldText";
             SearchFieldText.Size = new Size(1492, 23);
             SearchFieldText.TabIndex = 2;
+            SearchFieldText.TextChanged += SearchFieldText_TextChanged;
             // 
             // MemberForm
             // 
@@ -324,14 +324,14 @@
         private Label label3;
         private Label label4;
         private Label label5;
-        private MonthCalendar BirthdaySelector;
         private Button AddMemberButton;
         private Label label7;
-        private ComboBox comboBox1;
+        private ComboBox MemberTypeComboBox;
         private CheckBox ActivityCheckBox;
         private TableLayoutPanel tableLayoutPanel3;
         private DataGridView memberListView;
         private Label label6;
         private TextBox SearchFieldText;
+        private DateTimePicker BirthdaySelector;
     }
 }

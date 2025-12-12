@@ -1,5 +1,6 @@
 ﻿using DatabaseAccessSem1;
 using DatabaseAccessSem1.Repository;
+using EksamenSemEt.DatabaseAccess.Repository;
 using Sem1BackupForms;
 using Sem1BackupForms.Forms;
 using System;
@@ -19,6 +20,7 @@ namespace EksamenSemEt.UI
         private readonly SessionRepository sessionRepo;
         private readonly InstructorRepository instructorRepo;
         private readonly InstructorGroupRepository instructorGroupRepo;
+        private readonly MemberTypeRepository memberTypeRepo;
 
 
         public MainForm()
@@ -39,6 +41,7 @@ namespace EksamenSemEt.UI
             instructorRepo = new InstructorRepository(dbFactory);
             memberGroupRepo = new MemberGroupRepository(dbFactory);
             instructorGroupRepo = new InstructorGroupRepository(dbFactory);
+            memberTypeRepo = new MemberTypeRepository(dbFactory);
 
 
 
@@ -50,13 +53,13 @@ namespace EksamenSemEt.UI
             tableLayoutPanel1.Controls.Add(sideBar, 0, 0);
 
             sideBar.BookingClicked += (s, e) => LoadView(new BookingForm());
-            sideBar.MemberClicked += (s, e) => LoadView(new MemberForm(memberRepo));
+            sideBar.MemberClicked += (s, e) => LoadView(new MemberForm(memberRepo, memberTypeRepo));
             sideBar.SessionClicked += (s, e) => LoadView(new SessionForm());
             sideBar.InstructorClicked += (s, e) => LoadView(new InstructorForm());
             sideBar.CertificateClicked += (s, e) => LoadView(new CertificateForm());
 
 
-            LoadView(new MemberForm(memberRepo));
+            LoadView(new MemberForm(memberRepo, memberTypeRepo));
         }
 
         private void LoadView(UserControl view){

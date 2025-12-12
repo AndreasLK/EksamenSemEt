@@ -28,7 +28,7 @@ namespace DatabaseAccessSem1.Repository
     string? lastName = null,
     DateTime? dateOfBirth = null,
     string? email = null,
-    int? phoneNumber = null,
+    string? phoneNumber = null,
     int? memberType = null,
     bool? active = null)
         {
@@ -64,10 +64,10 @@ namespace DatabaseAccessSem1.Repository
                 parameters.Add("Email", $"%{email}%");
             }
 
-            if (phoneNumber.HasValue)
+            if (!string.IsNullOrEmpty(phoneNumber))
             {
-                sqlBuilder.Append(" AND PhoneNumber = @PhoneNumber");
-                parameters.Add("PhoneNumber", phoneNumber);
+                sqlBuilder.Append(" AND PhoneNumber LIKE @PhoneNumber");
+                parameters.Add("PhoneNumber", phoneNumber + "%");
             }
 
             if (memberType.HasValue)
@@ -84,6 +84,37 @@ namespace DatabaseAccessSem1.Repository
 
 
             return connection.Query<int>(sqlBuilder.ToString(), parameters); // Selve forespørgsel til database
+        }
+        public IEnumerable<Member> broadSearch(string searchString)
+        {
+            using var connection = _dbFactory.CreateConnection();
+
+            if (string.IsNullOrWhiteSpace(searchString))
+            {
+                return GetAll();
+            }
+
+            var searchTerms = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            var sqlBuilder = new StringBuilder("SELECT * FROM Customers WHERE 1=1");
+            var parameters = new DynamicParameters();
+
+
+            for (int i = 0; i < searchTerms.Length; i++) //Kører gennem alle searchTerms
+            {
+                string _paramName = $"@term{i}";
+                parameters.Add(_paramName, $"%{searchTerms[i]}%");
+
+
+                sqlBuilder.Append($@" AND (
+                    FirstName LIKE {_paramName}
+                OR LastName LIKE {_paramName}
+                OR CAST(PhoneNumber AS TEXT) LIKE {_paramName}
+                OR CAST(MemberID AS TEXT) LIKE {_paramName}
+                )");
+            }
+
+            return connection.Query<Member>(sqlBuilder.ToString(), parameters);
         }
 
         public IEnumerable<Member> GetAll()

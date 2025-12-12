@@ -16,7 +16,7 @@ namespace DatabaseAccessSem1
         public required string LastName { get; init; }
         public DateTime? DateOfBirth { get; init; }
         public string? Email { get; init; }
-        public int? PhoneNumber { get; init; }
+        public string? PhoneNumber { get; init; }
         public required int MemberType { get; init; }
         public required bool Active { get; init; }
     }
@@ -52,5 +52,11 @@ namespace DatabaseAccessSem1
         public int? GroupingID { get; init; }
         public required int InstructorID { get; init; }
         public required int SessionID { get; init; }
+    }
+
+    public record MemberTypeOption
+    {
+        public int? MemberTypeID { get; init; }
+        public required string Name { get; init; }
     }
 }
