@@ -209,6 +209,7 @@
             AddMemberButton.TabIndex = 13;
             AddMemberButton.Text = "Tilføj Medlem";
             AddMemberButton.UseVisualStyleBackColor = true;
+            AddMemberButton.Click += AddMemberButton_Click;
             // 
             // label7
             // 
@@ -269,6 +270,8 @@
             memberListView.Name = "memberListView";
             memberListView.Size = new Size(1528, 609);
             memberListView.TabIndex = 0;
+            memberListView.CellClick += memberListView_CellClick;
+            memberListView.CellEndEdit += memberListView_CellEndEdit;
             memberListView.UserDeletingRow += memberListView_UserDeletingRow;
             // 
             // label6
