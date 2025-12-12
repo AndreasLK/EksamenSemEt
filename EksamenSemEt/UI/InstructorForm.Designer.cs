@@ -36,17 +36,17 @@
             FirstNameTextBox = new TextBox();
             label1 = new Label();
             label3 = new Label();
-            checkedListBox1 = new CheckedListBox();
+            CertificatesCreateCheckedList = new CheckedListBox();
             tableLayoutPanel3 = new TableLayoutPanel();
-            checkedListBox2 = new CheckedListBox();
-            memberListView = new DataGridView();
+            CertificateCheckedList = new CheckedListBox();
+            InstructorListView = new DataGridView();
             label6 = new Label();
             SearchFieldText = new TextBox();
             label4 = new Label();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)memberListView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)InstructorListView).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -79,7 +79,7 @@
             tableLayoutPanel2.Controls.Add(FirstNameTextBox, 3, 1);
             tableLayoutPanel2.Controls.Add(label1, 2, 1);
             tableLayoutPanel2.Controls.Add(label3, 4, 1);
-            tableLayoutPanel2.Controls.Add(checkedListBox1, 5, 1);
+            tableLayoutPanel2.Controls.Add(CertificatesCreateCheckedList, 5, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -101,58 +101,67 @@
             AddInstructorButton.TabIndex = 13;
             AddInstructorButton.Text = "Tilføj Instruktør";
             AddInstructorButton.UseVisualStyleBackColor = true;
+            AddInstructorButton.Click += AddInstructorButton_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
+            label2.Dock = DockStyle.Fill;
             label2.Location = new Point(396, 137);
             label2.Name = "label2";
-            label2.Size = new Size(68, 15);
+            label2.Size = new Size(387, 76);
             label2.TabIndex = 1;
             label2.Text = "Efternavn* :";
-            label2.TextAlign = ContentAlignment.MiddleRight;
+            label2.TextAlign = ContentAlignment.TopRight;
             // 
             // LastNameTextBox
             // 
+            LastNameTextBox.Dock = DockStyle.Fill;
             LastNameTextBox.Location = new Point(789, 140);
             LastNameTextBox.Name = "LastNameTextBox";
-            LastNameTextBox.Size = new Size(257, 23);
+            LastNameTextBox.Size = new Size(387, 23);
             LastNameTextBox.TabIndex = 2;
             // 
             // FirstNameTextBox
             // 
+            FirstNameTextBox.Dock = DockStyle.Fill;
             FirstNameTextBox.Location = new Point(789, 18);
             FirstNameTextBox.Name = "FirstNameTextBox";
-            FirstNameTextBox.Size = new Size(257, 23);
+            FirstNameTextBox.Size = new Size(387, 23);
             FirstNameTextBox.TabIndex = 3;
             // 
             // label1
             // 
             label1.AutoSize = true;
+            label1.Dock = DockStyle.Fill;
             label1.Location = new Point(396, 15);
             label1.Name = "label1";
-            label1.Size = new Size(61, 15);
+            label1.Size = new Size(387, 122);
             label1.TabIndex = 14;
             label1.Text = "Fornavn* :";
+            label1.TextAlign = ContentAlignment.TopRight;
             // 
             // label3
             // 
             label3.AutoSize = true;
+            label3.Dock = DockStyle.Fill;
             label3.Location = new Point(1182, 15);
             label3.Name = "label3";
-            label3.Size = new Size(68, 15);
+            label3.Size = new Size(238, 122);
             label3.TabIndex = 15;
             label3.Text = "Certifikater:";
+            label3.TextAlign = ContentAlignment.TopRight;
             // 
-            // checkedListBox1
+            // CertificatesCreateCheckedList
             // 
-            checkedListBox1.Dock = DockStyle.Fill;
-            checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Location = new Point(1426, 18);
-            checkedListBox1.Name = "checkedListBox1";
-            tableLayoutPanel2.SetRowSpan(checkedListBox1, 2);
-            checkedListBox1.Size = new Size(469, 192);
-            checkedListBox1.TabIndex = 16;
+            CertificatesCreateCheckedList.CheckOnClick = true;
+            CertificatesCreateCheckedList.Dock = DockStyle.Fill;
+            CertificatesCreateCheckedList.FormattingEnabled = true;
+            CertificatesCreateCheckedList.Location = new Point(1426, 18);
+            CertificatesCreateCheckedList.Name = "CertificatesCreateCheckedList";
+            tableLayoutPanel2.SetRowSpan(CertificatesCreateCheckedList, 2);
+            CertificatesCreateCheckedList.Size = new Size(469, 192);
+            CertificatesCreateCheckedList.TabIndex = 16;
             // 
             // tableLayoutPanel3
             // 
@@ -160,8 +169,8 @@
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle());
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 80F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel3.Controls.Add(checkedListBox2, 2, 1);
-            tableLayoutPanel3.Controls.Add(memberListView, 0, 1);
+            tableLayoutPanel3.Controls.Add(CertificateCheckedList, 2, 1);
+            tableLayoutPanel3.Controls.Add(InstructorListView, 0, 1);
             tableLayoutPanel3.Controls.Add(label6, 0, 0);
             tableLayoutPanel3.Controls.Add(SearchFieldText, 1, 0);
             tableLayoutPanel3.Controls.Add(label4, 2, 0);
@@ -174,24 +183,25 @@
             tableLayoutPanel3.Size = new Size(1898, 723);
             tableLayoutPanel3.TabIndex = 2;
             // 
-            // checkedListBox2
+            // CertificateCheckedList
             // 
-            checkedListBox2.Dock = DockStyle.Fill;
-            checkedListBox2.FormattingEnabled = true;
-            checkedListBox2.Location = new Point(1528, 111);
-            checkedListBox2.Name = "checkedListBox2";
-            checkedListBox2.Size = new Size(367, 609);
-            checkedListBox2.TabIndex = 17;
+            CertificateCheckedList.CheckOnClick = true;
+            CertificateCheckedList.Dock = DockStyle.Fill;
+            CertificateCheckedList.FormattingEnabled = true;
+            CertificateCheckedList.Location = new Point(1528, 111);
+            CertificateCheckedList.Name = "CertificateCheckedList";
+            CertificateCheckedList.Size = new Size(367, 609);
+            CertificateCheckedList.TabIndex = 17;
             // 
-            // memberListView
+            // InstructorListView
             // 
-            memberListView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            tableLayoutPanel3.SetColumnSpan(memberListView, 2);
-            memberListView.Dock = DockStyle.Fill;
-            memberListView.Location = new Point(3, 111);
-            memberListView.Name = "memberListView";
-            memberListView.Size = new Size(1519, 609);
-            memberListView.TabIndex = 3;
+            InstructorListView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableLayoutPanel3.SetColumnSpan(InstructorListView, 2);
+            InstructorListView.Dock = DockStyle.Fill;
+            InstructorListView.Location = new Point(3, 111);
+            InstructorListView.Name = "InstructorListView";
+            InstructorListView.Size = new Size(1519, 609);
+            InstructorListView.TabIndex = 3;
             // 
             // label6
             // 
@@ -211,6 +221,7 @@
             SearchFieldText.Name = "SearchFieldText";
             SearchFieldText.Size = new Size(1483, 23);
             SearchFieldText.TabIndex = 2;
+            SearchFieldText.TextChanged += SearchFieldText_TextChanged;
             // 
             // label4
             // 
@@ -234,7 +245,7 @@
             tableLayoutPanel2.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)memberListView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)InstructorListView).EndInit();
             ResumeLayout(false);
         }
 
@@ -249,10 +260,10 @@
         private TextBox FirstNameTextBox;
         private Label label1;
         private Label label3;
-        private CheckedListBox checkedListBox1;
+        private CheckedListBox CertificatesCreateCheckedList;
         private TableLayoutPanel tableLayoutPanel3;
-        private CheckedListBox checkedListBox2;
-        private DataGridView memberListView;
+        private CheckedListBox CertificateCheckedList;
+        private DataGridView InstructorListView;
         private Label label6;
         private TextBox SearchFieldText;
         private Label label4;

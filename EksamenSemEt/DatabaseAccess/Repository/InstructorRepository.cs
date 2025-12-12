@@ -15,8 +15,8 @@ namespace DatabaseAccessSem1.Repository
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
             string sql = @"INSERT INTO Instructors 
-                        (FirstName, LastName, CertifiedForTrailRunning, CertifiedForSkovYoga) Values 
-                        (@FirstName, @LastName, @CertifiedForTrailRunning, @CertifiedForSkovYoga) RETURNING *;";
+                        (FirstName, LastName) Values 
+                        (@FirstName, @LastName) RETURNING *;";
 
             return connection.QuerySingle<Instructor>(sql, instructor);
         }
@@ -47,19 +47,38 @@ namespace DatabaseAccessSem1.Repository
                 parameters.Add("LastName", $"%{lastName}%");
             }
 
-            if (CertifiedForTrailRunning.HasValue)
-            {
-                sqlBuilder.Append(" AND CertifiedForTrailRunning = @CertifiedForTrailRunning");
-                parameters.Add("CertifiedForTrailRunning", CertifiedForTrailRunning);
-            }
-
-            if (CertifiedForSkovYoga.HasValue)
-            {
-                sqlBuilder.Append(" AND CertifiedForSkovYoga = @CertifiedForSkovYoga");
-                parameters.Add("CertifiedForSkovYoga", CertifiedForSkovYoga);
-            }
-
             return connection.Query<int>(sqlBuilder.ToString(), parameters); // Selve forespørgsel til database
+        }
+
+        public IEnumerable<Instructor> broadSearch(string searchString)
+        {
+            using var connection = _dbFactory.CreateConnection();
+
+            if (string.IsNullOrWhiteSpace(searchString))
+            {
+                return GetAll();
+            }
+
+            var searchTerms = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            var sqlBuilder = new StringBuilder("SELECT * FROM Instructors WHERE 1=1");
+            var parameters = new DynamicParameters();
+
+
+            for (int i = 0; i < searchTerms.Length; i++) //Kører gennem alle searchTerms
+            {
+                string _paramName = $"@term{i}";
+                parameters.Add(_paramName, $"%{searchTerms[i]}%");
+
+
+                sqlBuilder.Append($@" AND (
+                    FirstName LIKE {_paramName}
+                OR LastName LIKE {_paramName}
+                OR CAST(InstructorID AS TEXT) LIKE {_paramName}
+                )");
+            }
+
+            return connection.Query<Instructor>(sqlBuilder.ToString(), parameters);
         }
 
         public IEnumerable<Instructor> GetAll()
@@ -70,13 +89,13 @@ namespace DatabaseAccessSem1.Repository
             return connection.Query<Instructor>(sql); // Selve forespørgsel til database
         }
         
-        public Member GetByID(int InstructorID)
+        public Instructor GetByID(int InstructorID)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
             string sql = "SELECT * FROM Instructors WHERE InstructorID = @InstructorID";
 
-            return connection.QuerySingle<Member>(sql, new { InstructorID = InstructorID });
+            return connection.QuerySingle<Instructor>(sql, new { InstructorID = InstructorID });
         }
 
         public int Update(Instructor instructor)
@@ -86,9 +105,7 @@ namespace DatabaseAccessSem1.Repository
             string sql = @" UPDATE Instructors
                         SET
                             FirstName = @FirstName,
-                            LastName = @LastName,
-                            CertifiedForTrailRunning = @CertifiedForTrailRunning,
-                            CertifiedForSkovYoga = @CertifiedForSkovYoga
+                            LastName = @LastName
                         WHERE InstructorID = @InstructorID";
             return connection.Execute(sql, instructor); //Returnere mængden af rækker opdateret (forhåbeligt 1)
         }

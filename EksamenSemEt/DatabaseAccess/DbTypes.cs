@@ -26,8 +26,6 @@ namespace DatabaseAccessSem1
         public int? InstructorID { get; init; }
         public required string FirstName { get; init; }
         public required string LastName { get; init; }
-        public required bool CertifiedForTrailRunning { get; init; }
-        public required bool CertifiedForSkovYoga { get; init; }
     }
 
     public record Session
@@ -57,6 +55,12 @@ namespace DatabaseAccessSem1
     public record MemberTypeOption
     {
         public int? MemberTypeID { get; init; }
+        public required string Name { get; init; }
+    }
+
+    public record Certificate
+    {
+        public int? CertificationID { get; init; }
         public required string Name { get; init; }
     }
 }

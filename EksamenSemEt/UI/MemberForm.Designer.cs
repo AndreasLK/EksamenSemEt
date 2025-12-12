@@ -43,11 +43,11 @@
             label7 = new Label();
             MemberTypeComboBox = new ComboBox();
             ActivityCheckBox = new CheckBox();
-            BirthdaySelector = new DateTimePicker();
             tableLayoutPanel3 = new TableLayoutPanel();
             memberListView = new DataGridView();
             label6 = new Label();
             SearchFieldText = new TextBox();
+            BirthdaySelector = new DateTimePicker();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -235,14 +235,6 @@
             ActivityCheckBox.TextAlign = ContentAlignment.MiddleRight;
             ActivityCheckBox.UseVisualStyleBackColor = true;
             // 
-            // BirthdaySelector
-            // 
-            BirthdaySelector.Dock = DockStyle.Top;
-            BirthdaySelector.Location = new Point(1175, 18);
-            BirthdaySelector.Name = "BirthdaySelector";
-            BirthdaySelector.Size = new Size(356, 23);
-            BirthdaySelector.TabIndex = 17;
-            // 
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.ColumnCount = 2;
@@ -270,7 +262,6 @@
             memberListView.Size = new Size(1528, 609);
             memberListView.TabIndex = 0;
             memberListView.CellClick += memberListView_CellClick;
-            memberListView.CellEndEdit += memberListView_CellEndEdit;
             memberListView.UserDeletingRow += memberListView_UserDeletingRow;
             // 
             // label6
@@ -291,7 +282,14 @@
             SearchFieldText.Name = "SearchFieldText";
             SearchFieldText.Size = new Size(1492, 23);
             SearchFieldText.TabIndex = 2;
-            SearchFieldText.TextChanged += SearchFieldText_TextChanged;
+            // 
+            // BirthdaySelector
+            // 
+            BirthdaySelector.Dock = DockStyle.Top;
+            BirthdaySelector.Location = new Point(1175, 18);
+            BirthdaySelector.Name = "BirthdaySelector";
+            BirthdaySelector.Size = new Size(356, 23);
+            BirthdaySelector.TabIndex = 17;
             // 
             // MemberForm
             // 

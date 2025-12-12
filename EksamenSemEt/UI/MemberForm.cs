@@ -13,6 +13,8 @@ namespace Sem1BackupForms
         private DataGridView dgv;
         private BindingSource bindingSource;
 
+        private bool isLoading = false;
+
         private DateTimePicker dtp;
         private Rectangle _rectangle;
         public MemberForm(MemberRepository memberRepo, MemberTypeRepository memberTypeRepo)
@@ -77,19 +79,60 @@ namespace Sem1BackupForms
 
             dtp.ValueChanged += new EventHandler(dtp_ValueChanged_Handler);
 
+            dgv.CellValueChanged += memberListView_CellValueChanged;
             dgv.Scroll += new ScrollEventHandler(dtp_Scroll);
 
         }
 
+        private void memberListView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (isLoading || e.RowIndex < 0) return;
+
+            var row = memberListView.Rows[e.RowIndex];
+
+            string newFirstName = row.Cells["FirstName"].Value?.ToString() ?? "";
+            string newLastName = row.Cells["LastName"].Value?.ToString() ?? "";
+
+            if (string.IsNullOrWhiteSpace(newFirstName) || string.IsNullOrWhiteSpace(newLastName)){
+                LoadData(memberRepo.broadSearch(SearchFieldText.Text).ToList());
+                return;
+            }
+
+            try
+            {
+                int id = Convert.ToInt32(row.Cells["MemberID"].Value);
+
+                var updateMember = new Member
+                {
+                    MemberID = id,
+                    FirstName = newFirstName,
+                    LastName = newLastName,
+                    DateOfBirth = row.Cells["DateOfBirth"].Value as DateTime?,
+                    Email = row.Cells["Email"].Value?.ToString(),
+                    PhoneNumber = row.Cells["PhoneNumber"].Value?.ToString(),
+
+                    MemberType = Convert.ToInt32(row.Cells["MemberType"].Value),
+                    Active = Convert.ToBoolean(row.Cells["Active"].Value)
+                };
+
+                memberRepo.Update(updateMember);
+            } catch (Exception ex)
+            {
+                MessageBox.Show("Fejl ved opdatering: " + ex.Message);
+                LoadData(memberRepo.broadSearch(SearchFieldText.Text).ToList());
+            }
+        }
+
         private void LoadData(List<Member> members)
         {
+            isLoading = true;
             var sortableList = new SortableBindingList<Member>(members);
 
             bindingSource = new BindingSource();
             bindingSource.DataSource = sortableList;
             dgv.DataSource = bindingSource;
 
-
+            isLoading = false;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -100,13 +143,9 @@ namespace Sem1BackupForms
 
         private void dtp_ValueChanged_Handler(object? sender, EventArgs e)
         {
-            if (memberListView.CurrentCell == null
-                || memberListView.Columns[memberListView.CurrentCell.ColumnIndex].Name != "DateOfBirth")
-            {
-                return;
-            }
-
             memberListView.CurrentCell.Value = dtp.Value.Date;
+
+            dtp.Visible = false;
         }
         private void memberListView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
@@ -131,38 +170,6 @@ namespace Sem1BackupForms
                 MessageBox.Show("Fejl ved sletning af medlem: " + ex.Message, "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
 
-            }
-        }
-
-        private void memberListView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            var row = memberListView.Rows[e.RowIndex];
-
-            if (row.IsNewRow) return;
-
-            try
-            {
-                int id = Convert.ToInt32(row.Cells["MemberID"].Value);
-
-
-                var updateMember = new Member
-                {
-                    MemberID = id,
-                    FirstName = row.Cells["FirstName"].Value?.ToString() ?? "", //hvis null så tom string
-                    LastName = row.Cells["LastName"].Value?.ToString() ?? "",
-                    DateOfBirth = row.Cells["DateOfBirth"].Value as DateTime?,
-                    Email = row.Cells["Email"].Value?.ToString(),
-                    PhoneNumber = row.Cells["PhoneNumber"].Value?.ToString() ?? "",
-                    MemberType = Convert.ToInt32(row.Cells["MemberType"].Value),
-                    Active = Convert.ToBoolean(row.Cells["Active"].Value)
-                };
-
-                memberRepo.Update(updateMember);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Fejl ved opdatering af medlem: " + ex.Message, "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                LoadData(memberRepo.broadSearch(SearchFieldText.Text).ToList());
             }
         }
 
