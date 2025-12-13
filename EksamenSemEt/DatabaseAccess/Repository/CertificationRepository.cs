@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using DatabaseAccessSem1;
+using DatabaseAccessSem1.Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,34 @@ namespace EksamenSemEt.DatabaseAccess.Repository
         private readonly IDbConnectionFactory _dbFactory;
         public CertificationRepository(IDbConnectionFactory dbFactory) { _dbFactory = dbFactory; }
 
+        public Certificate Create(Certificate certificate)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+            string sql = @"INSERT INTO Certifications 
+                        (Name) Values 
+                        (@Name) RETURNING *;";
+            return connection.QuerySingle<Certificate>(sql, certificate);
+        }
+
+        public int Remove(int certificationID, SessionRepository sessionRepo)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+
+            RemoveGroupWithCert(certificationID);
+            sessionRepo.RemoveAllByType(certificationID);
+
+            string sql = @"DELETE FROM Certifications 
+                        WHERE CertificationID = @CertificationID;";
+            return connection.Execute(sql, new { CertificationID = certificationID });
+        }
+
+        public int RemoveGroupWithCert(int CertificationID)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+            string sql = @"DELETE FROM CertificationGroups 
+                        WHERE CertificationID = @CertificationID;";
+            return connection.Execute(sql, new { CertificationID = CertificationID });
+        }
 
         public Certificate CreateGroup(int InstructorID, int CertificationID)
         {
@@ -28,6 +57,8 @@ namespace EksamenSemEt.DatabaseAccess.Repository
                         WHERE InstructorID = @InstructorID AND CertificationID = @CertificationID;";
             return connection.Execute(sql, new { InstructorID = InstructorID, CertificationID = CertificationID });
         }
+
+
 
         public IEnumerable<Certificate> GetAll()
         {
@@ -48,5 +79,43 @@ namespace EksamenSemEt.DatabaseAccess.Repository
 
             return connection.Query<Certificate>(sql, new { InstructorID = instructorID });
         }
+
+        public IEnumerable<Certificate> BroadSearch(string searchString)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+
+            if (string.IsNullOrWhiteSpace(searchString)) return GetAll();
+
+            var searchTerms = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            var sqlBuilder = new StringBuilder("SELECT * FROM Certifications WHERE 1=1");
+            var parameters = new DynamicParameters();
+
+            for (int i = 0; i < searchTerms.Length; i++)
+            {
+                var paramName = $"@term{i}";
+                sqlBuilder.Append(
+                                    $@" AND (
+                                    CAST(CertificationID AS Text) LIKE {paramName}
+                                    OR Name LIKE {paramName}
+                                    )");
+                parameters.Add(paramName, $"%{searchTerms[i]}%");
+            }
+
+            return connection.Query<Certificate>(sqlBuilder.ToString(), parameters);
+        }
+
+        public int Update(Certificate certificate)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+
+            string sql = @" UPDATE Certifications
+                        SET
+                            Name = @Name
+                        WHERE CertificationID = @CertificationID";
+            return connection.Execute(sql, certificate); //Returnere mængden af rækker opdateret (forhåbeligt 1)
+        }
     }
+
+
 }

@@ -44,8 +44,7 @@ namespace Sem1BackupForms
             dgv.ReadOnly = false;
 
             tableLayoutPanel3.Controls.Add(dgv);
-
-            LoadData(memberRepo.broadSearch(SearchFieldText.Text).ToList());
+            DataGridHelper.LoadData(dgv, ref bindingSource, memberRepo.broadSearch(SearchFieldText.Text));
 
             var types = memberTypeRepo.GetAll().ToList();
 
@@ -68,9 +67,9 @@ namespace Sem1BackupForms
 
             var idColumn = dgv.Columns["MemberID"];
             idColumn.ReadOnly = true;
-            idColumn.DefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
-            idColumn.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightGray;
-            idColumn.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
+            idColumn.DefaultCellStyle.BackColor = Color.LightGray;
+            idColumn.DefaultCellStyle.SelectionBackColor = Color.LightGray;
+            idColumn.DefaultCellStyle.SelectionForeColor = Color.Black;
 
 
             dgv.Controls.Add(dtp);
@@ -93,8 +92,9 @@ namespace Sem1BackupForms
             string newFirstName = row.Cells["FirstName"].Value?.ToString() ?? "";
             string newLastName = row.Cells["LastName"].Value?.ToString() ?? "";
 
-            if (string.IsNullOrWhiteSpace(newFirstName) || string.IsNullOrWhiteSpace(newLastName)){
-                LoadData(memberRepo.broadSearch(SearchFieldText.Text).ToList());
+            if (string.IsNullOrWhiteSpace(newFirstName) || string.IsNullOrWhiteSpace(newLastName))
+            {
+                DataGridHelper.LoadData(dgv, ref bindingSource, memberRepo.broadSearch(SearchFieldText.Text));
                 return;
             }
 
@@ -116,23 +116,12 @@ namespace Sem1BackupForms
                 };
 
                 memberRepo.Update(updateMember);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("Fejl ved opdatering: " + ex.Message);
-                LoadData(memberRepo.broadSearch(SearchFieldText.Text).ToList());
+                DataGridHelper.LoadData(dgv, ref bindingSource, memberRepo.broadSearch(SearchFieldText.Text));
             }
-        }
-
-        private void LoadData(List<Member> members)
-        {
-            isLoading = true;
-            var sortableList = new SortableBindingList<Member>(members);
-
-            bindingSource = new BindingSource();
-            bindingSource.DataSource = sortableList;
-            dgv.DataSource = bindingSource;
-
-            isLoading = false;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -230,7 +219,7 @@ namespace Sem1BackupForms
             catch (Exception ex)
             {
                 MessageBox.Show("Fejl ved opdatering af medlem: " + ex.Message, "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                LoadData(memberRepo.broadSearch(SearchFieldText.Text).ToList());
+                DataGridHelper.LoadData(dgv, ref bindingSource, memberRepo.broadSearch(SearchFieldText.Text).ToList());
             }
         }
 
@@ -282,9 +271,9 @@ namespace Sem1BackupForms
 
                 memberRepo.Create(member);
 
-                LoadData(memberRepo.broadSearch(SearchFieldText.Text).ToList());
+                DataGridHelper.LoadData(dgv, ref bindingSource, memberRepo.broadSearch(SearchFieldText.Text));
 
-                ShowSuccessToast("Medlem tilføjet succesfuldt!");
+                DataGridHelper.ShowSuccess("Medlem tilføjet succesfuldt!");
                 FirstNameTextBox.Clear();
                 LastNameTextBox.Clear();
                 EmailTextBox.Clear();
@@ -299,47 +288,6 @@ namespace Sem1BackupForms
                 MessageBox.Show("Fejl ved tilføjelse af medlem: " + ex.Message, "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-        private void ShowSuccessToast(string message)
-        {
-            // 1. Create the simplified form
-            Form toast = new Form();
-            toast.FormBorderStyle = FormBorderStyle.None;
-            toast.StartPosition = FormStartPosition.CenterScreen;
-            toast.Size = new Size(300, 60);
-            toast.BackColor = Color.SeaGreen; // Grøn baggrundsfarve
-            toast.TopMost = true; // Altid øverst
-            toast.ShowInTaskbar = false; // Skal ikke vises som "seperat" app
-
-            Label lbl = new Label();
-            lbl.Text = message;
-            lbl.ForeColor = Color.White;
-            lbl.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-            lbl.Dock = DockStyle.Fill;
-            lbl.TextAlign = ContentAlignment.MiddleCenter;
-            toast.Controls.Add(lbl);
-
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            timer.Interval = 1500; // 1.5 Sekund
-            timer.Tick += (sender, e) =>
-            {
-                timer.Stop();
-                toast.Close(); // Close the popup
-                toast.Dispose(); // Clean up memory
-            };
-
-            // 4. Show it and start timer
-            timer.Start();
-            toast.Show();
-        }
-
-        private void SearchFieldText_TextChanged(object sender, EventArgs e)
-        {
-            LoadData(memberRepo.broadSearch(SearchFieldText.Text).ToList());
-        }
-
-
         private void InitializeMemberTypes()
         {
             var types = memberTypeRepo.GetAll().ToList();
@@ -355,6 +303,11 @@ namespace Sem1BackupForms
             {
                 MemberTypeComboBox.SelectedIndex = 0;
             }
+        }
+
+        private void SearchFieldText_TextChanged(object sender, EventArgs e)
+        {
+            DataGridHelper.LoadData(dgv, ref bindingSource, memberRepo.broadSearch(SearchFieldText.Text));
         }
     }
 }

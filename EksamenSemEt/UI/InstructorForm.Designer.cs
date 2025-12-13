@@ -28,21 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
-            AddInstructorButton = new Button();
-            label2 = new Label();
-            LastNameTextBox = new TextBox();
-            FirstNameTextBox = new TextBox();
             label1 = new Label();
+            label2 = new Label();
+            FirstNameTextBox = new TextBox();
+            LastNameTextBox = new TextBox();
             label3 = new Label();
             CertificatesCreateCheckedList = new CheckedListBox();
+            AddInstructorButton = new Button();
             tableLayoutPanel3 = new TableLayoutPanel();
             CertificateCheckedList = new CheckedListBox();
             InstructorListView = new DataGridView();
             label6 = new Label();
             SearchFieldText = new TextBox();
             label4 = new Label();
+            pageSetupDialog1 = new PageSetupDialog();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -68,18 +70,18 @@
             // 
             tableLayoutPanel2.ColumnCount = 6;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20.7468872F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20.7468872F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20.7468872F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.8630676F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24.8962669F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 4.53108549F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 23.4457321F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 7.48155975F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.2233934F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 52.26554F));
+            tableLayoutPanel2.Controls.Add(label1, 1, 1);
+            tableLayoutPanel2.Controls.Add(label2, 1, 2);
+            tableLayoutPanel2.Controls.Add(FirstNameTextBox, 2, 1);
+            tableLayoutPanel2.Controls.Add(LastNameTextBox, 2, 2);
+            tableLayoutPanel2.Controls.Add(label3, 3, 1);
+            tableLayoutPanel2.Controls.Add(CertificatesCreateCheckedList, 4, 1);
             tableLayoutPanel2.Controls.Add(AddInstructorButton, 4, 3);
-            tableLayoutPanel2.Controls.Add(label2, 2, 2);
-            tableLayoutPanel2.Controls.Add(LastNameTextBox, 3, 2);
-            tableLayoutPanel2.Controls.Add(FirstNameTextBox, 3, 1);
-            tableLayoutPanel2.Controls.Add(label1, 2, 1);
-            tableLayoutPanel2.Controls.Add(label3, 4, 1);
-            tableLayoutPanel2.Controls.Add(CertificatesCreateCheckedList, 5, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -92,79 +94,94 @@
             tableLayoutPanel2.Size = new Size(1898, 306);
             tableLayoutPanel2.TabIndex = 1;
             // 
-            // AddInstructorButton
-            // 
-            AddInstructorButton.Dock = DockStyle.Fill;
-            AddInstructorButton.Location = new Point(1182, 216);
-            AddInstructorButton.Name = "AddInstructorButton";
-            AddInstructorButton.Size = new Size(238, 39);
-            AddInstructorButton.TabIndex = 13;
-            AddInstructorButton.Text = "Tilføj Instruktør";
-            AddInstructorButton.UseVisualStyleBackColor = true;
-            AddInstructorButton.Click += AddInstructorButton_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Dock = DockStyle.Fill;
-            label2.Location = new Point(396, 137);
-            label2.Name = "label2";
-            label2.Size = new Size(387, 76);
-            label2.TabIndex = 1;
-            label2.Text = "Efternavn* :";
-            label2.TextAlign = ContentAlignment.TopRight;
-            // 
-            // LastNameTextBox
-            // 
-            LastNameTextBox.Dock = DockStyle.Fill;
-            LastNameTextBox.Location = new Point(789, 140);
-            LastNameTextBox.Name = "LastNameTextBox";
-            LastNameTextBox.Size = new Size(387, 23);
-            LastNameTextBox.TabIndex = 2;
-            // 
-            // FirstNameTextBox
-            // 
-            FirstNameTextBox.Dock = DockStyle.Fill;
-            FirstNameTextBox.Location = new Point(789, 18);
-            FirstNameTextBox.Name = "FirstNameTextBox";
-            FirstNameTextBox.Size = new Size(387, 23);
-            FirstNameTextBox.TabIndex = 3;
-            // 
             // label1
             // 
             label1.AutoSize = true;
+            label1.BackColor = SystemColors.Control;
             label1.Dock = DockStyle.Fill;
-            label1.Location = new Point(396, 15);
+            label1.ForeColor = SystemColors.ControlText;
+            label1.Location = new Point(3, 15);
             label1.Name = "label1";
-            label1.Size = new Size(387, 122);
+            label1.Size = new Size(80, 122);
             label1.TabIndex = 14;
             label1.Text = "Fornavn* :";
             label1.TextAlign = ContentAlignment.TopRight;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = SystemColors.Control;
+            label2.Dock = DockStyle.Fill;
+            label2.ForeColor = SystemColors.ControlText;
+            label2.Location = new Point(3, 137);
+            label2.Name = "label2";
+            label2.Size = new Size(80, 76);
+            label2.TabIndex = 1;
+            label2.Text = "Efternavn* :";
+            label2.TextAlign = ContentAlignment.TopRight;
+            // 
+            // FirstNameTextBox
+            // 
+            FirstNameTextBox.BackColor = SystemColors.Window;
+            FirstNameTextBox.Dock = DockStyle.Fill;
+            FirstNameTextBox.ForeColor = SystemColors.WindowText;
+            FirstNameTextBox.Location = new Point(89, 18);
+            FirstNameTextBox.Name = "FirstNameTextBox";
+            FirstNameTextBox.Size = new Size(439, 23);
+            FirstNameTextBox.TabIndex = 3;
+            // 
+            // LastNameTextBox
+            // 
+            LastNameTextBox.BackColor = SystemColors.Window;
+            LastNameTextBox.Dock = DockStyle.Fill;
+            LastNameTextBox.ForeColor = SystemColors.WindowText;
+            LastNameTextBox.Location = new Point(89, 140);
+            LastNameTextBox.Name = "LastNameTextBox";
+            LastNameTextBox.Size = new Size(439, 23);
+            LastNameTextBox.TabIndex = 2;
+            // 
             // label3
             // 
             label3.AutoSize = true;
+            label3.BackColor = SystemColors.Control;
             label3.Dock = DockStyle.Fill;
-            label3.Location = new Point(1182, 15);
+            label3.ForeColor = SystemColors.ControlText;
+            label3.Location = new Point(534, 15);
             label3.Name = "label3";
-            label3.Size = new Size(238, 122);
+            label3.Size = new Size(136, 122);
             label3.TabIndex = 15;
             label3.Text = "Certifikater:";
             label3.TextAlign = ContentAlignment.TopRight;
             // 
             // CertificatesCreateCheckedList
             // 
+            CertificatesCreateCheckedList.BackColor = SystemColors.Window;
             CertificatesCreateCheckedList.CheckOnClick = true;
             CertificatesCreateCheckedList.Dock = DockStyle.Fill;
+            CertificatesCreateCheckedList.ForeColor = SystemColors.WindowText;
             CertificatesCreateCheckedList.FormattingEnabled = true;
-            CertificatesCreateCheckedList.Location = new Point(1426, 18);
+            CertificatesCreateCheckedList.Location = new Point(676, 18);
             CertificatesCreateCheckedList.Name = "CertificatesCreateCheckedList";
             tableLayoutPanel2.SetRowSpan(CertificatesCreateCheckedList, 2);
-            CertificatesCreateCheckedList.Size = new Size(469, 192);
+            CertificatesCreateCheckedList.Size = new Size(226, 192);
             CertificatesCreateCheckedList.TabIndex = 16;
+            // 
+            // AddInstructorButton
+            // 
+            AddInstructorButton.BackColor = SystemColors.Window;
+            AddInstructorButton.Dock = DockStyle.Fill;
+            AddInstructorButton.ForeColor = SystemColors.WindowText;
+            AddInstructorButton.Location = new Point(676, 216);
+            AddInstructorButton.Name = "AddInstructorButton";
+            AddInstructorButton.Size = new Size(226, 39);
+            AddInstructorButton.TabIndex = 13;
+            AddInstructorButton.Text = "Tilføj Instruktør";
+            AddInstructorButton.UseVisualStyleBackColor = false;
+            AddInstructorButton.Click += AddInstructorButton_Click;
             // 
             // tableLayoutPanel3
             // 
+            tableLayoutPanel3.BackColor = SystemColors.Control;
             tableLayoutPanel3.ColumnCount = 3;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle());
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 80F));
@@ -175,6 +192,7 @@
             tableLayoutPanel3.Controls.Add(SearchFieldText, 1, 0);
             tableLayoutPanel3.Controls.Add(label4, 2, 0);
             tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.ForeColor = SystemColors.ControlText;
             tableLayoutPanel3.Location = new Point(3, 315);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 2;
@@ -185,8 +203,10 @@
             // 
             // CertificateCheckedList
             // 
+            CertificateCheckedList.BackColor = SystemColors.Window;
             CertificateCheckedList.CheckOnClick = true;
             CertificateCheckedList.Dock = DockStyle.Fill;
+            CertificateCheckedList.ForeColor = SystemColors.WindowText;
             CertificateCheckedList.FormattingEnabled = true;
             CertificateCheckedList.Location = new Point(1528, 111);
             CertificateCheckedList.Name = "CertificateCheckedList";
@@ -200,8 +220,17 @@
             InstructorListView.Dock = DockStyle.Fill;
             InstructorListView.Location = new Point(3, 111);
             InstructorListView.Name = "InstructorListView";
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            InstructorListView.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             InstructorListView.Size = new Size(1519, 609);
             InstructorListView.TabIndex = 3;
+            InstructorListView.UserDeletingRow += InstructorListView_UserDeletingRow;
             // 
             // label6
             // 
@@ -216,7 +245,10 @@
             // 
             // SearchFieldText
             // 
+            SearchFieldText.BackColor = SystemColors.HighlightText;
+            SearchFieldText.BorderStyle = BorderStyle.FixedSingle;
             SearchFieldText.Dock = DockStyle.Bottom;
+            SearchFieldText.ForeColor = SystemColors.WindowText;
             SearchFieldText.Location = new Point(39, 82);
             SearchFieldText.Name = "SearchFieldText";
             SearchFieldText.Size = new Size(1483, 23);
@@ -226,7 +258,9 @@
             // label4
             // 
             label4.AutoSize = true;
+            label4.BackColor = SystemColors.Control;
             label4.Dock = DockStyle.Bottom;
+            label4.ForeColor = SystemColors.ControlText;
             label4.Location = new Point(1528, 93);
             label4.Name = "label4";
             label4.Size = new Size(367, 15);
@@ -237,6 +271,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
             Controls.Add(tableLayoutPanel1);
             Name = "InstructorForm";
             Size = new Size(1904, 1041);
@@ -267,5 +302,6 @@
         private Label label6;
         private TextBox SearchFieldText;
         private Label label4;
+        private PageSetupDialog pageSetupDialog1;
     }
 }

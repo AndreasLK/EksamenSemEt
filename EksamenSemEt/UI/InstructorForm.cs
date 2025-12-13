@@ -1,6 +1,7 @@
 ﻿using DatabaseAccessSem1;
 using DatabaseAccessSem1.Repository;
 using EksamenSemEt.DatabaseAccess.Repository;
+using EksamenSemEt.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,15 +54,15 @@ namespace Sem1BackupForms.Forms
 
             tableLayoutPanel3.Controls.Add(dgv);
 
-            LoadData(instructorRepo.broadSearch(SearchFieldText.Text).ToList());
+            DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(SearchFieldText.Text));
 
             var types = certificateRepo.GetAll().ToList();
 
             var idColumn = dgv.Columns["InstructorID"];
             idColumn.ReadOnly = true;
-            idColumn.DefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
-            idColumn.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightGray;
-            idColumn.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
+            idColumn.DefaultCellStyle.BackColor = Color.LightGray;
+            idColumn.DefaultCellStyle.SelectionBackColor = Color.LightGray;
+            idColumn.DefaultCellStyle.SelectionForeColor = Color.Black;
 
 
 
@@ -97,17 +98,6 @@ namespace Sem1BackupForms.Forms
                 }
             }
             isLoading = false;
-        }
-
-        private void LoadData(List<Instructor> instructors)
-        {
-            var sortableList = new SortableBindingList<Instructor>(instructors);
-
-            bindingSource = new BindingSource();
-            bindingSource.DataSource = sortableList;
-            dgv.DataSource = bindingSource;
-
-
         }
 
         private void LoadAllCertificatesIntoList(CheckedListBox box)
@@ -175,9 +165,9 @@ namespace Sem1BackupForms.Forms
                     }
                 }
 
-                LoadData(instructorRepo.broadSearch(SearchFieldText.Text).ToList());
+                DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(SearchFieldText.Text));
 
-                ShowSuccessToast("Instruktøren er oprettet succesfuldt!");
+                DataGridHelper.ShowSuccess("Instruktøren er oprettet succesfuldt!");
             }
             catch (Exception ex) // Add 'Exception ex' here
             {
@@ -189,42 +179,9 @@ namespace Sem1BackupForms.Forms
 
         }
 
-        private void ShowSuccessToast(string message)
-        {
-            // 1. Create the simplified form
-            Form toast = new Form();
-            toast.FormBorderStyle = FormBorderStyle.None;
-            toast.StartPosition = FormStartPosition.CenterScreen;
-            toast.Size = new Size(300, 60);
-            toast.BackColor = Color.SeaGreen; // Grøn baggrundsfarve
-            toast.TopMost = true; // Altid øverst
-            toast.ShowInTaskbar = false; // Skal ikke vises som "seperat" app
-
-            Label lbl = new Label();
-            lbl.Text = message;
-            lbl.ForeColor = Color.White;
-            lbl.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-            lbl.Dock = DockStyle.Fill;
-            lbl.TextAlign = ContentAlignment.MiddleCenter;
-            toast.Controls.Add(lbl);
-
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            timer.Interval = 1500; // 1.5 Sekund
-            timer.Tick += (sender, e) =>
-            {
-                timer.Stop();
-                toast.Close(); // Close the popup
-                toast.Dispose(); // Clean up memory
-            };
-
-            // 4. Show it and start timer
-            timer.Start();
-            toast.Show();
-        }
-
         private void SearchFieldText_TextChanged(object sender, EventArgs e)
         {
-            LoadData(instructorRepo.broadSearch(SearchFieldText.Text).ToList());
+            DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(SearchFieldText.Text));
         }
 
         private void Dgv_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -235,25 +192,49 @@ namespace Sem1BackupForms.Forms
 
             if (updatedInstructor != null)
             {
-                if(string.IsNullOrWhiteSpace(updatedInstructor.LastName) || string.IsNullOrWhiteSpace(updatedInstructor.LastName)){
-                    LoadData(instructorRepo.broadSearch(SearchFieldText.Text).ToList());
+                if (string.IsNullOrWhiteSpace(updatedInstructor.LastName) || string.IsNullOrWhiteSpace(updatedInstructor.LastName))
+                {
+                    DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(SearchFieldText.Text));
                     return;
                 }
 
                 try
                 {
                     instructorRepo.Update(updatedInstructor);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show($"Kunne ikke gemme ændring: {ex.Message}");
 
-                    LoadData(instructorRepo.broadSearch(SearchFieldText.Text).ToList());
+                    DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(SearchFieldText.Text));
                 }
-                
+
             }
         }
+
+        private void InstructorListView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Er du sikker på at slette denne instruktør Permenent? \n NO TAKESIES BACKSIES \n \nEr du i tvivl er svaret nej", "Slet Instruktør", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.No)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            try
+            {
+                int id = Convert.ToInt32(e.Row.Cells["InstructorID"].Value);
+                instructorRepo.Remove(id, certificateRepo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Kunne ikke slette instruktør: {ex.Message}");
+                e.Cancel = true;
+
+            }
+        }
+
     }
-
-
 
 }

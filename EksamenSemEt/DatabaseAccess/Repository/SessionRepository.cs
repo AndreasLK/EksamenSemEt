@@ -24,7 +24,7 @@ namespace DatabaseAccessSem1.Repository
         }
 
         public IEnumerable<int> GetID(
-            string? sessionType = null,
+            int? sessionType = null,
             DateTime? dateTimeStart = null,
             DateTime? dateTimeEnd = null,
             int? sessionDurationStart = null,
@@ -40,7 +40,7 @@ namespace DatabaseAccessSem1.Repository
             // 2. Create a container for your safe parameters
             var parameters = new DynamicParameters();
 
-            if (!string.IsNullOrEmpty(sessionType))
+            if (sessionType.HasValue)
             {
                 sqlBuilder.Append(" AND SessionType = @SessionType");
                 parameters.Add("SessionType", sessionType);
@@ -83,6 +83,14 @@ namespace DatabaseAccessSem1.Repository
 
             return connection.Query<int>(sqlBuilder.ToString(), parameters); // Selve forespørgsel til database
 
+        }
+
+        public void RemoveAllByType(int sessionType)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+            string sql = @"DELETE FROM Sessions
+                        WHERE SessionType = @SessionType";
+            connection.Execute(sql, new { SessionType = sessionType });
         }
 
         public IEnumerable<Session> GetAll()

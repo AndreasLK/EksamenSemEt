@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Text;
 
 namespace Sem1BackupForms.Forms
-{
+{ // Kode Doneret af Chatten
     public class SortableBindingList<T>: BindingList<T>
     {
         private bool isSortedValue;

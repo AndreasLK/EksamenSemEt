@@ -58,7 +58,7 @@ namespace EksamenSemEt.UI
             sideBar.MemberClicked += (s, e) => LoadView(new MemberForm(memberRepo, memberTypeRepo));
             sideBar.SessionClicked += (s, e) => LoadView(new SessionForm());
             sideBar.InstructorClicked += (s, e) => LoadView(new InstructorForm(instructorRepo, certificateRepo));
-            sideBar.CertificateClicked += (s, e) => LoadView(new CertificateForm());
+            sideBar.CertificateClicked += (s, e) => LoadView(new CertificateForm(certificateRepo, sessionRepo));
 
 
             LoadView(new MemberForm(memberRepo, memberTypeRepo));

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using EksamenSemEt.DatabaseAccess.Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -110,10 +111,16 @@ namespace DatabaseAccessSem1.Repository
             return connection.Execute(sql, instructor); //Returnere mængden af rækker opdateret (forhåbeligt 1)
         }
 
-        public int Delete(int instructorID)
+        public int Remove(int instructorID, CertificationRepository certRepo)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
+            //Delete certs
+            string sqlCerts = @"DELETE FROM CertificationGroups
+                        WHERE InstructorID = @InstructorID";
+            connection.Execute(sqlCerts, new { InstructorID = instructorID });
+
+            //Delete instructor
             string sql = @"DELETE FROM Instructors
                         WHERE InstructorID = @InstructorID";
 

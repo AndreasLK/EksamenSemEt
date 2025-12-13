@@ -43,11 +43,11 @@
             label7 = new Label();
             MemberTypeComboBox = new ComboBox();
             ActivityCheckBox = new CheckBox();
+            BirthdaySelector = new DateTimePicker();
             tableLayoutPanel3 = new TableLayoutPanel();
             memberListView = new DataGridView();
             label6 = new Label();
             SearchFieldText = new TextBox();
-            BirthdaySelector = new DateTimePicker();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -74,10 +74,10 @@
             tableLayoutPanel2.ColumnCount = 6;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20.7468872F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20.7468872F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20.7468872F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.8630676F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24.8962669F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 14.8507977F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 29.84039F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 9.090909F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25.6766129F));
             tableLayoutPanel2.Controls.Add(label1, 0, 1);
             tableLayoutPanel2.Controls.Add(label2, 0, 2);
             tableLayoutPanel2.Controls.Add(LastNameTextBox, 1, 2);
@@ -113,7 +113,7 @@
             label1.Size = new Size(87, 15);
             label1.TabIndex = 0;
             label1.Text = "Fornavn* :";
-            label1.TextAlign = ContentAlignment.MiddleRight;
+            label1.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label2
             // 
@@ -124,7 +124,7 @@
             label2.Size = new Size(87, 15);
             label2.TabIndex = 1;
             label2.Text = "Efternavn* :";
-            label2.TextAlign = ContentAlignment.MiddleRight;
+            label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // LastNameTextBox
             // 
@@ -145,17 +145,17 @@
             // PhoneNumberTextBox
             // 
             PhoneNumberTextBox.Dock = DockStyle.Top;
-            PhoneNumberTextBox.Location = new Point(692, 140);
+            PhoneNumberTextBox.Location = new Point(607, 140);
             PhoneNumberTextBox.Name = "PhoneNumberTextBox";
-            PhoneNumberTextBox.Size = new Size(292, 23);
+            PhoneNumberTextBox.Size = new Size(423, 23);
             PhoneNumberTextBox.TabIndex = 4;
             // 
             // EmailTextBox
             // 
             EmailTextBox.Dock = DockStyle.Top;
-            EmailTextBox.Location = new Point(692, 18);
+            EmailTextBox.Location = new Point(607, 18);
             EmailTextBox.Name = "EmailTextBox";
-            EmailTextBox.Size = new Size(292, 23);
+            EmailTextBox.Size = new Size(423, 23);
             EmailTextBox.TabIndex = 5;
             // 
             // label3
@@ -164,7 +164,7 @@
             label3.Dock = DockStyle.Top;
             label3.Location = new Point(394, 15);
             label3.Name = "label3";
-            label3.Size = new Size(292, 15);
+            label3.Size = new Size(207, 15);
             label3.TabIndex = 8;
             label3.Text = "Email :";
             label3.TextAlign = ContentAlignment.MiddleRight;
@@ -175,7 +175,7 @@
             label4.Dock = DockStyle.Top;
             label4.Location = new Point(394, 137);
             label4.Name = "label4";
-            label4.Size = new Size(292, 15);
+            label4.Size = new Size(207, 15);
             label4.TabIndex = 9;
             label4.Text = "Telefon Nummer :";
             label4.TextAlign = ContentAlignment.MiddleRight;
@@ -184,9 +184,9 @@
             // 
             label5.AutoSize = true;
             label5.Dock = DockStyle.Top;
-            label5.Location = new Point(990, 15);
+            label5.Location = new Point(1036, 15);
             label5.Name = "label5";
-            label5.Size = new Size(179, 15);
+            label5.Size = new Size(124, 15);
             label5.TabIndex = 10;
             label5.Text = "Fødselsdag: ";
             label5.TextAlign = ContentAlignment.MiddleRight;
@@ -194,9 +194,9 @@
             // AddMemberButton
             // 
             AddMemberButton.Dock = DockStyle.Fill;
-            AddMemberButton.Location = new Point(990, 216);
+            AddMemberButton.Location = new Point(1036, 216);
             AddMemberButton.Name = "AddMemberButton";
-            AddMemberButton.Size = new Size(179, 39);
+            AddMemberButton.Size = new Size(124, 39);
             AddMemberButton.TabIndex = 13;
             AddMemberButton.Text = "Tilføj Medlem";
             AddMemberButton.UseVisualStyleBackColor = true;
@@ -229,11 +229,19 @@
             ActivityCheckBox.Dock = DockStyle.Top;
             ActivityCheckBox.Location = new Point(394, 216);
             ActivityCheckBox.Name = "ActivityCheckBox";
-            ActivityCheckBox.Size = new Size(292, 19);
+            ActivityCheckBox.Size = new Size(207, 19);
             ActivityCheckBox.TabIndex = 14;
             ActivityCheckBox.Text = "Aktiv?";
             ActivityCheckBox.TextAlign = ContentAlignment.MiddleRight;
             ActivityCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // BirthdaySelector
+            // 
+            BirthdaySelector.Dock = DockStyle.Top;
+            BirthdaySelector.Location = new Point(1166, 18);
+            BirthdaySelector.Name = "BirthdaySelector";
+            BirthdaySelector.Size = new Size(365, 23);
+            BirthdaySelector.TabIndex = 17;
             // 
             // tableLayoutPanel3
             // 
@@ -277,19 +285,13 @@
             // 
             // SearchFieldText
             // 
+            SearchFieldText.BorderStyle = BorderStyle.FixedSingle;
             SearchFieldText.Dock = DockStyle.Bottom;
             SearchFieldText.Location = new Point(39, 82);
             SearchFieldText.Name = "SearchFieldText";
             SearchFieldText.Size = new Size(1492, 23);
             SearchFieldText.TabIndex = 2;
-            // 
-            // BirthdaySelector
-            // 
-            BirthdaySelector.Dock = DockStyle.Top;
-            BirthdaySelector.Location = new Point(1175, 18);
-            BirthdaySelector.Name = "BirthdaySelector";
-            BirthdaySelector.Size = new Size(356, 23);
-            BirthdaySelector.TabIndex = 17;
+            SearchFieldText.TextChanged += SearchFieldText_TextChanged;
             // 
             // MemberForm
             // 
