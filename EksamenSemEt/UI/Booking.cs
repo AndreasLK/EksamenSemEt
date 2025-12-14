@@ -59,13 +59,13 @@ namespace FitHubUI
         private void LoadKunder()
         {
             // Tømmer CheckedListBox før genfyldning
-            valgtMedlemmer.Items.Clear();
+            valgtMedlem.Items.Clear();
 
             // Loop over globale aktive kunder og tilføjer dem til CheckedListBox
             foreach (var kunde in KundestyringStaticRepository.Kunder.Where(k => k.Aktiv))
             {
                 // Tilføjer Kunde-objektet til CheckedListBox (ToString() viser Navn)
-                valgtMedlemmer.Items.Add(kunde, false);
+                valgtMedlem.Items.Add(kunde, false);
             }
         }
 
@@ -112,7 +112,7 @@ namespace FitHubUI
             }
 
             // Valider: tjek at mindst ét medlem er valgt i CheckedListBox
-            if (valgtMedlemmer.CheckedItems.Count == 0)
+            if (valgtMedlem.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Vælg mindst ét medlem.");
                 return;
@@ -131,7 +131,7 @@ namespace FitHubUI
             var fejlList = new List<string>();
 
             // Loop: prøv at booke hver checked kunde
-            foreach (var item in valgtMedlemmer.CheckedItems)
+            foreach (var item in valgtMedlem.CheckedItems)
             {
                 // Cast det valgte item til Kunde
                 var medlem = (Kunde)item;
@@ -175,8 +175,8 @@ namespace FitHubUI
             MessageBox.Show(msg, "Booking resultat");
 
             // Loop: fjern alle checks i CheckedListBox efter booking (ryd op i UI)
-            for (int i = valgtMedlemmer.Items.Count - 1; i >= 0; i--)
-                valgtMedlemmer.SetItemChecked(i, false);
+            for (int i = valgtMedlem.Items.Count - 1; i >= 0; i--)
+                valgtMedlem.SetItemChecked(i, false);
         }
 
         private void afmeldMedlem_Click(object sender, EventArgs e)
@@ -213,6 +213,207 @@ namespace FitHubUI
 
             // Opdater visningen efter afmelding
             kommendeHold_SelectionChanged(null, null);
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Booking_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Tilbage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox8_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox9_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkedListBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Lokation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox8_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkedListBox6_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox11_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private List<Medlem> AlleMedlemmer;
+
+        public Booking()
+        {
+            InitializeComponent();
+            IndlaesMedlemmer();
+        }
+
+        private void IndlaesMedlemmer()
+        {
+            // Antages at du har et repository til at hente data
+            MedlemRepository repo = new MedlemRepository();
+            AlleMedlemmer = repo.HentAlleMedlemmer();
+
+            // Renser ListBoxen og fylder den med medlemmer
+            medlemsListBox.Items.Clear();
+
+            // Ved at bruge AddRange med ToString() overskrevet, vises FuldeNavn
+            medlemsListBox.Items.AddRange(AlleMedlemmer.ToArray());
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void button9_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Instruktør_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
