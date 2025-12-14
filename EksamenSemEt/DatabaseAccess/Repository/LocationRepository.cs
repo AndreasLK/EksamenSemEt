@@ -24,6 +24,22 @@ namespace EksamenSemEt.DatabaseAccess.Repository
             return connection.QuerySingle<Location>(sql, location);
         }
 
+        public IEnumerable<Location> GetAll()
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+            string sql = @"SELECT * FROM Locations;";
+            return connection.Query<Location>(sql);
+        }
+
+        public Location Update(Location location)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+            string sql = @"UPDATE Locations SET 
+                        Name = @Name
+                        WHERE LocationID = @LocationID RETURNING *;";
+            return connection.QuerySingle<Location>(sql, location);
+        }
+
         public int Delete(int locationID)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
