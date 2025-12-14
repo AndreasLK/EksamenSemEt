@@ -19,6 +19,7 @@ namespace EksamenSemEt.UI
         public event EventHandler SessionClicked;
         public event EventHandler InstructorClicked;
         public event EventHandler CertificateClicked;
+        public event EventHandler LocationClicked;
         public SideBar(MemberRepository memberRepo, MemberGroupRepository memberGroupRepo, SessionRepository sessionRepo, InstructorGroupRepository instructorGroupRepo, InstructorRepository instructorRepo)
         {
             InitializeComponent();
@@ -47,6 +48,11 @@ namespace EksamenSemEt.UI
         private void CertificateButton_Click(object sender, EventArgs e)
         {
             CertificateClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void LocationButton_Click(object sender, EventArgs e)
+        {
+            LocationClicked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

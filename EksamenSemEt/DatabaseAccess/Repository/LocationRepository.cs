@@ -48,5 +48,30 @@ namespace EksamenSemEt.DatabaseAccess.Repository
                         WHERE LocationID = @LocationID;";
             return connection.Execute(sql, new { LocationID = locationID});
         }
+
+        public IEnumerable<Location> BroadSearch(string searchString)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+
+            if (string.IsNullOrWhiteSpace(searchString)) return GetAll();
+
+            var searchTerms = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            var sqlBuilder = new StringBuilder("SELECT * FROM Locations WHERE 1=1");
+            var parameters = new DynamicParameters();
+
+            for (int i = 0; i < searchTerms.Length; i++)
+            {
+                var paramName = $"@term{i}";
+                sqlBuilder.Append(
+                                    $@" AND (
+                                    CAST(LocationID AS Text) LIKE {paramName}
+                                    OR Name LIKE {paramName}
+                                    )");
+                parameters.Add(paramName, $"%{searchTerms[i]}%");
+            }
+
+            return connection.Query<Location>(sqlBuilder.ToString(), parameters);
+        }
     }
 }

@@ -34,6 +34,7 @@
             SessionButton = new Button();
             InstructorButton = new Button();
             CertificateButton = new Button();
+            LocationButton = new Button();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -41,22 +42,23 @@
             // 
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Controls.Add(BookingButton, 0, 0);
             tableLayoutPanel1.Controls.Add(MemberButton, 0, 1);
             tableLayoutPanel1.Controls.Add(SessionButton, 0, 2);
             tableLayoutPanel1.Controls.Add(InstructorButton, 0, 3);
             tableLayoutPanel1.Controls.Add(CertificateButton, 0, 4);
+            tableLayoutPanel1.Controls.Add(LocationButton, 0, 5);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 6;
+            tableLayoutPanel1.RowCount = 7;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 40F));
             tableLayoutPanel1.Size = new Size(298, 614);
             tableLayoutPanel1.TabIndex = 0;
             // 
@@ -115,6 +117,17 @@
             CertificateButton.UseVisualStyleBackColor = true;
             CertificateButton.Click += CertificateButton_Click;
             // 
+            // LocationButton
+            // 
+            LocationButton.Dock = DockStyle.Fill;
+            LocationButton.Location = new Point(3, 308);
+            LocationButton.Name = "LocationButton";
+            LocationButton.Size = new Size(292, 55);
+            LocationButton.TabIndex = 5;
+            LocationButton.Text = "Lokationer";
+            LocationButton.UseVisualStyleBackColor = true;
+            LocationButton.Click += LocationButton_Click;
+            // 
             // SideBar
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -134,5 +147,6 @@
         private Button SessionButton;
         private Button InstructorButton;
         private Button CertificateButton;
+        private Button LocationButton;
     }
 }

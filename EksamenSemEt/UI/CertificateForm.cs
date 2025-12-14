@@ -100,7 +100,7 @@ namespace EksamenSemEt.UI
         {
             if (isLoading || e.RowIndex < 0) return;
 
-            var row = CertificationListView.Rows[e.RowIndex];
+            var row = dgv.Rows[e.RowIndex];
             string newName = row.Cells["Name"].Value?.ToString() ?? "";
 
             if (string.IsNullOrWhiteSpace(newName))
