@@ -111,7 +111,7 @@ namespace DatabaseAccessSem1.Repository
             return connection.Execute(sql, instructor); //Returnere mængden af rækker opdateret (forhåbeligt 1)
         }
 
-        public int Remove(int instructorID, CertificationRepository certRepo)
+        public int Delete(int instructorID, CertificationRepository certRepo)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 

@@ -41,8 +41,8 @@
             tableLayoutPanel7 = new TableLayoutPanel();
             label1 = new Label();
             label5 = new Label();
-            comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
+            SessionTypeComboBox = new ComboBox();
+            LocationComboBox = new ComboBox();
             tableLayoutPanel8 = new TableLayoutPanel();
             label7 = new Label();
             checkedListBox1 = new CheckedListBox();
@@ -208,8 +208,8 @@
             tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel7.Controls.Add(label1, 0, 0);
             tableLayoutPanel7.Controls.Add(label5, 0, 1);
-            tableLayoutPanel7.Controls.Add(comboBox1, 1, 0);
-            tableLayoutPanel7.Controls.Add(comboBox2, 1, 1);
+            tableLayoutPanel7.Controls.Add(SessionTypeComboBox, 1, 0);
+            tableLayoutPanel7.Controls.Add(LocationComboBox, 1, 1);
             tableLayoutPanel7.Dock = DockStyle.Fill;
             tableLayoutPanel7.Location = new Point(3, 18);
             tableLayoutPanel7.Name = "tableLayoutPanel7";
@@ -241,23 +241,23 @@
             label5.Text = "Lokale* :";
             label5.TextAlign = ContentAlignment.TopRight;
             // 
-            // comboBox1
+            // SessionTypeComboBox
             // 
-            comboBox1.Dock = DockStyle.Fill;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(81, 3);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(434, 23);
-            comboBox1.TabIndex = 2;
+            SessionTypeComboBox.Dock = DockStyle.Fill;
+            SessionTypeComboBox.FormattingEnabled = true;
+            SessionTypeComboBox.Location = new Point(81, 3);
+            SessionTypeComboBox.Name = "SessionTypeComboBox";
+            SessionTypeComboBox.Size = new Size(434, 23);
+            SessionTypeComboBox.TabIndex = 2;
             // 
-            // comboBox2
+            // LocationComboBox
             // 
-            comboBox2.Dock = DockStyle.Fill;
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(81, 61);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(434, 23);
-            comboBox2.TabIndex = 3;
+            LocationComboBox.Dock = DockStyle.Fill;
+            LocationComboBox.FormattingEnabled = true;
+            LocationComboBox.Location = new Point(81, 61);
+            LocationComboBox.Name = "LocationComboBox";
+            LocationComboBox.Size = new Size(434, 23);
+            LocationComboBox.TabIndex = 3;
             // 
             // tableLayoutPanel8
             // 
@@ -504,8 +504,8 @@
         private TableLayoutPanel tableLayoutPanel7;
         private Label label1;
         private Label label5;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
+        private ComboBox SessionTypeComboBox;
+        private ComboBox LocationComboBox;
         private TableLayoutPanel tableLayoutPanel8;
         private Label label7;
         private CheckedListBox checkedListBox1;

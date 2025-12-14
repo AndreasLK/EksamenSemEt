@@ -21,11 +21,11 @@ namespace EksamenSemEt.DatabaseAccess.Repository
             return connection.QuerySingle<Certificate>(sql, certificate);
         }
 
-        public int Remove(int certificationID, SessionRepository sessionRepo)
+        public int Delete(int certificationID, SessionRepository sessionRepo)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
-            RemoveGroupWithCert(certificationID);
+            DeleteGroupWithCert(certificationID);
             sessionRepo.RemoveAllByType(certificationID);
 
             string sql = @"DELETE FROM Certifications 
@@ -33,7 +33,7 @@ namespace EksamenSemEt.DatabaseAccess.Repository
             return connection.Execute(sql, new { CertificationID = certificationID });
         }
 
-        public int RemoveGroupWithCert(int CertificationID)
+        public int DeleteGroupWithCert(int CertificationID)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
             string sql = @"DELETE FROM CertificationGroups 

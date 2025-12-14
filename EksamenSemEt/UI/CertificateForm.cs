@@ -87,7 +87,7 @@ namespace EksamenSemEt.UI
             try
             {
                 int id = Convert.ToInt32(e.Row.Cells["CertificationID"].Value);
-                certRepo.Remove(id, sessionRepo);
+                certRepo.Delete(id, sessionRepo);
             }
             catch (Exception ex)
             {

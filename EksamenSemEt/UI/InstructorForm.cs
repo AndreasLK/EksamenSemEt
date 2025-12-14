@@ -225,7 +225,7 @@ namespace Sem1BackupForms.Forms
             try
             {
                 int id = Convert.ToInt32(e.Row.Cells["InstructorID"].Value);
-                instructorRepo.Remove(id, certificateRepo);
+                instructorRepo.Delete(id, certificateRepo);
             }
             catch (Exception ex)
             {

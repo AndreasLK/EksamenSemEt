@@ -63,4 +63,10 @@ namespace DatabaseAccessSem1
         public int? CertificationID { get; init; }
         public required string Name { get; init; }
     }
+
+    public record Location
+    {
+        public int? LocationID { get; init; }
+        public required string Name { get; init; }
+    }
 }
