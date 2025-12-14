@@ -59,13 +59,13 @@ namespace FitHubUI
         private void LoadKunder()
         {
             // Tømmer CheckedListBox før genfyldning
-            valgtMedlemmer.Items.Clear();
+            valgtMedlem.Items.Clear();
 
             // Loop over globale aktive kunder og tilføjer dem til CheckedListBox
             foreach (var kunde in KundestyringStaticRepository.Kunder.Where(k => k.Aktiv))
             {
                 // Tilføjer Kunde-objektet til CheckedListBox (ToString() viser Navn)
-                valgtMedlemmer.Items.Add(kunde, false);
+                valgtMedlem.Items.Add(kunde, false);
             }
         }
 
@@ -112,7 +112,7 @@ namespace FitHubUI
             }
 
             // Valider: tjek at mindst ét medlem er valgt i CheckedListBox
-            if (valgtMedlemmer.CheckedItems.Count == 0)
+            if (valgtMedlem.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Vælg mindst ét medlem.");
                 return;
@@ -131,7 +131,7 @@ namespace FitHubUI
             var fejlList = new List<string>();
 
             // Loop: prøv at booke hver checked kunde
-            foreach (var item in valgtMedlemmer.CheckedItems)
+            foreach (var item in valgtMedlem.CheckedItems)
             {
                 // Cast det valgte item til Kunde
                 var medlem = (Kunde)item;
@@ -175,8 +175,8 @@ namespace FitHubUI
             MessageBox.Show(msg, "Booking resultat");
 
             // Loop: fjern alle checks i CheckedListBox efter booking (ryd op i UI)
-            for (int i = valgtMedlemmer.Items.Count - 1; i >= 0; i--)
-                valgtMedlemmer.SetItemChecked(i, false);
+            for (int i = valgtMedlem.Items.Count - 1; i >= 0; i--)
+                valgtMedlem.SetItemChecked(i, false);
         }
 
         private void afmeldMedlem_Click(object sender, EventArgs e)
@@ -361,6 +361,57 @@ namespace FitHubUI
         }
 
         private void textBox11_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private List<Medlem> AlleMedlemmer;
+
+        public Booking()
+        {
+            InitializeComponent();
+            IndlaesMedlemmer();
+        }
+
+        private void IndlaesMedlemmer()
+        {
+            // Antages at du har et repository til at hente data
+            MedlemRepository repo = new MedlemRepository();
+            AlleMedlemmer = repo.HentAlleMedlemmer();
+
+            // Renser ListBoxen og fylder den med medlemmer
+            medlemsListBox.Items.Clear();
+
+            // Ved at bruge AddRange med ToString() overskrevet, vises FuldeNavn
+            medlemsListBox.Items.AddRange(AlleMedlemmer.ToArray());
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void button9_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Instruktør_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
