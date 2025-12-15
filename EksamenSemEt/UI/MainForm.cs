@@ -58,7 +58,7 @@ namespace EksamenSemEt.UI
 
             sideBar.BookingClicked += (s, e) => LoadView(new BookingForm());
             sideBar.MemberClicked += (s, e) => LoadView(new MemberForm(memberRepo, memberTypeRepo));
-            sideBar.SessionClicked += (s, e) => LoadView(new SessionForm());
+            sideBar.SessionClicked += (s, e) => LoadView(new SessionForm(certificateRepo, locationRepo));
             sideBar.InstructorClicked += (s, e) => LoadView(new InstructorForm(instructorRepo, certificateRepo));
             sideBar.CertificateClicked += (s, e) => LoadView(new CertificateForm(certificateRepo, sessionRepo));
             sideBar.LocationClicked += (s, e) => LoadView(new LocationForm(locationRepo));

@@ -124,11 +124,6 @@ namespace Sem1BackupForms
             }
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
 
         private void dtp_ValueChanged_Handler(object? sender, EventArgs e)
         {

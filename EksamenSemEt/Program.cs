@@ -1,7 +1,6 @@
 ﻿using DatabaseAccessSem1;
 using DatabaseAccessSem1.Repository;
 using EksamenSemEt.UI;
-using FitHubUI;
 using Sem1BackupForms;
 namespace EksamenSemEt
 {

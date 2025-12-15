@@ -24,9 +24,7 @@ namespace DatabaseAccessSem1.Repository
 
         public IEnumerable<int> GetID(
     string? firstName = null,
-    string? lastName = null,
-    bool? CertifiedForTrailRunning = null,
-    bool? CertifiedForSkovYoga = null)
+    string? lastName = null)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
                                                                   // 1. Start with a basic query that selects ALL columns so the Member object can be filled

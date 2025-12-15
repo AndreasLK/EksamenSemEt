@@ -301,7 +301,6 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "MemberForm";
             Size = new Size(1540, 1041);
-            Load += MainForm_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
