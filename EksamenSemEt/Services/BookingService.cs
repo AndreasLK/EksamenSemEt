@@ -17,10 +17,16 @@ namespace DatabaseAccessSem1.Services
 			_memberRepository = memberRepository;
 			_sessionRepository = sessionRepository;
 			_memberGroupRepository = memberGroupRepository;
+			_memberRepository = memberRepository;
 		}
 
 		public string TryBookSession(int memberId, Membership membership, int sessionId)
 		{
+
+			// 0) Tjekker og medlemmet er aktivt
+			if (!_memberRepository.IsActive(memberId))
+				return "Dit medlemskab er inaktivt.";
+
 			// 1) Tjek om medlemmet kan booke flere hold denne uge
 			if (!CanBook(memberId, membership))
 				return "Du har nået dit maksimale antal hold for denne uge." +
