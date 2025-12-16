@@ -49,14 +49,14 @@ namespace DatabaseAccessSem1.Repository
             return connection.Query<int>(sqlBuilder.ToString(), parameters); // Selve forespørgsel til database
         }
 
-        public IEnumerable<Instructor> broadSearch(string searchString, int? certifcationID = null, int? sessionID = null)
+        public IEnumerable<Instructor> broadSearch(string searchString, int? certifcationID = null, int? sessionID = null, int limit = 100)
         {
             using var connection = _dbFactory.CreateConnection();
 
 
             //Alt i denne funktion efter denne linje er black magic fuckery.
             //Proceed with caution
-            var sqlBuilder = new StringBuilder("SELECT i.* FROM Instructors i");
+            var sqlBuilder = new StringBuilder("SELECT DISTINCT i.* FROM Instructors i");
             var parameters = new DynamicParameters();
 
             bool validcert = certifcationID.HasValue && certifcationID.Value > 0;
@@ -103,6 +103,9 @@ namespace DatabaseAccessSem1.Repository
                 )");
                 }
             }
+
+            sqlBuilder.Append(" ORDER BY i.FirstName LIMIT @Limit");
+            parameters.Add("Limit", limit);
             return connection.Query<Instructor>(sqlBuilder.ToString(), parameters);
         }
 

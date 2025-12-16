@@ -24,6 +24,8 @@ namespace EksamenSemEt.UI
         private BindingSource bindingSource;
         private SessionTimeEditor sessionTimeEditor;
 
+        private readonly Timer debounceTimer;
+
         public SessionForm(CertificationRepository certificationRepository, LocationRepository locationRepository, InstructorRepository instructorRepository, InstructorGroupRepository instructorGroupRepository, SessionRepository sessionRepository)
         {
             this.sessionRepo = sessionRepository;
@@ -32,6 +34,10 @@ namespace EksamenSemEt.UI
             this.certRepo = certificationRepository;
             this.instructorGroupRepo = instructorGroupRepository;
             InitializeComponent();
+
+            debounceTimer = new Timer();
+            debounceTimer.Interval = 50;
+            debounceTimer.Tick += DebounceTimer_Tick;
 
             InstructorCreateSelector.Configure(instructorRepo, instructorGroupRepo);
             InstructorSearchSelector.Configure(instructorRepo, instructorGroupRepo);
@@ -59,6 +65,25 @@ namespace EksamenSemEt.UI
 
 
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (debounceTimer != null)
+                {
+                    debounceTimer.Dispose();
+                }
+
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
 
         private void InitializeSessionType()
         {
@@ -111,6 +136,8 @@ namespace EksamenSemEt.UI
             dgv.Controls.Add(sessionTimeEditor);
 
             dgv.UserDeletingRow += SessionListView_UserDeletingRow;
+
+
             dgv.SelectionChanged += SessionListView_SelectionChanged;
 
             tableLayoutPanel1.Controls.Add(dgv);
@@ -124,11 +151,23 @@ namespace EksamenSemEt.UI
             idColumn.DefaultCellStyle.SelectionForeColor = Color.Black;
         }
 
+        private void DebounceTimer_Tick(object sender, EventArgs e)
+        {
+            debounceTimer.Stop();
+            PerformLiveInstructorsBinding();
+        }
 
         private void SessionListView_SelectionChanged(object? sender, EventArgs e)
         {
             if (is_Binding) return;
-            
+
+            debounceTimer.Stop();
+            debounceTimer.Start();
+        }
+
+        private void PerformLiveInstructorsBinding()
+        {
+
             if (dgv.CurrentRow == null || dgv.CurrentRow.Cells["SessionID"].Value == null)
             {
                 InstructorSearchSelector.ClearSessionBinding();
@@ -144,12 +183,12 @@ namespace EksamenSemEt.UI
                 InstructorSearchSelector.BindToSession(sessionID.Value, sessionTypeID.Value);
 
                 InstructorCreateSelector.ClearSelection();
-            } else
+            }
+            else
             {
                 InstructorSearchSelector.ClearSessionBinding();
             }
         }
-
 
         private void SessionTypeComboBox_SelectedIndexChanged(object? sender, EventArgs e)
         {
