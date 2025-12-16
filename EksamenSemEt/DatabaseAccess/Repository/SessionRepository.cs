@@ -17,13 +17,13 @@ namespace DatabaseAccessSem1.Repository
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
             string sql = @"INSERT INTO Sessions 
-                        (SessionType, DateTime, SessionDuration, MaxMembers, Location) Values 
-                        (@SessionType, @DateTime, @SessionDuration, @MaxMembers, @Location) RETURNING *;";
+                        (SessionType, DateTime, SessionDuration, MaxMembers, LocationID) Values 
+                        (@SessionType, @DateTime, @SessionDuration, @MaxMembers, @LocationID) RETURNING *;";
 
             return connection.QuerySingle<Session>(sql, session);
         }
 
-        public IEnumerable<int> GetID(
+        public IEnumerable<Session> Search(
             int? sessionType = null,
             DateTime? dateTimeStart = null,
             DateTime? dateTimeEnd = null,
@@ -31,11 +31,16 @@ namespace DatabaseAccessSem1.Repository
             int? sessionDurationEnd = null,
             int? maxMembers = null,
             int? minMembers = null,
-            string? location = null)
+            int? locationID = null,
+            int? minSlots = null)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
                                                                   // 1. Start with a basic query that selects ALL columns so the Member object can be filled
-            var sqlBuilder = new StringBuilder("SELECT SessionID FROM Sessions WHERE 1=1"); //Søger efter alle linjer hvor 1=1 (som er alle) og tilføjer senere mere præcise instruktioner
+            var sqlBuilder = new StringBuilder(@"SELECT s.*, 
+                                                (s.MaxMembers - (SELECT COUNT(*) FROM MemberGroups mg WHERE mg.SessionID = s.SessionID)) 
+                                                AS SlotsAvailable
+                                                FROM Sessions s 
+                                                WHERE 1=1"); //Søger efter alle linjer hvor 1=1 (som er alle) og tilføjer senere mere præcise instruktioner
 
             // 2. Create a container for your safe parameters
             var parameters = new DynamicParameters();
@@ -75,13 +80,18 @@ namespace DatabaseAccessSem1.Repository
                 sqlBuilder.Append(" AND MaxMembers >= @MinMembers");
                 parameters.Add("MinMembers", minMembers);
             }
-            if (!string.IsNullOrEmpty(location))
+            if (locationID.HasValue)
             {
-                sqlBuilder.Append(" AND Location LIKE @Location");
-                parameters.Add("Location", location);
+                sqlBuilder.Append(" AND LocationID = @LocationID");
+                parameters.Add("LocationID", locationID);
+            }
+            if (minSlots.HasValue)
+            {
+                sqlBuilder.Append(@" AND (s.MaxMembers - (SELECT COUNT(*) FROM MemberGroups mg WHERE mg.SessionID = s.SessionID)) >= @MinSlots");
+                parameters.Add("MinSlots", minSlots);
             }
 
-            return connection.Query<int>(sqlBuilder.ToString(), parameters); // Selve forespørgsel til database
+            return connection.Query<Session>(sqlBuilder.ToString(), parameters); // Selve forespørgsel til database
 
         }
 
@@ -135,7 +145,7 @@ namespace DatabaseAccessSem1.Repository
                             DateTime = @DateTime,
                             SessionDuration = @SessionDuration,
                             MaxMembers = @MaxMembers,
-                            Location = @Location
+                            LocationID = @LocationID
                         WHERE SessionID = @SessionID";
             return connection.Execute(sql, session); //Returnere mængden af rækker opdateret (forhåbeligt 1)
         }

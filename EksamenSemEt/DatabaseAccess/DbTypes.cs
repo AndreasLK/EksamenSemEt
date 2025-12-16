@@ -26,16 +26,19 @@ namespace DatabaseAccessSem1
         public int? InstructorID { get; init; }
         public required string FirstName { get; init; }
         public required string LastName { get; init; }
+
+        public string FullName => $"{FirstName} {LastName}";
     }
 
     public record Session
     {
         public int? SessionID { get; init; }
-        public required string SessionType { get; init; }
+        public required int SessionType { get; init; }
         public required DateTime DateTime { get; init; }
         public int? SessionDuration { get; init; }
         public required int MaxMembers { get; init; }
-        public string? Location { get; init; }
+        public int? LocationID { get; init; }
+        public int? SlotsAvailable { get; init; }
     }
 
     public record MemberGroup

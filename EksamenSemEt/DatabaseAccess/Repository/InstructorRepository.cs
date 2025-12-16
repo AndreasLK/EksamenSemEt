@@ -49,34 +49,60 @@ namespace DatabaseAccessSem1.Repository
             return connection.Query<int>(sqlBuilder.ToString(), parameters); // Selve forespørgsel til database
         }
 
-        public IEnumerable<Instructor> broadSearch(string searchString)
+        public IEnumerable<Instructor> broadSearch(string searchString, int? certifcationID = null, int? sessionID = null)
         {
             using var connection = _dbFactory.CreateConnection();
 
-            if (string.IsNullOrWhiteSpace(searchString))
-            {
-                return GetAll();
-            }
 
-            var searchTerms = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-            var sqlBuilder = new StringBuilder("SELECT * FROM Instructors WHERE 1=1");
+            //Alt i denne funktion efter denne linje er black magic fuckery.
+            //Proceed with caution
+            var sqlBuilder = new StringBuilder("SELECT i.* FROM Instructors i");
             var parameters = new DynamicParameters();
 
-
-            for (int i = 0; i < searchTerms.Length; i++) //Kører gennem alle searchTerms
+            bool validcert = certifcationID.HasValue && certifcationID.Value > 0;
+            if (validcert)
             {
-                string _paramName = $"@term{i}";
-                parameters.Add(_paramName, $"%{searchTerms[i]}%");
-
-
-                sqlBuilder.Append($@" AND (
-                    FirstName LIKE {_paramName}
-                OR LastName LIKE {_paramName}
-                OR CAST(InstructorID AS TEXT) LIKE {_paramName}
-                )");
+                sqlBuilder.Append(" JOIN CertificationGroups cg ON i.InstructorID = cg.InstructorID");
             }
 
+            bool validSession = sessionID.HasValue && sessionID.Value > 0;
+            if (validSession)
+            {
+                sqlBuilder.Append(" JOIN InstructorGroups ig ON i.InstructorID = ig.InstructorID");
+            }
+
+            sqlBuilder.Append(" WHERE 1=1");
+
+            if (validcert)
+            {
+                sqlBuilder.Append(" AND cg.CertificationID = @CertificationID");
+                parameters.Add("CertificationID", certifcationID);
+            }
+
+            if (validSession)
+            {
+                sqlBuilder.Append(" AND ig.SessionID = @SessionID");
+                parameters.Add("SessionID", sessionID);
+            }
+
+
+
+            if (!string.IsNullOrWhiteSpace(searchString)){
+                var searchTerms = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                for (int i = 0; i < searchTerms.Length; i++) //Kører gennem alle searchTerms
+                {
+                    string _paramName = $"@term{i}";
+                    parameters.Add(_paramName, $"%{searchTerms[i]}%");
+
+
+                    sqlBuilder.Append($@" AND (
+                    FirstName LIKE {_paramName}
+                OR LastName LIKE {_paramName}
+                OR CAST(i.InstructorID AS TEXT) LIKE {_paramName}
+                )");
+                }
+            }
             return connection.Query<Instructor>(sqlBuilder.ToString(), parameters);
         }
 

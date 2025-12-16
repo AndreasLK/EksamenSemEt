@@ -216,6 +216,7 @@
             // MemberTypeComboBox
             // 
             MemberTypeComboBox.Dock = DockStyle.Top;
+            MemberTypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             MemberTypeComboBox.FormattingEnabled = true;
             MemberTypeComboBox.Location = new Point(96, 216);
             MemberTypeComboBox.Name = "MemberTypeComboBox";

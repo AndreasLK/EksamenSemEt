@@ -50,7 +50,7 @@ namespace EksamenSemEt.UI
 
 
             //INIT SIDEBAR
-            SideBar sideBar = new SideBar(memberRepo, memberGroupRepo, sessionRepo, instructorGroupRepo, instructorRepo);
+            SideBar sideBar = new SideBar();
             sideBar.Dock = DockStyle.Fill;
             sideBar.Margin = new Padding(0);
 
@@ -58,7 +58,7 @@ namespace EksamenSemEt.UI
 
             sideBar.BookingClicked += (s, e) => LoadView(new BookingForm());
             sideBar.MemberClicked += (s, e) => LoadView(new MemberForm(memberRepo, memberTypeRepo));
-            sideBar.SessionClicked += (s, e) => LoadView(new SessionForm(certificateRepo, locationRepo));
+            sideBar.SessionClicked += (s, e) => LoadView(new SessionForm(certificateRepo, locationRepo, instructorRepo, instructorGroupRepo, sessionRepo));
             sideBar.InstructorClicked += (s, e) => LoadView(new InstructorForm(instructorRepo, certificateRepo));
             sideBar.CertificateClicked += (s, e) => LoadView(new CertificateForm(certificateRepo, sessionRepo));
             sideBar.LocationClicked += (s, e) => LoadView(new LocationForm(locationRepo));
@@ -71,5 +71,7 @@ namespace EksamenSemEt.UI
             view.Dock = DockStyle.Fill;
             ContentPanel.Controls.Add(view);
         }
+
+
     }
 }

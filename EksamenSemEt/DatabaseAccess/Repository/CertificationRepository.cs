@@ -115,6 +115,24 @@ namespace EksamenSemEt.DatabaseAccess.Repository
                         WHERE CertificationID = @CertificationID";
             return connection.Execute(sql, certificate); //Returnere mængden af rækker opdateret (forhåbeligt 1)
         }
+
+        public IEnumerable<Instructor> GetByFilter(int? certificationID)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+
+            if (certificationID == null || certificationID < 0)
+            {
+                string sqlAll = @"SELECT * FROM Instructors;";
+                return connection.Query<Instructor>(sqlAll);
+            }
+
+            string sql = @"SELECT i.*
+                        FROM Instructors i
+                        JOIN CertificationGroups cg ON i.InstructorID = cg.InstructorID
+                        WHERE cg.CertificationID = @CertificationID;";
+
+            return connection.Query<Instructor>(sql, new { CertificationID = certificationID });
+        }
     }
 
 

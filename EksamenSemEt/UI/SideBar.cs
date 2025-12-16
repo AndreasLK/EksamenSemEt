@@ -20,7 +20,7 @@ namespace EksamenSemEt.UI
         public event EventHandler InstructorClicked;
         public event EventHandler CertificateClicked;
         public event EventHandler LocationClicked;
-        public SideBar(MemberRepository memberRepo, MemberGroupRepository memberGroupRepo, SessionRepository sessionRepo, InstructorGroupRepository instructorGroupRepo, InstructorRepository instructorRepo)
+        public SideBar()
         {
             InitializeComponent();
         }
