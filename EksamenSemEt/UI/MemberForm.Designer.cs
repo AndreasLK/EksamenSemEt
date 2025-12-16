@@ -11,15 +11,6 @@
         ///  Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -44,14 +35,9 @@
             MemberTypeComboBox = new ComboBox();
             ActivityCheckBox = new CheckBox();
             BirthdaySelector = new DateTimePicker();
-            tableLayoutPanel3 = new TableLayoutPanel();
-            memberListView = new DataGridView();
-            label6 = new Label();
-            SearchFieldText = new TextBox();
+            memberSearch1 = new EksamenSemEt.UI.MemberSearch();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
-            tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)memberListView).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -59,7 +45,7 @@
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 1);
+            tableLayoutPanel1.Controls.Add(memberSearch1, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -244,55 +230,13 @@
             BirthdaySelector.Size = new Size(365, 23);
             BirthdaySelector.TabIndex = 17;
             // 
-            // tableLayoutPanel3
+            // memberSearch1
             // 
-            tableLayoutPanel3.ColumnCount = 2;
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle());
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle());
-            tableLayoutPanel3.Controls.Add(memberListView, 0, 1);
-            tableLayoutPanel3.Controls.Add(label6, 0, 0);
-            tableLayoutPanel3.Controls.Add(SearchFieldText, 1, 0);
-            tableLayoutPanel3.Dock = DockStyle.Fill;
-            tableLayoutPanel3.Location = new Point(3, 315);
-            tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.RowCount = 2;
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 85F));
-            tableLayoutPanel3.Size = new Size(1534, 723);
-            tableLayoutPanel3.TabIndex = 2;
-            // 
-            // memberListView
-            // 
-            memberListView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            tableLayoutPanel3.SetColumnSpan(memberListView, 2);
-            memberListView.Dock = DockStyle.Fill;
-            memberListView.Location = new Point(3, 111);
-            memberListView.Name = "memberListView";
-            memberListView.Size = new Size(1528, 609);
-            memberListView.TabIndex = 0;
-            memberListView.CellClick += memberListView_CellClick;
-            memberListView.UserDeletingRow += memberListView_UserDeletingRow;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Dock = DockStyle.Fill;
-            label6.Location = new Point(3, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(30, 108);
-            label6.TabIndex = 1;
-            label6.Text = "Søg:";
-            label6.TextAlign = ContentAlignment.BottomRight;
-            // 
-            // SearchFieldText
-            // 
-            SearchFieldText.BorderStyle = BorderStyle.FixedSingle;
-            SearchFieldText.Dock = DockStyle.Bottom;
-            SearchFieldText.Location = new Point(39, 82);
-            SearchFieldText.Name = "SearchFieldText";
-            SearchFieldText.Size = new Size(1492, 23);
-            SearchFieldText.TabIndex = 2;
-            SearchFieldText.TextChanged += SearchFieldText_TextChanged;
+            memberSearch1.Dock = DockStyle.Fill;
+            memberSearch1.Location = new Point(3, 315);
+            memberSearch1.Name = "memberSearch1";
+            memberSearch1.Size = new Size(1534, 723);
+            memberSearch1.TabIndex = 2;
             // 
             // MemberForm
             // 
@@ -305,9 +249,6 @@
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
-            tableLayoutPanel3.ResumeLayout(false);
-            tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)memberListView).EndInit();
             ResumeLayout(false);
         }
 
@@ -328,10 +269,7 @@
         private Label label7;
         private ComboBox MemberTypeComboBox;
         private CheckBox ActivityCheckBox;
-        private TableLayoutPanel tableLayoutPanel3;
-        private DataGridView memberListView;
-        private Label label6;
-        private TextBox SearchFieldText;
         private DateTimePicker BirthdaySelector;
+        private EksamenSemEt.UI.MemberSearch memberSearch1;
     }
 }

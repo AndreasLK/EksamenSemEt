@@ -72,4 +72,19 @@ namespace DatabaseAccessSem1
         public int? LocationID { get; init; }
         public required string Name { get; init; }
     }
+
+    public class MemberViewModel
+    {
+        public int? MemberID { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string? Email { get; set; }
+        public string? PhoneNumber { get; set; }
+        public int MemberType { get; set; }
+
+        public bool Active { get; set; }
+        public bool IsBookedOnSession { get; set; }
+    }
 }

@@ -85,34 +85,48 @@ namespace DatabaseAccessSem1.Repository
 
             return connection.Query<int>(sqlBuilder.ToString(), parameters); // Selve forespørgsel til database
         }
-        public IEnumerable<Member> broadSearch(string searchString)
+        public IEnumerable<Member> broadSearch(string searchString, int?sesionID = null, int limit = 100)
         {
             using var connection = _dbFactory.CreateConnection();
-
-            if (string.IsNullOrWhiteSpace(searchString))
-            {
-                return GetAll();
-            }
-
-            var searchTerms = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
             var sqlBuilder = new StringBuilder("SELECT * FROM Customers WHERE 1=1");
             var parameters = new DynamicParameters();
 
 
-            for (int i = 0; i < searchTerms.Length; i++) //Kører gennem alle searchTerms
+            if (sesionID.HasValue) {
+                sqlBuilder.Append(" AND MemberID IN (SELECT MemberID FROM MemberGroups WHERE SessionID = @SessionID)");
+                parameters.Add("SessionID", sesionID.Value);
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
-                string _paramName = $"@term{i}";
-                parameters.Add(_paramName, $"%{searchTerms[i]}%");
+                var searchTerms = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                for (int i = 0; i < searchTerms.Length; i++) //Kører gennem alle searchTerms
+                {
+                    string _paramName = $"@term{i}";
+                    parameters.Add(_paramName, $"%{searchTerms[i]}%");
 
 
-                sqlBuilder.Append($@" AND (
+                    sqlBuilder.Append($@" AND (
                     FirstName LIKE {_paramName}
                 OR LastName LIKE {_paramName}
                 OR CAST(PhoneNumber AS TEXT) LIKE {_paramName}
                 OR CAST(MemberID AS TEXT) LIKE {_paramName}
                 )");
+                }
             }
+
+
+
+
+
+
+
+
+            sqlBuilder.Append(" LIMIT @Limit");
+            parameters.Add("Limit", limit);
 
             return connection.Query<Member>(sqlBuilder.ToString(), parameters);
         }

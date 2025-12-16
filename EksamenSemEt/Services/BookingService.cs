@@ -10,9 +10,11 @@ namespace DatabaseAccessSem1.Services
 	{
 		private readonly SessionRepository _sessionRepository;
 		private readonly MemberGroupRepository _memberGroupRepository;
+		private readonly MemberRepository _memberRepository;
 
-		public BookingService(SessionRepository sessionRepository, MemberGroupRepository memberGroupRepository)
+		public BookingService(SessionRepository sessionRepository, MemberGroupRepository memberGroupRepository, MemberRepository memberRepository)
 		{
+			_memberRepository = memberRepository;
 			_sessionRepository = sessionRepository;
 			_memberGroupRepository = memberGroupRepository;
 		}
@@ -44,7 +46,7 @@ namespace DatabaseAccessSem1.Services
 
 		public bool CanBook(int memberId, Membership membership)
 		{
-			int weeklyCount = _sessionRepository.GetWeeklySessionCount(memberId);
+			int weeklyCount = _memberRepository.GetWeeklySessionCount(memberId);
 			return weeklyCount < membership.GetWeeklyVisit();
 		}
 	}
