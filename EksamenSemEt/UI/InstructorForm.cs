@@ -64,6 +64,8 @@ namespace Sem1BackupForms.Forms
             idColumn.DefaultCellStyle.SelectionBackColor = Color.LightGray;
             idColumn.DefaultCellStyle.SelectionForeColor = Color.Black;
 
+            var fullNameColumn = dgv.Columns["FullName"];
+            fullNameColumn.Visible = false;
 
 
         }
