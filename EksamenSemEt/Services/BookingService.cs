@@ -10,15 +10,22 @@ namespace DatabaseAccessSem1.Services
 	{
 		private readonly SessionRepository _sessionRepository;
 		private readonly MemberGroupRepository _memberGroupRepository;
+		private readonly MemberRepository _memberRepository;
 
-		public BookingService(SessionRepository sessionRepository, MemberGroupRepository memberGroupRepository)
+		public BookingService(SessionRepository sessionRepository, MemberGroupRepository memberGroupRepository, MemberRepository memberRepository)
 		{
 			_sessionRepository = sessionRepository;
 			_memberGroupRepository = memberGroupRepository;
+			_memberRepository = memberRepository;
 		}
 
 		public string TryBookSession(int memberId, Membership membership, int sessionId)
 		{
+
+			// 0) Tjekker og medlemmet er aktivt
+			if (!_memberRepository.IsActive(memberId))
+				return "Dit medlemskab er inaktivt.";
+
 			// 1) Tjek om medlemmet kan booke flere hold denne uge
 			if (!CanBook(memberId, membership))
 				return "Du har nået dit maksimale antal hold for denne uge." +
@@ -44,7 +51,7 @@ namespace DatabaseAccessSem1.Services
 
 		public bool CanBook(int memberId, Membership membership)
 		{
-			int weeklyCount = _sessionRepository.GetWeeklySessionCount(memberId);
+			int weeklyCount = _memberRepository.GetWeeklySessionCount(memberId);
 			return weeklyCount < membership.GetWeeklyVisit();
 		}
 	}

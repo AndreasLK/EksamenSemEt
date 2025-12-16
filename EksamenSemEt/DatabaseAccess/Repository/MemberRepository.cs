@@ -179,5 +179,18 @@ namespace DatabaseAccessSem1.Repository
 			return connection.ExecuteScalar<int>(sql, new { MemberID = memberId });
 
 		}
+
+		public bool IsActive(int memberId)
+		{
+			using var connection = _dbFactory.CreateConnection();
+
+			string sql = @"SELECT Active 
+                   FROM Customers 
+                   WHERE MemberID = @MemberID";
+
+			return connection.ExecuteScalar<bool>(sql, new { MemberID = memberId });
+		}
 	}
+
+
 }
