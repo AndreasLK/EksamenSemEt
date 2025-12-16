@@ -135,6 +135,16 @@ namespace DatabaseAccessSem1.Repository
             return connection.ExecuteScalar<int>(sql, new { SessionID = sessionID});
         }
 
+        public int GetMemberCount(int sessionID)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+            string sql = @"
+                        SELECT COUNT(*) 
+                        FROM MemberGroups 
+                        WHERE SessionID = @SessionID";
+            return connection.ExecuteScalar<int>(sql, new { SessionID = sessionID });
+        }
+
         public int Update(Session session)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt

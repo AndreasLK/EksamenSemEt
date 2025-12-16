@@ -19,7 +19,6 @@ namespace EksamenSemEt.UI
         private readonly CertificationRepository certRepo;
         private readonly LocationRepository locationRepo;
         private readonly InstructorGroupRepository instructorGroupRepo;
-        private HashSet<int> selectedInstructors = new HashSet<int>(); //Lige som liste men undgår samme data flere gange
         private bool is_Binding = false;
         private DataGridView dgv;
         private BindingSource bindingSource;
@@ -33,9 +32,14 @@ namespace EksamenSemEt.UI
             this.certRepo = certificationRepository;
             this.instructorGroupRepo = instructorGroupRepository;
             InitializeComponent();
+
+            InstructorCreateSelector.Configure(instructorRepo, instructorGroupRepo);
+            InstructorSearchSelector.Configure(instructorRepo, instructorGroupRepo);
+
+            SessionTypeComboBox.SelectedIndexChanged += SessionTypeComboBox_SelectedIndexChanged;
+
             InitializeSessionType();
             InitializeLocation();
-            InitializeInstructors();
             InitializeDataGridView();
 
 
@@ -52,6 +56,8 @@ namespace EksamenSemEt.UI
             LocationSearchComboBox.SelectedIndex = -1;
             SessionStartSearchDatePicker.Value = DateTime.Today.AddDays(-7);
             SessionEndSearchDatePicker.Value = DateTime.Today.AddDays(14);
+
+
         }
 
         private void InitializeSessionType()
@@ -61,9 +67,10 @@ namespace EksamenSemEt.UI
 
             foreach (var comboBox in comboBoxes)
             {
-                comboBox.DataSource = certRepo.GetAll().OrderBy(c => c.Name).ToList(); //sortere efter navn
+
                 comboBox.DisplayMember = "Name";
                 comboBox.ValueMember = "CertificationID";
+                comboBox.DataSource = certRepo.GetAll().OrderBy(c => c.Name).ToList(); //sortere efter navn
             }
 
         }
@@ -73,42 +80,16 @@ namespace EksamenSemEt.UI
             var comboBoxes = new List<ComboBox> { LocationComboBox, LocationSearchComboBox };
             foreach (var comboBox in comboBoxes)
             {
-                comboBox.DataSource = locationRepo.GetAll().OrderBy(c => c.Name).ToList();
+
                 comboBox.DisplayMember = "Name";
                 comboBox.ValueMember = "LocationID";
+                comboBox.DataSource = locationRepo.GetAll().OrderBy(c => c.Name).ToList();
             }
 
         }
 
-        private void InitializeInstructors()
+        private void InitializeDataGridView()
         {
-            is_Binding = true;
-            var instructors = instructorRepo.broadSearch(
-                InstructorSearchFieldTextBox.Text.Trim(),
-                SessionTypeComboBox.SelectedValue as int?
-                ).ToList();
-
-            InstructorsCheckedList.DataSource = null;
-
-            InstructorsCheckedList.DataSource = instructors;
-            InstructorsCheckedList.DisplayMember = "FullName";
-            InstructorsCheckedList.ValueMember = "InstructorID";
-
-            for (int i= 0; i < InstructorsCheckedList.Items.Count; i++)
-            {
-                if (InstructorsCheckedList.Items[i] is Instructor instructor)
-                {
-                    if (selectedInstructors.Contains(instructor.InstructorID ?? -1)){
-                        InstructorsCheckedList.SetItemChecked(i, true);
-                    }
-                }
-            }
-
-            is_Binding = false;
-
-        }
-
-        private void InitializeDataGridView() {
             dgv = SessionListView;
 
             dgv.Dock = DockStyle.Fill;
@@ -117,19 +98,23 @@ namespace EksamenSemEt.UI
 
             dgv.MultiSelect = false;
             dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = true;
             dgv.ReadOnly = false;
 
             sessionTimeEditor = new SessionTimeEditor();
             sessionTimeEditor.Visible = false;
-            sessionTimeEditor.EditingDone += (s, e) =>CommitEditorChanges();
+            sessionTimeEditor.EditingDone += (s, e) => CommitEditorChanges();
             sessionTimeEditor.Leave += (s, e) => CommitEditorChanges();
             dgv.CellValueChanged += dgv_CellValueChanged;
+            dgv.CellClick += dgv_CellClick;
+            dgv.Scroll += Dgv_Scroll;
             dgv.Controls.Add(sessionTimeEditor);
 
-
+            dgv.UserDeletingRow += SessionListView_UserDeletingRow;
+            dgv.SelectionChanged += SessionListView_SelectionChanged;
 
             tableLayoutPanel1.Controls.Add(dgv);
-            
+
             LoadsearchData();
 
             var idColumn = dgv.Columns["SessionID"];
@@ -139,7 +124,41 @@ namespace EksamenSemEt.UI
             idColumn.DefaultCellStyle.SelectionForeColor = Color.Black;
         }
 
-        private void CommitEditorChanges() {
+
+        private void SessionListView_SelectionChanged(object? sender, EventArgs e)
+        {
+            if (is_Binding) return;
+            
+            if (dgv.CurrentRow == null || dgv.CurrentRow.Cells["SessionID"].Value == null)
+            {
+                InstructorSearchSelector.ClearSessionBinding();
+                return;
+            }
+
+            var row = dgv.CurrentRow;
+            int? sessionID = row.Cells["SessionID"].Value as int?;
+            int? sessionTypeID = row.Cells["SessionType"].Value as int?;
+
+            if (sessionID.HasValue && sessionTypeID.HasValue)
+            {
+                InstructorSearchSelector.BindToSession(sessionID.Value, sessionTypeID.Value);
+
+                InstructorCreateSelector.ClearSelection();
+            } else
+            {
+                InstructorSearchSelector.ClearSessionBinding();
+            }
+        }
+
+
+        private void SessionTypeComboBox_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            int? typeId = SessionTypeComboBox.SelectedValue as int?;
+            InstructorCreateSelector.SetSessionType(typeId);
+        }
+
+        private void CommitEditorChanges()
+        {
             if (!sessionTimeEditor.Visible) return;
 
             var row = dgv.CurrentRow;
@@ -151,7 +170,7 @@ namespace EksamenSemEt.UI
             sessionTimeEditor.Visible = false;
         }
 
-        private void dgv_Scroll(object sender, ScrollEventArgs e)
+        private void Dgv_Scroll(object sender, ScrollEventArgs e)
         {
             if (sessionTimeEditor.Visible) CommitEditorChanges();
         }
@@ -177,16 +196,19 @@ namespace EksamenSemEt.UI
 
                 int totaltWidth = dateRect.Width + durationRect.Width;
 
-                sessionTimeEditor.Location = new Point(dateRect.Width, dateRect.Y);
-                sessionTimeEditor.Size = new Size(totaltWidth, dateRect.Height);
+                int scale = 4;
+                sessionTimeEditor.Location = new Point(dateRect.X, dateRect.Y);
+                sessionTimeEditor.Size = new Size(totaltWidth, dateRect.Height * scale);
 
                 DateTime start = Convert.ToDateTime(row.Cells[dateColName].Value);
                 int duration = Convert.ToInt32(row.Cells[durationColName].Value);
 
                 sessionTimeEditor.SetValues(start, duration);
                 sessionTimeEditor.Visible = true;
+                sessionTimeEditor.BackColor = SystemColors.ControlDark;
                 sessionTimeEditor.Focus();
-            } else
+            }
+            else
             {
                 CommitEditorChanges();
             }
@@ -198,12 +220,31 @@ namespace EksamenSemEt.UI
             if (is_Binding || e.RowIndex < 0) return;
 
             var row = dgv.Rows[e.RowIndex];
+            string colName = dgv.Columns[e.ColumnIndex].Name;
 
             try
             {
+                int sessionID = Convert.ToInt32(row.Cells["SessionID"].Value);
+                int newMax = Convert.ToInt32(row.Cells["MaxMembers"].Value);
+
+                int currentCount = sessionRepo.GetMemberCount(sessionID);
+
+                if (newMax < currentCount)
+                {
+                    MessageBox.Show($"Du kan ikke sætte max deltagere til {newMax} \nDer er allerede {currentCount} tilmeldte", "Ugyldigt input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    is_Binding = true;
+                    row.Cells["MaxMembers"].Value = currentCount;
+                    row.Cells["SlotsAvailable"].Value = 0;
+                    is_Binding = false;
+                    return;
+                }
+                row.Cells["SlotsAvailable"].Value = newMax - currentCount;
+
+
                 var updatedSession = new Session
                 {
-                    SessionID = Convert.ToInt32(row.Cells["SessionID"].Value),
+                    SessionID = sessionID,
                     SessionType = Convert.ToInt32(row.Cells["SessionType"].Value),
                     LocationID = row.Cells["LocationID"].Value as int?,
 
@@ -214,12 +255,15 @@ namespace EksamenSemEt.UI
 
                 sessionRepo.Update(updatedSession);
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show($"Fejl ved opdatering: {ex.Message}");
                 LoadsearchData();
             }
         }
+
+
 
         private void OnSearchCriteriaChanged(object? sender, EventArgs e)
         {
@@ -245,30 +289,38 @@ namespace EksamenSemEt.UI
 
         private void CreateSessionButton_Click(object sender, EventArgs e)
         {
-            if (selectedInstructors.Count == 0)
+            List<int> selectedIDs = InstructorCreateSelector.GetSelectedID();
+
+            if (selectedIDs.Count == 0)
             {
-                DialogResult result = MessageBox.Show("Du har ikke valgt nogen instruktør \nTryk OK for at forsætte", "Ingen Instruktør Valgt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                if (result == DialogResult.Cancel) return;
+                DialogResult result = MessageBox.Show("Du har ikke valgt nogen instruktør \nTryk Ja for at fortsætte uden, eller Nej for at annullere.", "Ingen Instruktør Valgt", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.No) return;
             }
 
             try
             {
-                int sessionType = SessionTypeComboBox.SelectedValue as int? ?? throw new Exception("Ugyldig session type");
-                //TimeSpan duration = SessionEndTimePicker.Value.TimeOfDay - SessionStartTimePicker.Value.TimeOfDay;
-                //int durationInSeconds = (int)duration.TotalSeconds;
+                int? sessionType = SessionTypeComboBox.SelectedValue as int?;
+                if (sessionType == null)
+                {
+                    MessageBox.Show("Vælg venligst en holdtype");
+                    return;
+                }
 
-                //if (durationInSeconds < 0) {
-                //    MessageBox.Show("Holdtider skal være positive (start først, så slut)", "Ugyldig varighed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //    return;
-                //}
+                DateTime startDateTime = CreationTimeEditor.GetNewStart();
+                int durationInSeconds = CreationTimeEditor.GetNewDuration();
 
-                //DateTime fullSessionStart = SessionDatePicker.Value.Date + SessionStartTimePicker.Value.TimeOfDay;
+                if (durationInSeconds <= 0)
+                {
+                    MessageBox.Show("Holdtider skal være positive (start først, så slut)", "Ugyldig varighed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 Session newSession = sessionRepo.Create(new Session
                 {
-                    SessionType = sessionType,
-                    DateTime = new DateTime(1994, 05, 25) ,//fullSessionStart,
-                    SessionDuration = 125, //durationInSeconds,
+                    SessionType = sessionType.Value,
+                    DateTime = startDateTime,
+                    SessionDuration = durationInSeconds,
                     MaxMembers = (int)maxMembersNumericUpDown.Value,
                     LocationID = LocationComboBox.SelectedValue as int?
                 });
@@ -276,55 +328,51 @@ namespace EksamenSemEt.UI
                 if (newSession.SessionID.HasValue)
                 {
                     int createID = newSession.SessionID.Value;
-
-                    foreach (int instructorID in selectedInstructors)
+                    foreach (int instructorID in selectedIDs)
                     {
                         instructorGroupRepo.Create(new InstructorGroup { InstructorID = instructorID, SessionID = createID });
                     }
 
                     DataGridHelper.ShowSuccess("Hold Oprettet");
 
-                    selectedInstructors.Clear();
-                    InitializeInstructors();
+                    InstructorCreateSelector.ClearSelection();
+                    CreationTimeEditor.SetValues(DateTime.Now, 60 * 45); //45 min
 
                     LoadsearchData();
                 }
-                else {
+                else
+                {
                     MessageBox.Show("Fejl ved oprettelse af hold \n Intet ID fra Database?", "Fejl ved Oprettelse af Hold", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-            }catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show($"Fejl ved oprettelse af hold \n FejlMeddelse \n {ex}", "Fejl ved Oprettelse af Hold", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void SessionTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void SessionListView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            InitializeInstructors();
-        }
+            DialogResult result = MessageBox.Show( "Er du sikker på at slette dette hold Permanent? \n NO TAKESIES BACKSIES \n \nEr du i tvivl er svaret nej", "Slet Hold", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-        private void InstructorSearchFieldTextBox_TextChanged(object sender, EventArgs e)
-        {
-            InitializeInstructors();
-        }
+            if (result == DialogResult.No)
+            {
+                e.Cancel = true;
+                return;
+            }
 
-        private void InstructorsCheckedList_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (is_Binding) return;
+            try
+            {
+                int id = Convert.ToInt32(e.Row.Cells["SessionID"].Value);
 
-            var list = sender as CheckedListBox;
-            if (list.Items[e.Index] is Instructor instructor) {
-                if (e.NewValue == CheckState.Checked)
-                {
-                    selectedInstructors.Add(instructor.InstructorID ?? -1);
-                }
-                else
-                {
-                    selectedInstructors.Remove(instructor.InstructorID ?? -1);
-                }
+                sessionRepo.Delete(id);
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"Fejl ved sletning af hold: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                e.Cancel = true;
             }
         }
-
-        
     }
 }

@@ -47,17 +47,15 @@
             label10 = new Label();
             label8 = new Label();
             CreateSessionButton = new Button();
-            InstructorsCheckedList = new CheckedListBox();
-            InstructorSearchFieldTextBox = new TextBox();
-            label6 = new Label();
             LocationComboBox = new ComboBox();
             label2 = new Label();
             SessionTypeComboBox = new ComboBox();
             label1 = new Label();
-            label7 = new Label();
             label9 = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
-            sessionTimeEditor1 = new SessionTimeEditor();
+            CreationTimeEditor = new SessionTimeEditor();
+            InstructorCreateSelector = new InstructorSelector();
+            InstructorSearchSelector = new InstructorSelector();
             ((System.ComponentModel.ISupportInitialize)AvailableSpacesSearchUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)MaxMembersSearchUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)MinMembersSearchUpDown).BeginInit();
@@ -204,6 +202,7 @@
             tableLayoutPanel1.SetRowSpan(SessionListView, 11);
             SessionListView.Size = new Size(1473, 567);
             SessionListView.TabIndex = 21;
+            SessionListView.UserDeletingRow += SessionListView_UserDeletingRow;
             // 
             // label13
             // 
@@ -272,40 +271,6 @@
             CreateSessionButton.UseVisualStyleBackColor = true;
             CreateSessionButton.Click += CreateSessionButton_Click;
             // 
-            // InstructorsCheckedList
-            // 
-            tableLayoutPanel1.SetColumnSpan(InstructorsCheckedList, 7);
-            InstructorsCheckedList.Dock = DockStyle.Fill;
-            InstructorsCheckedList.FormattingEnabled = true;
-            InstructorsCheckedList.Location = new Point(846, 89);
-            InstructorsCheckedList.Name = "InstructorsCheckedList";
-            tableLayoutPanel1.SetRowSpan(InstructorsCheckedList, 4);
-            InstructorsCheckedList.Size = new Size(630, 220);
-            InstructorsCheckedList.TabIndex = 13;
-            InstructorsCheckedList.ItemCheck += InstructorsCheckedList_ItemCheck;
-            // 
-            // InstructorSearchFieldTextBox
-            // 
-            tableLayoutPanel1.SetColumnSpan(InstructorSearchFieldTextBox, 6);
-            InstructorSearchFieldTextBox.Dock = DockStyle.Bottom;
-            InstructorSearchFieldTextBox.Location = new Point(891, 60);
-            InstructorSearchFieldTextBox.Name = "InstructorSearchFieldTextBox";
-            InstructorSearchFieldTextBox.Size = new Size(585, 23);
-            InstructorSearchFieldTextBox.TabIndex = 0;
-            InstructorSearchFieldTextBox.TextChanged += InstructorSearchFieldTextBox_TextChanged;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(label6, 7);
-            label6.Dock = DockStyle.Fill;
-            label6.Location = new Point(846, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(630, 52);
-            label6.TabIndex = 10;
-            label6.Text = "Vælg Instruktør(er) :";
-            label6.TextAlign = ContentAlignment.BottomLeft;
-            // 
             // LocationComboBox
             // 
             tableLayoutPanel1.SetColumnSpan(LocationComboBox, 3);
@@ -342,7 +307,6 @@
             SessionTypeComboBox.Size = new Size(262, 23);
             SessionTypeComboBox.Sorted = true;
             SessionTypeComboBox.TabIndex = 10;
-            SessionTypeComboBox.SelectedIndexChanged += SessionTypeComboBox_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -354,17 +318,6 @@
             label1.TabIndex = 0;
             label1.Text = "Hold Type* :";
             label1.TextAlign = ContentAlignment.BottomRight;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Dock = DockStyle.Fill;
-            label7.Location = new Point(846, 52);
-            label7.Name = "label7";
-            label7.Size = new Size(39, 34);
-            label7.TabIndex = 11;
-            label7.Text = "Søg:";
-            label7.TextAlign = ContentAlignment.BottomCenter;
             // 
             // label9
             // 
@@ -401,14 +354,10 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 2.31092429F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.8172274F));
             tableLayoutPanel1.Controls.Add(label9, 1, 7);
-            tableLayoutPanel1.Controls.Add(label7, 10, 1);
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Controls.Add(SessionTypeComboBox, 1, 0);
             tableLayoutPanel1.Controls.Add(label2, 0, 2);
             tableLayoutPanel1.Controls.Add(LocationComboBox, 1, 2);
-            tableLayoutPanel1.Controls.Add(label6, 10, 0);
-            tableLayoutPanel1.Controls.Add(InstructorSearchFieldTextBox, 11, 1);
-            tableLayoutPanel1.Controls.Add(InstructorsCheckedList, 10, 2);
             tableLayoutPanel1.Controls.Add(CreateSessionButton, 5, 4);
             tableLayoutPanel1.Controls.Add(label8, 0, 7);
             tableLayoutPanel1.Controls.Add(label10, 2, 7);
@@ -428,7 +377,9 @@
             tableLayoutPanel1.Controls.Add(MaxMembersSearchUpDown, 17, 8);
             tableLayoutPanel1.Controls.Add(label17, 18, 7);
             tableLayoutPanel1.Controls.Add(AvailableSpacesSearchUpDown, 18, 8);
-            tableLayoutPanel1.Controls.Add(sessionTimeEditor1, 5, 0);
+            tableLayoutPanel1.Controls.Add(CreationTimeEditor, 5, 0);
+            tableLayoutPanel1.Controls.Add(InstructorCreateSelector, 10, 0);
+            tableLayoutPanel1.Controls.Add(InstructorSearchSelector, 17, 9);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -456,14 +407,34 @@
             tableLayoutPanel1.Size = new Size(1904, 1041);
             tableLayoutPanel1.TabIndex = 1;
             // 
-            // sessionTimeEditor1
+            // CreationTimeEditor
             // 
-            tableLayoutPanel1.SetColumnSpan(sessionTimeEditor1, 4);
-            sessionTimeEditor1.Location = new Point(464, 3);
-            sessionTimeEditor1.Name = "sessionTimeEditor1";
-            tableLayoutPanel1.SetRowSpan(sessionTimeEditor1, 4);
-            sessionTimeEditor1.Size = new Size(327, 153);
-            sessionTimeEditor1.TabIndex = 34;
+            tableLayoutPanel1.SetColumnSpan(CreationTimeEditor, 4);
+            CreationTimeEditor.Location = new Point(464, 3);
+            CreationTimeEditor.Name = "CreationTimeEditor";
+            tableLayoutPanel1.SetRowSpan(CreationTimeEditor, 4);
+            CreationTimeEditor.Size = new Size(327, 153);
+            CreationTimeEditor.TabIndex = 34;
+            // 
+            // InstructorCreateSelector
+            // 
+            tableLayoutPanel1.SetColumnSpan(InstructorCreateSelector, 5);
+            InstructorCreateSelector.Dock = DockStyle.Fill;
+            InstructorCreateSelector.Location = new Point(846, 3);
+            InstructorCreateSelector.Name = "InstructorCreateSelector";
+            tableLayoutPanel1.SetRowSpan(InstructorCreateSelector, 5);
+            InstructorCreateSelector.Size = new Size(395, 254);
+            InstructorCreateSelector.TabIndex = 35;
+            // 
+            // InstructorSearchSelector
+            // 
+            tableLayoutPanel1.SetColumnSpan(InstructorSearchSelector, 3);
+            InstructorSearchSelector.Dock = DockStyle.Fill;
+            InstructorSearchSelector.Location = new Point(1482, 471);
+            InstructorSearchSelector.Name = "InstructorSearchSelector";
+            tableLayoutPanel1.SetRowSpan(InstructorSearchSelector, 11);
+            InstructorSearchSelector.Size = new Size(419, 567);
+            InstructorSearchSelector.TabIndex = 36;
             // 
             // SessionForm
             // 
@@ -487,14 +458,10 @@
         private NumericUpDown AvailableSpacesSearchUpDown;
         private TableLayoutPanel tableLayoutPanel1;
         private Label label9;
-        private Label label7;
         private Label label1;
         private ComboBox SessionTypeComboBox;
         private Label label2;
         private ComboBox LocationComboBox;
-        private Label label6;
-        private TextBox InstructorSearchFieldTextBox;
-        private CheckedListBox InstructorsCheckedList;
         private Button CreateSessionButton;
         private Label label8;
         private Label label10;
@@ -513,6 +480,8 @@
         private NumericUpDown MinMembersSearchUpDown;
         private NumericUpDown MaxMembersSearchUpDown;
         private Label label17;
-        private SessionTimeEditor sessionTimeEditor1;
+        private SessionTimeEditor CreationTimeEditor;
+        private InstructorSelector InstructorCreateSelector;
+        private InstructorSelector InstructorSearchSelector;
     }
 }

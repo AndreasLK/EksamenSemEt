@@ -24,7 +24,7 @@ namespace EksamenSemEt.UI
         public void SetValues(DateTime startDateTime, int durationSeconds)
         {
             SessionDatePicker.Value = startDateTime.Date;
-            SessionStartTimePicker.Value = startDateTime.Date;
+            SessionStartTimePicker.Value = startDateTime;
             SessionEndTimePicker.Value = startDateTime.AddSeconds(durationSeconds);
         }
 
