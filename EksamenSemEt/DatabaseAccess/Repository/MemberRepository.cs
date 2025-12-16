@@ -161,5 +161,23 @@ namespace DatabaseAccessSem1.Repository
             return connection.Execute(sql, new { MemberID = memberID });
         }
 
-    }
+
+
+		//Metode til tælle hvor mange hold et medlem har tilmeldt sig i den nuværrende uge. - Med hjælp fra chatten.
+		public int GetWeeklySessionCount(int memberId)
+		{
+			using var connection = _dbFactory.CreateConnection();               //  Med using lukkes forbindelse automatisk efter metoden er kørt
+
+			string sql = @"
+                SELECT COUNT(*) 
+                FROM MemberGroups mg                                              
+                INNER JOIN Sessions s ON mg.SessionID = s.SessionID                 //Joiner MemberGroups med Sessions for at få adgang til Session datoer
+                WHERE mg.MemberID = @MemberID                                       //Sikrer at det er det rigtige medlem
+                AND DATEPART(week, s.DateTime) = DATEPART(week, GETDATE())        //Sikrer at det er den aktuelle uge
+                AND DATEPART(year, s.DateTime) = DATEPART(year, GETDATE())";      //Sikrer at det er det aktuelle år
+
+			return connection.ExecuteScalar<int>(sql, new { MemberID = memberId });
+
+		}
+	}
 }
