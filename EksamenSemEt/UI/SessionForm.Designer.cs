@@ -59,10 +59,11 @@
             // 
             tableLayoutPanel1.SetColumnSpan(AvailableSpacesSearchUpDown, 2);
             AvailableSpacesSearchUpDown.Dock = DockStyle.Fill;
-            AvailableSpacesSearchUpDown.Location = new Point(1632, 429);
+            AvailableSpacesSearchUpDown.Location = new Point(1864, 569);
+            AvailableSpacesSearchUpDown.Margin = new Padding(3, 4, 3, 4);
             AvailableSpacesSearchUpDown.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             AvailableSpacesSearchUpDown.Name = "AvailableSpacesSearchUpDown";
-            AvailableSpacesSearchUpDown.Size = new Size(269, 23);
+            AvailableSpacesSearchUpDown.Size = new Size(309, 27);
             AvailableSpacesSearchUpDown.TabIndex = 33;
             // 
             // label17
@@ -70,9 +71,9 @@
             label17.AutoSize = true;
             tableLayoutPanel1.SetColumnSpan(label17, 2);
             label17.Dock = DockStyle.Fill;
-            label17.Location = new Point(1632, 364);
+            label17.Location = new Point(1864, 483);
             label17.Name = "label17";
-            label17.Size = new Size(269, 62);
+            label17.Size = new Size(309, 82);
             label17.TabIndex = 32;
             label17.Text = "Mere End XX Ledige Pladser :";
             label17.TextAlign = ContentAlignment.BottomLeft;
@@ -80,28 +81,30 @@
             // MaxMembersSearchUpDown
             // 
             MaxMembersSearchUpDown.Dock = DockStyle.Fill;
-            MaxMembersSearchUpDown.Location = new Point(1482, 429);
+            MaxMembersSearchUpDown.Location = new Point(1693, 569);
+            MaxMembersSearchUpDown.Margin = new Padding(3, 4, 3, 4);
             MaxMembersSearchUpDown.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             MaxMembersSearchUpDown.Name = "MaxMembersSearchUpDown";
-            MaxMembersSearchUpDown.Size = new Size(144, 23);
+            MaxMembersSearchUpDown.Size = new Size(165, 27);
             MaxMembersSearchUpDown.TabIndex = 31;
             // 
             // MinMembersSearchUpDown
             // 
             MinMembersSearchUpDown.Dock = DockStyle.Fill;
-            MinMembersSearchUpDown.Location = new Point(1332, 429);
+            MinMembersSearchUpDown.Location = new Point(1522, 569);
+            MinMembersSearchUpDown.Margin = new Padding(3, 4, 3, 4);
             MinMembersSearchUpDown.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             MinMembersSearchUpDown.Name = "MinMembersSearchUpDown";
-            MinMembersSearchUpDown.Size = new Size(144, 23);
+            MinMembersSearchUpDown.Size = new Size(165, 27);
             MinMembersSearchUpDown.TabIndex = 30;
             // 
             // label16
             // 
             label16.AutoSize = true;
             label16.Dock = DockStyle.Fill;
-            label16.Location = new Point(1482, 364);
+            label16.Location = new Point(1693, 483);
             label16.Name = "label16";
-            label16.Size = new Size(144, 62);
+            label16.Size = new Size(165, 82);
             label16.TabIndex = 29;
             label16.Text = "Max. Medlemmer :";
             label16.TextAlign = ContentAlignment.BottomLeft;
@@ -110,9 +113,9 @@
             // 
             label15.AutoSize = true;
             label15.Dock = DockStyle.Fill;
-            label15.Location = new Point(1332, 364);
+            label15.Location = new Point(1522, 483);
             label15.Name = "label15";
-            label15.Size = new Size(144, 62);
+            label15.Size = new Size(165, 82);
             label15.TabIndex = 28;
             label15.Text = "Min. Medlemmer :";
             label15.TextAlign = ContentAlignment.BottomLeft;
@@ -121,10 +124,11 @@
             // 
             tableLayoutPanel1.SetColumnSpan(maxMembersNumericUpDown, 3);
             maxMembersNumericUpDown.Dock = DockStyle.Fill;
-            maxMembersNumericUpDown.Location = new Point(115, 126);
+            maxMembersNumericUpDown.Location = new Point(131, 167);
+            maxMembersNumericUpDown.Margin = new Padding(3, 4, 3, 4);
             maxMembersNumericUpDown.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             maxMembersNumericUpDown.Name = "maxMembersNumericUpDown";
-            maxMembersNumericUpDown.Size = new Size(262, 23);
+            maxMembersNumericUpDown.Size = new Size(299, 27);
             maxMembersNumericUpDown.TabIndex = 27;
             maxMembersNumericUpDown.Value = new decimal(new int[] { 15, 0, 0, 0 });
             // 
@@ -132,9 +136,9 @@
             // 
             label14.AutoSize = true;
             label14.Dock = DockStyle.Fill;
-            label14.Location = new Point(3, 123);
+            label14.Location = new Point(3, 163);
             label14.Name = "label14";
-            label14.Size = new Size(106, 36);
+            label14.Size = new Size(122, 48);
             label14.TabIndex = 26;
             label14.Text = "Max Medlemmer :";
             label14.TextAlign = ContentAlignment.TopRight;
@@ -143,18 +147,20 @@
             // 
             tableLayoutPanel1.SetColumnSpan(SessionEndSearchDatePicker, 4);
             SessionEndSearchDatePicker.Dock = DockStyle.Fill;
-            SessionEndSearchDatePicker.Location = new Point(997, 429);
+            SessionEndSearchDatePicker.Location = new Point(1139, 569);
+            SessionEndSearchDatePicker.Margin = new Padding(3, 4, 3, 4);
             SessionEndSearchDatePicker.Name = "SessionEndSearchDatePicker";
-            SessionEndSearchDatePicker.Size = new Size(329, 23);
+            SessionEndSearchDatePicker.Size = new Size(377, 27);
             SessionEndSearchDatePicker.TabIndex = 25;
             // 
             // SessionStartSearchDatePicker
             // 
             tableLayoutPanel1.SetColumnSpan(SessionStartSearchDatePicker, 4);
             SessionStartSearchDatePicker.Dock = DockStyle.Fill;
-            SessionStartSearchDatePicker.Location = new Point(657, 429);
+            SessionStartSearchDatePicker.Location = new Point(750, 569);
+            SessionStartSearchDatePicker.Margin = new Padding(3, 4, 3, 4);
             SessionStartSearchDatePicker.Name = "SessionStartSearchDatePicker";
-            SessionStartSearchDatePicker.Size = new Size(334, 23);
+            SessionStartSearchDatePicker.Size = new Size(383, 27);
             SessionStartSearchDatePicker.TabIndex = 24;
             // 
             // LocationSearchComboBox
@@ -163,10 +169,11 @@
             LocationSearchComboBox.Dock = DockStyle.Fill;
             LocationSearchComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             LocationSearchComboBox.FormattingEnabled = true;
-            LocationSearchComboBox.Location = new Point(464, 429);
+            LocationSearchComboBox.Location = new Point(529, 569);
+            LocationSearchComboBox.Margin = new Padding(3, 4, 3, 4);
             LocationSearchComboBox.MaxDropDownItems = 100;
             LocationSearchComboBox.Name = "LocationSearchComboBox";
-            LocationSearchComboBox.Size = new Size(187, 23);
+            LocationSearchComboBox.Size = new Size(215, 28);
             LocationSearchComboBox.Sorted = true;
             LocationSearchComboBox.TabIndex = 23;
             // 
@@ -176,10 +183,11 @@
             SessionTypeSearchComboBox.Dock = DockStyle.Fill;
             SessionTypeSearchComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             SessionTypeSearchComboBox.FormattingEnabled = true;
-            SessionTypeSearchComboBox.Location = new Point(193, 429);
+            SessionTypeSearchComboBox.Location = new Point(220, 569);
+            SessionTypeSearchComboBox.Margin = new Padding(3, 4, 3, 4);
             SessionTypeSearchComboBox.MaxDropDownItems = 100;
             SessionTypeSearchComboBox.Name = "SessionTypeSearchComboBox";
-            SessionTypeSearchComboBox.Size = new Size(265, 23);
+            SessionTypeSearchComboBox.Size = new Size(303, 28);
             SessionTypeSearchComboBox.Sorted = true;
             SessionTypeSearchComboBox.TabIndex = 22;
             // 
@@ -188,10 +196,12 @@
             SessionListView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableLayoutPanel1.SetColumnSpan(SessionListView, 17);
             SessionListView.Dock = DockStyle.Fill;
-            SessionListView.Location = new Point(3, 471);
+            SessionListView.Location = new Point(3, 625);
+            SessionListView.Margin = new Padding(3, 4, 3, 4);
             SessionListView.Name = "SessionListView";
+            SessionListView.RowHeadersWidth = 51;
             tableLayoutPanel1.SetRowSpan(SessionListView, 11);
-            SessionListView.Size = new Size(1473, 567);
+            SessionListView.Size = new Size(1684, 759);
             SessionListView.TabIndex = 21;
             SessionListView.UserDeletingRow += SessionListView_UserDeletingRow;
             // 
@@ -199,9 +209,9 @@
             // 
             label13.AutoSize = true;
             label13.Dock = DockStyle.Fill;
-            label13.Location = new Point(997, 364);
+            label13.Location = new Point(1139, 483);
             label13.Name = "label13";
-            label13.Size = new Size(155, 62);
+            label13.Size = new Size(178, 82);
             label13.TabIndex = 20;
             label13.Text = "Kun Hold Før :";
             label13.TextAlign = ContentAlignment.BottomLeft;
@@ -210,9 +220,9 @@
             // 
             label12.AutoSize = true;
             label12.Dock = DockStyle.Fill;
-            label12.Location = new Point(657, 364);
+            label12.Location = new Point(750, 483);
             label12.Name = "label12";
-            label12.Size = new Size(134, 62);
+            label12.Size = new Size(154, 82);
             label12.TabIndex = 19;
             label12.Text = "Kun Hold Efter :";
             label12.TextAlign = ContentAlignment.BottomLeft;
@@ -221,9 +231,9 @@
             // 
             label11.AutoSize = true;
             label11.Dock = DockStyle.Fill;
-            label11.Location = new Point(464, 364);
+            label11.Location = new Point(529, 483);
             label11.Name = "label11";
-            label11.Size = new Size(62, 62);
+            label11.Size = new Size(72, 82);
             label11.TabIndex = 18;
             label11.Text = "Lokale :";
             label11.TextAlign = ContentAlignment.BottomLeft;
@@ -232,9 +242,9 @@
             // 
             label10.AutoSize = true;
             label10.Dock = DockStyle.Fill;
-            label10.Location = new Point(193, 364);
+            label10.Location = new Point(220, 483);
             label10.Name = "label10";
-            label10.Size = new Size(89, 62);
+            label10.Size = new Size(102, 82);
             label10.TabIndex = 17;
             label10.Text = "Hold Type :";
             label10.TextAlign = ContentAlignment.BottomLeft;
@@ -243,9 +253,9 @@
             // 
             label8.AutoSize = true;
             label8.Dock = DockStyle.Fill;
-            label8.Location = new Point(3, 364);
+            label8.Location = new Point(3, 483);
             label8.Name = "label8";
-            label8.Size = new Size(106, 62);
+            label8.Size = new Size(122, 82);
             label8.TabIndex = 15;
             label8.Text = "Alle Hold :";
             label8.TextAlign = ContentAlignment.BottomRight;
@@ -254,9 +264,10 @@
             // 
             tableLayoutPanel1.SetColumnSpan(CreateSessionButton, 4);
             CreateSessionButton.Dock = DockStyle.Fill;
-            CreateSessionButton.Location = new Point(464, 162);
+            CreateSessionButton.Location = new Point(529, 215);
+            CreateSessionButton.Margin = new Padding(3, 4, 3, 4);
             CreateSessionButton.Name = "CreateSessionButton";
-            CreateSessionButton.Size = new Size(327, 95);
+            CreateSessionButton.Size = new Size(375, 126);
             CreateSessionButton.TabIndex = 14;
             CreateSessionButton.Text = "Opret Hold";
             CreateSessionButton.UseVisualStyleBackColor = true;
@@ -268,10 +279,11 @@
             LocationComboBox.Dock = DockStyle.Top;
             LocationComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             LocationComboBox.FormattingEnabled = true;
-            LocationComboBox.Location = new Point(115, 89);
+            LocationComboBox.Location = new Point(131, 118);
+            LocationComboBox.Margin = new Padding(3, 4, 3, 4);
             LocationComboBox.MaxDropDownItems = 100;
             LocationComboBox.Name = "LocationComboBox";
-            LocationComboBox.Size = new Size(262, 23);
+            LocationComboBox.Size = new Size(299, 28);
             LocationComboBox.Sorted = true;
             LocationComboBox.TabIndex = 10;
             // 
@@ -279,9 +291,9 @@
             // 
             label2.AutoSize = true;
             label2.Dock = DockStyle.Fill;
-            label2.Location = new Point(3, 86);
+            label2.Location = new Point(3, 114);
             label2.Name = "label2";
-            label2.Size = new Size(106, 37);
+            label2.Size = new Size(122, 49);
             label2.TabIndex = 1;
             label2.Text = "Lokale :";
             label2.TextAlign = ContentAlignment.TopRight;
@@ -292,10 +304,11 @@
             SessionTypeComboBox.Dock = DockStyle.Bottom;
             SessionTypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             SessionTypeComboBox.FormattingEnabled = true;
-            SessionTypeComboBox.Location = new Point(115, 26);
+            SessionTypeComboBox.Location = new Point(131, 37);
+            SessionTypeComboBox.Margin = new Padding(3, 4, 3, 4);
             SessionTypeComboBox.MaxDropDownItems = 100;
             SessionTypeComboBox.Name = "SessionTypeComboBox";
-            SessionTypeComboBox.Size = new Size(262, 23);
+            SessionTypeComboBox.Size = new Size(299, 28);
             SessionTypeComboBox.Sorted = true;
             SessionTypeComboBox.TabIndex = 10;
             // 
@@ -305,7 +318,7 @@
             label1.Dock = DockStyle.Fill;
             label1.Location = new Point(3, 0);
             label1.Name = "label1";
-            label1.Size = new Size(106, 52);
+            label1.Size = new Size(122, 69);
             label1.TabIndex = 0;
             label1.Text = "Hold Type* :";
             label1.TextAlign = ContentAlignment.BottomRight;
@@ -314,9 +327,9 @@
             // 
             label9.AutoSize = true;
             label9.Dock = DockStyle.Fill;
-            label9.Location = new Point(115, 364);
+            label9.Location = new Point(131, 483);
             label9.Name = "label9";
-            label9.Size = new Size(72, 62);
+            label9.Size = new Size(83, 82);
             label9.TabIndex = 16;
             label9.Text = "Filtrer Efter: ";
             label9.TextAlign = ContentAlignment.BottomRight;
@@ -373,6 +386,7 @@
             tableLayoutPanel1.Controls.Add(InstructorSearchSelector, 17, 9);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Margin = new Padding(3, 4, 3, 4);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 20;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
@@ -395,45 +409,49 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
-            tableLayoutPanel1.Size = new Size(1904, 1041);
+            tableLayoutPanel1.Size = new Size(2176, 1388);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // CreationTimeEditor
             // 
             tableLayoutPanel1.SetColumnSpan(CreationTimeEditor, 4);
-            CreationTimeEditor.Location = new Point(464, 3);
+            CreationTimeEditor.Location = new Point(529, 5);
+            CreationTimeEditor.Margin = new Padding(3, 5, 3, 5);
             CreationTimeEditor.Name = "CreationTimeEditor";
             tableLayoutPanel1.SetRowSpan(CreationTimeEditor, 4);
-            CreationTimeEditor.Size = new Size(327, 153);
+            CreationTimeEditor.Size = new Size(374, 201);
             CreationTimeEditor.TabIndex = 34;
             // 
             // InstructorCreateSelector
             // 
             tableLayoutPanel1.SetColumnSpan(InstructorCreateSelector, 5);
             InstructorCreateSelector.Dock = DockStyle.Fill;
-            InstructorCreateSelector.Location = new Point(846, 3);
+            InstructorCreateSelector.Location = new Point(966, 5);
+            InstructorCreateSelector.Margin = new Padding(3, 5, 3, 5);
             InstructorCreateSelector.Name = "InstructorCreateSelector";
             tableLayoutPanel1.SetRowSpan(InstructorCreateSelector, 5);
-            InstructorCreateSelector.Size = new Size(395, 254);
+            InstructorCreateSelector.Size = new Size(453, 335);
             InstructorCreateSelector.TabIndex = 35;
             // 
             // InstructorSearchSelector
             // 
             tableLayoutPanel1.SetColumnSpan(InstructorSearchSelector, 3);
             InstructorSearchSelector.Dock = DockStyle.Fill;
-            InstructorSearchSelector.Location = new Point(1482, 471);
+            InstructorSearchSelector.Location = new Point(1693, 626);
+            InstructorSearchSelector.Margin = new Padding(3, 5, 3, 5);
             InstructorSearchSelector.Name = "InstructorSearchSelector";
             tableLayoutPanel1.SetRowSpan(InstructorSearchSelector, 11);
-            InstructorSearchSelector.Size = new Size(419, 567);
+            InstructorSearchSelector.Size = new Size(480, 757);
             InstructorSearchSelector.TabIndex = 36;
             // 
             // SessionForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "SessionForm";
-            Size = new Size(1904, 1041);
+            Size = new Size(2176, 1388);
             ((System.ComponentModel.ISupportInitialize)AvailableSpacesSearchUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)MaxMembersSearchUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)MinMembersSearchUpDown).EndInit();

@@ -85,7 +85,7 @@ namespace DatabaseAccessSem1.Repository
 
             return connection.Query<int>(sqlBuilder.ToString(), parameters); // Selve forespørgsel til database
         }
-        public IEnumerable<Member> broadSearch(string searchString, int?sesionID = null, int limit = 100)
+        public IEnumerable<Member> broadSearch(string searchString, int?sesionID = null, int limit = 100, int offset = 0)
         {
             using var connection = _dbFactory.CreateConnection();
 
@@ -123,10 +123,10 @@ namespace DatabaseAccessSem1.Repository
 
 
 
-
-
-            sqlBuilder.Append(" LIMIT @Limit");
+            sqlBuilder.Append(" ORDER BY MemberID");
+            sqlBuilder.Append(" LIMIT @Limit OFFSET @Offset");
             parameters.Add("Limit", limit);
+            parameters.Add("Offset", offset);
 
             return connection.Query<Member>(sqlBuilder.ToString(), parameters);
         }

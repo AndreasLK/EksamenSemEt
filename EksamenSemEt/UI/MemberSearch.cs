@@ -17,7 +17,7 @@ namespace EksamenSemEt.UI
         private MemberRepository memberRepo;
         private MemberTypeRepository memberTypeRepo;
         private DataGridView dgv;
-        private BindingSource source;
+        private BindingSource source = new BindingSource();
         private TextBox searchField;
 
 
@@ -26,14 +26,13 @@ namespace EksamenSemEt.UI
         private HashSet<int> cachedSessionMemberIDs;
 
 
-
         private bool isLoading = false;
         private DateTimePicker dtp;
         private Rectangle rectangle;
 
         private bool initialLoadDone = false;
         private readonly Timer fullLoadTimer = new Timer { Interval = 200 };
-        private readonly Timer debounceTimer = new Timer { Interval = 100 };
+        private readonly Timer debounceTimer = new Timer { Interval = 300 };
 
         public event EventHandler SelectedMemberChanged;
         public int? SelectedMemberID = null;
@@ -50,13 +49,14 @@ namespace EksamenSemEt.UI
             fullLoadTimer.Tick += (s, e) => LoadFullMemberData();
             debounceTimer.Tick += (s, e) => LoadMemberData(isDebounced: true);
 
-
+            dgv.DataSource = source;
             dgv.CellValueChanged += MemberListView_CellValueChanged;
             dgv.CellClick += MemberListView_CellClick;
             dgv.UserDeletingRow += MemberListView_UserDeletingRow;
             dgv.SelectionChanged += Dgv_SelectionChanged;
             dgv.CellContentClick += Dgv_CellContentClick;
             dgv.Scroll += dtp_Scroll;
+            dgv.DataError += Dgv_DataError;
 
             searchField.TextChanged += Debounced_SearchFieldText_TextChanged;
 
@@ -189,7 +189,6 @@ namespace EksamenSemEt.UI
                 memberTypeColumn.DisplayMember = "Name";
                 memberTypeColumn.ValueMember = "MemberTypeID";
                 memberTypeColumn.DataPropertyName = "MemberType";
-
                 dgv.Columns.Add(memberTypeColumn);
 
                 if (isReadOnly)
@@ -272,13 +271,31 @@ namespace EksamenSemEt.UI
         private async void LoadFullMemberData()
         {
             fullLoadTimer.Stop();
+
+            if (dgv.IsCurrentCellInEditMode)
+            {
+                fullLoadTimer.Start();
+                return;
+            }
+
             isLoading = true;
             try
             {
-                var members = await System.Threading.Tasks.Task.Run(() =>
-                    memberRepo.broadSearch(searchString: searchField.Text.Trim(), limit: 99999).ToList()
+                int currentCount = 0;
+                if (source.DataSource is List<MemberViewModel> currentlist)
+                {
+                    currentCount = currentlist.Count;
+                }
+
+                var newMembers = await System.Threading.Tasks.Task.Run(() =>
+                    memberRepo.broadSearch(searchString: searchField.Text.Trim(), limit: 99999, offset: currentCount).ToList()
                 );
-                UpdateDGVData(members);
+                
+                if (newMembers.Count > 0)
+                {
+                    AppendDGVData(newMembers);
+                }
+
             } catch (Exception ex)
             {
                 MessageBox.Show($"Fejl ved fuld indlæsning: {ex.Message}");
@@ -287,6 +304,32 @@ namespace EksamenSemEt.UI
                 isLoading = false;
             }
         }
+
+
+        private void AppendDGVData(List<Member> members)
+        {
+            var newData = members.Select(m => new MemberViewModel
+            {
+                MemberID = m.MemberID,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+                DateOfBirth = m.DateOfBirth,
+                Email = m.Email,
+                PhoneNumber = m.PhoneNumber,
+                MemberType = m.MemberType,
+                Active = m.Active,
+                IsBookedOnSession = editingSessionID.HasValue && cachedSessionMemberIDs.Contains(m.MemberID ?? -1)
+            }).ToList();
+
+
+            if (source.DataSource is List<MemberViewModel> currentList)
+            {
+                currentList.AddRange(newData);
+                source.ResetBindings(false);
+            }
+        }
+
+
 
         private void UpdateDGVData(List<Member> members)
         {
@@ -462,6 +505,12 @@ namespace EksamenSemEt.UI
         private void dtp_Scroll(object? sender, EventArgs e)
         {
             dtp.Visible = false;
+        }
+
+        private void Dgv_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show($"DataError i kolonne {e.ColumnIndex}, række {e.RowIndex}: {e.Exception.Message}");
+            e.Cancel = false;
         }
 
     }
