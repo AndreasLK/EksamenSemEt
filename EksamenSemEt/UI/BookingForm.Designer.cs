@@ -31,7 +31,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             label7 = new Label();
             SessionListView = new DataGridView();
-            button1 = new Button();
+            CreateBookingButton = new Button();
             BookingListView = new DataGridView();
             label1 = new Label();
             label2 = new Label();
@@ -68,11 +68,11 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.714597F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 4.8474946F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 4.956427F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 3.70370364F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 2.72331166F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 9.803922F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 4.8474946F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1.5795207F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 7.135076F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1.47058821F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 3.59477115F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 6.26361656F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 2.124183F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5.2371F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5.2371F));
@@ -83,7 +83,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5.2371F));
             tableLayoutPanel1.Controls.Add(label7, 6, 0);
             tableLayoutPanel1.Controls.Add(SessionListView, 0, 2);
-            tableLayoutPanel1.Controls.Add(button1, 9, 2);
+            tableLayoutPanel1.Controls.Add(CreateBookingButton, 9, 2);
             tableLayoutPanel1.Controls.Add(BookingListView, 0, 12);
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Controls.Add(label2, 1, 0);
@@ -149,19 +149,19 @@
             SessionListView.Name = "SessionListView";
             tableLayoutPanel1.SetRowSpan(SessionListView, 7);
             SessionListView.SelectionMode = DataGridViewSelectionMode.FullColumnSelect;
-            SessionListView.Size = new Size(860, 358);
+            SessionListView.Size = new Size(881, 358);
             SessionListView.TabIndex = 22;
             // 
-            // button1
+            // CreateBookingButton
             // 
-            button1.Dock = DockStyle.Fill;
-            button1.Location = new Point(919, 107);
-            button1.Name = "button1";
-            tableLayoutPanel1.SetRowSpan(button1, 2);
-            button1.Size = new Size(174, 98);
-            button1.TabIndex = 24;
-            button1.Text = "Opret Booking";
-            button1.UseVisualStyleBackColor = true;
+            CreateBookingButton.Dock = DockStyle.Fill;
+            CreateBookingButton.Location = new Point(919, 107);
+            CreateBookingButton.Name = "CreateBookingButton";
+            tableLayoutPanel1.SetRowSpan(CreateBookingButton, 2);
+            CreateBookingButton.Size = new Size(125, 98);
+            CreateBookingButton.TabIndex = 24;
+            CreateBookingButton.Text = "Opret Booking";
+            CreateBookingButton.UseVisualStyleBackColor = true;
             // 
             // BookingListView
             // 
@@ -246,7 +246,7 @@
             label8.Dock = DockStyle.Fill;
             label8.Location = new Point(801, 0);
             label8.Name = "label8";
-            label8.Size = new Size(62, 60);
+            label8.Size = new Size(83, 60);
             label8.TabIndex = 33;
             label8.Text = "Ledige Pladser :";
             label8.TextAlign = ContentAlignment.BottomLeft;
@@ -306,7 +306,7 @@
             AvailableSlotsUpDown.Dock = DockStyle.Fill;
             AvailableSlotsUpDown.Location = new Point(801, 63);
             AvailableSlotsUpDown.Name = "AvailableSlotsUpDown";
-            AvailableSlotsUpDown.Size = new Size(62, 23);
+            AvailableSlotsUpDown.Size = new Size(83, 23);
             AvailableSlotsUpDown.TabIndex = 40;
             // 
             // label10
@@ -314,9 +314,9 @@
             label10.AutoSize = true;
             tableLayoutPanel1.SetColumnSpan(label10, 3);
             label10.Dock = DockStyle.Fill;
-            label10.Location = new Point(1126, 0);
+            label10.Location = new Point(1077, 0);
             label10.Name = "label10";
-            label10.Size = new Size(195, 60);
+            label10.Size = new Size(244, 60);
             label10.TabIndex = 43;
             label10.Text = "Alle Medlemmer :";
             label10.TextAlign = ContentAlignment.BottomLeft;
@@ -337,10 +337,10 @@
             // 
             tableLayoutPanel1.SetColumnSpan(memberSearch1, 9);
             memberSearch1.Dock = DockStyle.Fill;
-            memberSearch1.Location = new Point(1126, 63);
+            memberSearch1.Location = new Point(1077, 63);
             memberSearch1.Name = "memberSearch1";
             tableLayoutPanel1.SetRowSpan(memberSearch1, 8);
-            memberSearch1.Size = new Size(775, 402);
+            memberSearch1.Size = new Size(824, 402);
             memberSearch1.TabIndex = 45;
             // 
             // BookingForm
@@ -364,7 +364,7 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private DataGridView SessionListView;
-        private Button button1;
+        private Button CreateBookingButton;
         private DataGridView BookingListView;
         private Label label1;
         private Label label2;
