@@ -48,6 +48,17 @@ namespace DatabaseAccessSem1.Repository
             return connection.Query<Member>(sql, new { SessionID = sessionID });
 
         }
+
+        public IEnumerable<int> GetMembersIDs(int sessionID)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+
+            string sql = @"SELECT MemberID FROM MemberGroups
+                        WHERE SessionID = @SessionID";
+
+            return connection.Query<int>(sql, new { SessionID = sessionID });
+
+        }
         public int Update(MemberGroup memberGroup)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
@@ -69,6 +80,14 @@ namespace DatabaseAccessSem1.Repository
                         WHERE GroupingID = @GroupingID";
 
             return connection.Execute(sql, new { GroupingID = groupingID }); //Returnere mængden af rækker opdateret (forhåbeligt 1)
+        }
+
+        public int DeleteGroup(int memberID, int sessionID)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+            string sql = @"DELETE FROM MemberGroups 
+                        WHERE MemberID = @MemberID AND SessionID = @SessionID;";
+            return connection.Execute(sql, new { MemberID = memberID, SessionID = sessionID});
         }
     }
 }

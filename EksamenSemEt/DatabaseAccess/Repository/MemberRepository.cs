@@ -85,34 +85,48 @@ namespace DatabaseAccessSem1.Repository
 
             return connection.Query<int>(sqlBuilder.ToString(), parameters); // Selve forespørgsel til database
         }
-        public IEnumerable<Member> broadSearch(string searchString)
+        public IEnumerable<Member> broadSearch(string searchString, int?sesionID = null, int limit = 100)
         {
             using var connection = _dbFactory.CreateConnection();
-
-            if (string.IsNullOrWhiteSpace(searchString))
-            {
-                return GetAll();
-            }
-
-            var searchTerms = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
             var sqlBuilder = new StringBuilder("SELECT * FROM Customers WHERE 1=1");
             var parameters = new DynamicParameters();
 
 
-            for (int i = 0; i < searchTerms.Length; i++) //Kører gennem alle searchTerms
+            if (sesionID.HasValue) {
+                sqlBuilder.Append(" AND MemberID IN (SELECT MemberID FROM MemberGroups WHERE SessionID = @SessionID)");
+                parameters.Add("SessionID", sesionID.Value);
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
-                string _paramName = $"@term{i}";
-                parameters.Add(_paramName, $"%{searchTerms[i]}%");
+                var searchTerms = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                for (int i = 0; i < searchTerms.Length; i++) //Kører gennem alle searchTerms
+                {
+                    string _paramName = $"@term{i}";
+                    parameters.Add(_paramName, $"%{searchTerms[i]}%");
 
 
-                sqlBuilder.Append($@" AND (
+                    sqlBuilder.Append($@" AND (
                     FirstName LIKE {_paramName}
                 OR LastName LIKE {_paramName}
                 OR CAST(PhoneNumber AS TEXT) LIKE {_paramName}
                 OR CAST(MemberID AS TEXT) LIKE {_paramName}
                 )");
+                }
             }
+
+
+
+
+
+
+
+
+            sqlBuilder.Append(" LIMIT @Limit");
+            parameters.Add("Limit", limit);
 
             return connection.Query<Member>(sqlBuilder.ToString(), parameters);
         }
@@ -161,5 +175,36 @@ namespace DatabaseAccessSem1.Repository
             return connection.Execute(sql, new { MemberID = memberID });
         }
 
-    }
+
+
+		//Metode til tælle hvor mange hold et medlem har tilmeldt sig i den nuværrende uge. - Med hjælp fra chatten.
+		public int GetWeeklySessionCount(int memberId)
+		{
+			using var connection = _dbFactory.CreateConnection();               //  Med using lukkes forbindelse automatisk efter metoden er kørt
+
+			string sql = @"
+                SELECT COUNT(*) 
+                FROM MemberGroups mg                                              
+                INNER JOIN Sessions s ON mg.SessionID = s.SessionID                 //Joiner MemberGroups med Sessions for at få adgang til Session datoer
+                WHERE mg.MemberID = @MemberID                                       //Sikrer at det er det rigtige medlem
+                AND DATEPART(week, s.DateTime) = DATEPART(week, GETDATE())        //Sikrer at det er den aktuelle uge
+                AND DATEPART(year, s.DateTime) = DATEPART(year, GETDATE())";      //Sikrer at det er det aktuelle år
+
+			return connection.ExecuteScalar<int>(sql, new { MemberID = memberId });
+
+		}
+
+		public bool IsActive(int memberId)
+		{
+			using var connection = _dbFactory.CreateConnection();
+
+			string sql = @"SELECT Active 
+                   FROM Customers 
+                   WHERE MemberID = @MemberID";
+
+			return connection.ExecuteScalar<bool>(sql, new { MemberID = memberId });
+		}
+	}
+
+
 }

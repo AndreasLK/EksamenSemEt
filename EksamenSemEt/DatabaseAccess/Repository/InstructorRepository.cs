@@ -104,7 +104,7 @@ namespace DatabaseAccessSem1.Repository
                 }
             }
 
-            sqlBuilder.Append(" ORDER BY i.FirstName LIMIT @Limit");
+            sqlBuilder.Append(" LIMIT @Limit");
             parameters.Add("Limit", limit);
             return connection.Query<Instructor>(sqlBuilder.ToString(), parameters);
         }

@@ -19,7 +19,7 @@ namespace Sem1BackupForms.Forms
         private DataGridView dgv;
         private BindingSource bindingSource;
         private bool isLoading = false;
-
+        private int queryLimit = 99999; //Mindre gør siden hurtigere at loade
         public InstructorForm(InstructorRepository instructorRepo, CertificationRepository certificateRepo)
         {
             this.instructorRepo = instructorRepo;
@@ -54,7 +54,7 @@ namespace Sem1BackupForms.Forms
 
             tableLayoutPanel3.Controls.Add(dgv);
 
-            DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(SearchFieldText.Text));
+            DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(searchString: SearchFieldText.Text, limit: queryLimit));
 
             var types = certificateRepo.GetAll().ToList();
 
@@ -167,7 +167,7 @@ namespace Sem1BackupForms.Forms
                     }
                 }
 
-                DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(SearchFieldText.Text));
+                DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(searchString: SearchFieldText.Text, limit: queryLimit));
 
                 DataGridHelper.ShowSuccess("Instruktøren er oprettet succesfuldt!");
             }
@@ -183,7 +183,7 @@ namespace Sem1BackupForms.Forms
 
         private void SearchFieldText_TextChanged(object sender, EventArgs e)
         {
-            DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(SearchFieldText.Text));
+            DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(searchString: SearchFieldText.Text, limit: queryLimit));
         }
 
         private void Dgv_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -196,7 +196,7 @@ namespace Sem1BackupForms.Forms
             {
                 if (string.IsNullOrWhiteSpace(updatedInstructor.LastName) || string.IsNullOrWhiteSpace(updatedInstructor.LastName))
                 {
-                    DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(SearchFieldText.Text));
+                    DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(searchString: SearchFieldText.Text, limit: queryLimit));
                     return;
                 }
 
@@ -208,7 +208,7 @@ namespace Sem1BackupForms.Forms
                 {
                     MessageBox.Show($"Kunne ikke gemme ændring: {ex.Message}");
 
-                    DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(SearchFieldText.Text));
+                    DataGridHelper.LoadData(dgv, ref bindingSource, instructorRepo.broadSearch(searchString: SearchFieldText.Text, limit: queryLimit));
                 }
 
             }

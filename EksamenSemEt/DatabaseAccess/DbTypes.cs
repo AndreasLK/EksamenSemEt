@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace DatabaseAccessSem1
@@ -71,5 +72,36 @@ namespace DatabaseAccessSem1
     {
         public int? LocationID { get; init; }
         public required string Name { get; init; }
+    }
+
+    public record MemberViewModel
+    {
+        public int? MemberID { get; set; }
+
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string? Email { get; set; }
+        public string? PhoneNumber { get; set; }
+        public required int MemberType { get; set; }
+
+        public required bool Active { get; set; }
+        public required bool IsBookedOnSession { get; set; }
+    }
+
+    public record SessionViewModel
+    {
+        [Browsable(false)] //SesssionID bliver ikke vist som kolonne
+        public int SessionID { get; set; }
+        public string Date { get; set; }
+        public string StartTime { get; set; }
+        public string Duration { get; set; }
+        public string Type { get; set; }
+        public string Location { get; set; }
+        [Browsable(false)]
+        public int MaxMembers { get; set; }
+        [Browsable(false)]
+        public int BookedCount { get; set; }
+        public required string Availability { get; set; }
     }
 }
