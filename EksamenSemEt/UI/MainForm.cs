@@ -112,5 +112,6 @@ namespace EksamenSemEt.UI
 
             LoadView(history);
         }
+
     }
 }

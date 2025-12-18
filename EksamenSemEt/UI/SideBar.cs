@@ -54,5 +54,24 @@ namespace EksamenSemEt.UI
         {
             LocationClicked?.Invoke(this, EventArgs.Empty);
         }
+
+        public void ReFormatAllButtons()
+        {
+            var allButtons = new List<Button>
+            {
+                BookingButton,
+                MemberButton,
+                SessionButton,
+                InstructorButton,
+                CertificateButton,
+                LocationButton
+            };
+
+            foreach (Button button in allButtons)
+            {
+                button.BackColor = SystemColors.Control;
+            }
+
+        }
     }
 }

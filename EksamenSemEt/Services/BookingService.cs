@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using DatabaseAccessSem1.Repository;
+using EksamenSemEt.DatabaseAccess.Repository;
 using static System.Collections.Specialized.BitVector32;
 
 namespace DatabaseAccessSem1.Services
@@ -11,13 +12,16 @@ namespace DatabaseAccessSem1.Services
 		private readonly SessionRepository _sessionRepository;
 		private readonly MemberGroupRepository _memberGroupRepository;
 		private readonly MemberRepository _memberRepository;
+		private readonly MemberTypeRepository _memberTypeRepository;
 
-		public BookingService(SessionRepository sessionRepository, MemberGroupRepository memberGroupRepository, MemberRepository memberRepository)
+
+        public BookingService(SessionRepository sessionRepository, MemberGroupRepository memberGroupRepository, MemberRepository memberRepository, MemberTypeRepository memberTypeRepository)
 		{
 			_memberRepository = memberRepository;
 			_sessionRepository = sessionRepository;
 			_memberGroupRepository = memberGroupRepository;
-			_memberRepository = memberRepository;
+			_memberTypeRepository = memberTypeRepository;
+
 		}
 
 		public bool TryBookSession(int memberID, int sessionID)
@@ -37,7 +41,9 @@ namespace DatabaseAccessSem1.Services
 					return false;
 				}
 
-				var membership = new Membership((MembershipType)member.MemberType);
+				var membership = _memberTypeRepository.GetByID(member.MemberID ?? -1);
+
+				/*
 				if (!CanBook(memberID, membership))
 				{
 					MessageBox.Show(
@@ -47,6 +53,8 @@ namespace DatabaseAccessSem1.Services
 						MessageBoxIcon.Information);
 					return false;
 				}
+
+				*/
 
 				int slotsAvailable = _sessionRepository.GetSlotsAvailable(sessionID);
 				if (slotsAvailable <= 0)
@@ -86,10 +94,13 @@ namespace DatabaseAccessSem1.Services
 			}
 		}
 
-		public bool CanBook(int memberId, Membership membership)
+		/*
+		public bool CanBook(int memberId, MemberTypeOption membership)
 		{
 			int weeklyCount = _memberRepository.GetWeeklySessionCount(memberId);
 			return weeklyCount < membership.GetWeeklyVisit();
 		}
+
+		*/
 	}
 }

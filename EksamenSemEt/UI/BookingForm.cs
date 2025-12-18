@@ -48,7 +48,7 @@ namespace EksamenSemEt.UI
             this.locationRepo = locationRepository;
             this.certificationRepo = certificationRepository;
             this.bookingRepo = bookingRepository;
-            this.bookingService = new BookingService(sessionRepo, memberGroupRepo, memberRepo);
+            this.bookingService = new BookingService(sessionRepo, memberGroupRepo, memberRepo, memberTypeRepo);
 
             InitializeComponent();
 
@@ -269,7 +269,7 @@ namespace EksamenSemEt.UI
 
         private void ResetSearchButton_Click(object? sender, EventArgs e)
         {
-            isInitializing = true;
+            isInitializing = true; //For ikke at pinge databasen 
 
             try
             {

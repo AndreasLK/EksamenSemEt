@@ -10,13 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="UI\Booking.cs" />
-    <Compile Remove="UI\Booking.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="UI\Booking.cs" />
-    <None Include="UI\Booking.Designer.cs" />
     <None Include="UI\FitHubUI.csproj" />
     <None Include="UI\FitHubUI.csproj.user" />
   </ItemGroup>
