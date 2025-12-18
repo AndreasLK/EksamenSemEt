@@ -31,8 +31,8 @@ namespace EksamenSemEt.UI
         private Rectangle rectangle;
 
         private bool initialLoadDone = false;
-        private readonly Timer fullLoadTimer = new Timer { Interval = 200 };
-        private readonly Timer debounceTimer = new Timer { Interval = 300 };
+        private readonly Timer fullLoadTimer = new Timer { Interval = 50 };
+        private readonly Timer debounceTimer = new Timer { Interval = 120 };
 
         public event EventHandler SelectedMemberChanged;
         public int? SelectedMemberID = null;
@@ -44,10 +44,18 @@ namespace EksamenSemEt.UI
         {
             InitializeComponent();
             dgv = MemberListView;
+            dgv.AutoGenerateColumns = false;
+
             searchField = SearchField;
 
             fullLoadTimer.Tick += (s, e) => LoadFullMemberData();
-            debounceTimer.Tick += (s, e) => LoadMemberData(isDebounced: true);
+            debounceTimer.Tick += (s, e) =>
+            {
+                debounceTimer.Stop();
+                LoadMemberData(isDebounced: true);
+            };
+
+  
 
             dgv.DataSource = source;
             dgv.CellValueChanged += MemberListView_CellValueChanged;
@@ -92,6 +100,7 @@ namespace EksamenSemEt.UI
             if (dgv != null)
             {
                 dgv.ReadOnly = false;
+                InitializeDGVSetup();
 
                 LoadMemberData();
             }
@@ -125,6 +134,8 @@ namespace EksamenSemEt.UI
 
         private void InitializeDGVSetup()
         {
+
+            dgv.AutoGenerateColumns = false;
             dgv.ReadOnly = isReadOnly;
             dgv.Dock = DockStyle.Fill;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -140,14 +151,52 @@ namespace EksamenSemEt.UI
                 dtp.Format = DateTimePickerFormat.Short;
                 dtp.ValueChanged += dtp_ValueChanged_Handler;
             }
+            dgv.Columns.Clear();
 
-            SetupCheckBoxColumn();
+            if (editingSessionID.HasValue) {
+                SetupCheckBoxColumn();
+            }
+
+
+
+            AddTextColumn("MemberID", "ID", "MemberID", readOnly: true);
+            AddTextColumn("FirstName", "Fornavn", "FirstName");
+            AddTextColumn("LastName", "Efternavn", "LastName");
+            AddTextColumn("DateOfBirth", "Fødselsdag", "DateOfBirth", visible: !isReadOnly);
+            AddTextColumn("Email", "Email", "Email", visible: !isReadOnly);
+            AddTextColumn("PhoneNumber", "Tlf. Nr", "PhoneNumber");
 
             SetupMemberTypeColumn();
 
-            ApplyColumnVisibilityAndState();
+            AddBoolColumn("Active", "Aktiv", "Active", visible: !isReadOnly);
+
+            ApplyColumnStyles();
+
 
         }
+
+        private void AddTextColumn(string dataProp, string header, string name, bool readOnly = false, bool visible = true)
+        {
+            var col = new DataGridViewTextBoxColumn();
+            col.DataPropertyName = dataProp;
+            col.HeaderText = header;
+            col.Name = name;
+            col.ReadOnly = isReadOnly || readOnly;
+            col.Visible = visible;
+            dgv.Columns.Add(col);
+        }
+
+        private void AddBoolColumn(string dataProp, string header, string name, bool visible = true)
+        {
+            var col = new DataGridViewCheckBoxColumn();
+            col.DataPropertyName = dataProp;
+            col.HeaderText = header;
+            col.Name = name;
+            col.ReadOnly = isReadOnly;
+            col.Visible = visible;
+            dgv.Columns.Add(col);
+        }
+
 
         private void SetupCheckBoxColumn()
         {
@@ -210,25 +259,23 @@ namespace EksamenSemEt.UI
             }
         }
 
-        private void ApplyColumnVisibilityAndState()
+        private void ApplyColumnStyles()
         {
             foreach (DataGridViewColumn col in dgv.Columns)
             {
-                if (col.Name == IsSessionMemberColoumnName)
+                if (col.Name == "MemberID")
                 {
-                    col.Visible = isReadOnly && editingSessionID.HasValue;
-                    col.ReadOnly = false;
-                } else if (col.Name == "MemberID"){
-                    col.ReadOnly = true;
                     col.DefaultCellStyle.BackColor = Color.LightGray;
-                    col.DefaultCellStyle.SelectionBackColor = Color.LightGray;
-                    col.DefaultCellStyle.SelectionForeColor = Color.Black;
+                }
+                else if (col.ReadOnly)
+                {
+                    col.DefaultCellStyle.BackColor = Color.WhiteSmoke;
+                    col.DefaultCellStyle.ForeColor = Color.Gray;
                 }
                 else
                 {
-                    col.ReadOnly = isReadOnly;
-                    col.DefaultCellStyle.BackColor = isReadOnly ? Color.WhiteSmoke : Color.White;
-                    col.DefaultCellStyle.ForeColor = isReadOnly ? Color.Gray : Color.Black;
+                    col.DefaultCellStyle.BackColor = Color.White;
+                    col.DefaultCellStyle.ForeColor = Color.Black;
                 }
             }
         }
@@ -281,11 +328,7 @@ namespace EksamenSemEt.UI
             isLoading = true;
             try
             {
-                int currentCount = 0;
-                if (source.DataSource is List<MemberViewModel> currentlist)
-                {
-                    currentCount = currentlist.Count;
-                }
+                int currentCount = source.Count;
 
                 var newMembers = await System.Threading.Tasks.Task.Run(() =>
                     memberRepo.broadSearch(searchString: searchField.Text.Trim(), limit: 99999, offset: currentCount).ToList()
@@ -322,10 +365,22 @@ namespace EksamenSemEt.UI
             }).ToList();
 
 
-            if (source.DataSource is List<MemberViewModel> currentList)
+            if (source.DataSource is IList<MemberViewModel> currentList)
             {
-                currentList.AddRange(newData);
+                foreach (var item in newData)
+                {
+                    currentList.Add(item);
+                }
+
                 source.ResetBindings(false);
+            }
+            else if (source.DataSource != null) //Fallback i tilfælde af fejl til konvertering til IList
+            {
+                var list = source.DataSource as dynamic;
+                foreach (var item in newData)
+                {
+                    list.Add(item);
+                }
             }
         }
 
@@ -349,7 +404,7 @@ namespace EksamenSemEt.UI
 
             DataGridHelper.LoadData(dgv, ref source, data);
 
-            ApplyColumnVisibilityAndState();
+            ApplyColumnStyles();
 
         }
 
@@ -391,6 +446,7 @@ namespace EksamenSemEt.UI
             }
         }
 
+
         private void MemberListView_CellValueChanged(object? sender, DataGridViewCellEventArgs e)
         {
             if (isLoading || e.RowIndex < 0 || isReadOnly) return;
@@ -408,21 +464,22 @@ namespace EksamenSemEt.UI
 
             try
             {
-                int id = Convert.ToInt32(row.Cells["MemberID"].Value);
-
-                var member = new Member
+                if (row.DataBoundItem is MemberViewModel vm)
                 {
-                    MemberID = id,
-                    FirstName = row.Cells["FirstName"].Value?.ToString() ?? "",
-                    LastName = row.Cells["LastName"].Value?.ToString() ?? "",
-                    DateOfBirth = row.Cells["DateOfBirth"].Value as DateTime?,
-                    Email = row.Cells["Email"].Value?.ToString(),
-                    PhoneNumber = row.Cells["PhoneNumber"].Value?.ToString(),
-                    MemberType = Convert.ToInt32(row.Cells["MemberType"].Value),
-                    Active = Convert.ToBoolean(row.Cells["Active"].Value)
-                };
+                    var member = new Member
+                    {
+                        MemberID = vm.MemberID,
+                        FirstName = vm.FirstName ?? "",
+                        LastName = vm.LastName ?? "",
+                        DateOfBirth = vm.DateOfBirth,
+                        Email = vm.Email,
+                        PhoneNumber = vm.PhoneNumber,
+                        MemberType = vm.MemberType,
+                        Active = vm.Active
+                    };
 
-                memberRepo.Update(member);
+                    memberRepo.Update(member);
+                }
             } catch(Exception ex)
             {
                 MessageBox.Show($"Fejl ved opdatering: {ex.Message}");

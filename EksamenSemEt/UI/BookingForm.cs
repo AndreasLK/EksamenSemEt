@@ -20,6 +20,9 @@ namespace EksamenSemEt.UI
         private readonly MemberGroupRepository memberGroupRepo;
         private readonly LocationRepository locationRepo;
         private readonly CertificationRepository certificationRepo;
+        private readonly BookingRepository bookingRepo;
+
+        private BookingListControl bookingListControl;
 
         private BindingSource sessionBindingSource = new BindingSource();
         private BindingSource bookingBindingSource = new BindingSource();
@@ -31,7 +34,8 @@ namespace EksamenSemEt.UI
             SessionRepository sessionRepository,
             MemberGroupRepository memberGroupRepository,
             LocationRepository locationRepository,
-            CertificationRepository certificationRepository
+            CertificationRepository certificationRepository,
+            BookingRepository bookingRepository
             )
         {
             this.memberRepo = memberRepository;
@@ -40,6 +44,7 @@ namespace EksamenSemEt.UI
             this.memberGroupRepo = memberGroupRepository;
             this.locationRepo = locationRepository;
             this.certificationRepo = certificationRepository;
+            this.bookingRepo = bookingRepository;
 
             InitializeComponent();
 
@@ -48,14 +53,78 @@ namespace EksamenSemEt.UI
                 memberSearch1.Configure(memberRepo, memberTypeRepo, isReadOnly: true);
             }
 
+            InitializeSessionTypes();
+            InitializeLocations();
+            InitializeDatePickers();
+
             SetupSessionGrid();
-            InitializeSearchFilters();
             WireUpSearchEvents();
+
+            if (bookingListControl1 != null)
+            {
+                bookingListControl1.Configure(
+                    bookingRepo,
+                    MemberSearch,
+                    InstructorSearch,
+                    BookingSessionTypeComboBox,
+                    BookingSessionLocationComboBox,
+                    dateTimePicker1,
+                    dateTimePicker2
+                    );
+            }
 
             isInitializing = false;
             LoadSearchData();
             CreateBookingButton.Click += CreateBooking_Click;
         }
+
+        private void InitializeSessionTypes()
+        {
+            
+            var comboBoxes = new List<ComboBox> {
+                SessionTypeComboBox,        
+                BookingSessionTypeComboBox  
+            };
+
+            var types = certificationRepo.GetAll().OrderBy(c => c.Name).ToList();
+
+            foreach (var comboBox in comboBoxes)
+            {
+                if (comboBox == null) continue; // Safety check
+
+                comboBox.DisplayMember = "Name";
+                comboBox.ValueMember = "CertificationID";
+                comboBox.DataSource = new List<Certificate>(types); 
+                comboBox.SelectedIndex = -1;
+            }
+        }
+
+        private void InitializeLocations()
+        {
+            var comboBoxes = new List<ComboBox> {
+                SessionLocationComboBox,       
+                BookingSessionLocationComboBox  
+            };
+
+            var locations = locationRepo.GetAll().OrderBy(l => l.Name).ToList();
+
+            foreach (var comboBox in comboBoxes)
+            {
+                if (comboBox == null) continue;
+
+                comboBox.DisplayMember = "Name";
+                comboBox.ValueMember = "LocationID";
+                comboBox.DataSource = new List<Location>(locations);
+                comboBox.SelectedIndex = -1;
+            }
+        }
+
+        private void InitializeDatePickers()
+        {
+            SessionMinDatePicker.Value = DateTime.Today;
+            SessionMaxDatePicker.Value = DateTime.Today.AddDays(14);
+        }
+
 
         private void SetupSessionGrid()
         {
@@ -67,36 +136,24 @@ namespace EksamenSemEt.UI
             SessionListView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void InitializeSearchFilters()
-        {
-            SessionTypeComboBox.DisplayMember = "Name";
-            SessionTypeComboBox.ValueMember = "CertificationID";
-            SessionTypeComboBox.DataSource = certificationRepo.GetAll().OrderBy(c => c.Name).ToList();
-            SessionTypeComboBox.SelectedIndex = -1;
-
-            SessionLocationComboBox.DisplayMember = "Name";
-            SessionLocationComboBox.ValueMember = "LocationID";
-            SessionLocationComboBox.DataSource = locationRepo.GetAll().OrderBy(l => l.Name).ToList();
-            SessionLocationComboBox.SelectedIndex = -1;
-
-            SessionMinDatePicker.Value = DateTime.Today;
-            SessionMaxDatePicker.Value = DateTime.Today.AddDays(14);
-        }
-
         private void WireUpSearchEvents()
         {
             SessionTypeComboBox.SelectedIndexChanged += OnSearchCriteriaChanged;
-            //add more
+            SessionLocationComboBox.SelectedIndexChanged += OnSearchCriteriaChanged;
+            SessionMinDatePicker.ValueChanged += OnSearchCriteriaChanged;
+            SessionMaxDatePicker.ValueChanged += OnSearchCriteriaChanged;
+            MinMembersUpDown.ValueChanged += OnSearchCriteriaChanged;
+            MaxMembersUpDown.ValueChanged += OnSearchCriteriaChanged;
+            AvailableSlotsUpDown.ValueChanged += OnSearchCriteriaChanged;
 
 
         }
 
         private void OnSearchCriteriaChanged(object? sender, EventArgs e)
         {
-            if (isInitializing)
-            {
-                LoadSearchData();
-            }
+            if (isInitializing) return;
+
+            LoadSearchData();
         }
 
         private void LoadSearchData()
@@ -121,17 +178,11 @@ namespace EksamenSemEt.UI
                     int id = s.SessionID.GetValueOrDefault();
                     int currentCount = sessionRepo.GetMemberCount(id);
 
-                    // Find Name in List
-                    string locName = "Ukendt";
-                    if (s.LocationID.HasValue && locationDict.ContainsKey(s.LocationID.Value))
-                    {
-                        locName = locationDict[s.LocationID.Value];
-                    }
-                    string typeName = "Ukendt";
-                    if (typeDict.ContainsKey(s.SessionType))
-                    {
-                        typeName = typeDict[s.SessionType];
-                    }
+                    string locName = (s.LocationID.HasValue && locationDict.ContainsKey(s.LocationID.Value))
+                        ? locationDict[s.LocationID.Value] : "Ukendt";
+
+                    string typeName = typeDict.ContainsKey(s.SessionType)
+                        ? typeDict[s.SessionType] : "Ukendt";
 
                     return new SessionViewModel
                     {
@@ -201,19 +252,25 @@ namespace EksamenSemEt.UI
                 });
 
                 DataGridHelper.ShowSuccess("Booking oprettet");
-                
+
                 int newCount = sessionRepo.GetMemberCount(selectedView.SessionID);
                 selectedView.BookedCount = newCount;
                 selectedView.Availability = $"{newCount} / {selectedView.MaxMembers}";
 
                 sessionBindingSource.ResetCurrentItem();
 
+                if (bookingListControl1 != null) {
+                    bookingListControl1.RefreshData();
+                }
+
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show($"Fejl ved booking: {ex.Message}");
             }
 
         }
+
     }
 }

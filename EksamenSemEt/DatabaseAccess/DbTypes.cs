@@ -104,4 +104,28 @@ namespace DatabaseAccessSem1
         public int BookedCount { get; set; }
         public required string Availability { get; set; }
     }
+
+    public record BookingViewModel
+    {
+        public int SessionID { get; set; }
+        public int? MemberID { get; set; }
+
+        public string MemberFirstName { get; set; } = string.Empty;
+        public string MemberLastName { get; set; } = string.Empty ;
+        public string MemberPhone { get; set; } = string.Empty;
+
+ 
+        public string SessionType { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
+        public DateTime Date { get; set; }
+        public string StartTime { get; set; } = string.Empty;
+        public string Duration { get; set; } = string.Empty;
+        public string Availability { get; set; } = string.Empty;
+
+        [Browsable(false)]
+        public List<Instructor> InstructorList { get; set; } = new();
+
+        [Browsable(false)]
+        public List<Member> BookedMembersList { get; set; } = new();
+    }
 }

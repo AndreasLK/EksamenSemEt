@@ -23,6 +23,7 @@ namespace EksamenSemEt.UI
         private readonly MemberTypeRepository memberTypeRepo;
         private readonly CertificationRepository certificateRepo;
         private readonly LocationRepository locationRepo;
+        private readonly BookingRepository bookingRepo;
 
 
         public MainForm()
@@ -46,6 +47,7 @@ namespace EksamenSemEt.UI
             memberTypeRepo = new MemberTypeRepository(dbFactory);
             certificateRepo = new CertificationRepository(dbFactory);
             locationRepo = new LocationRepository(dbFactory);
+            bookingRepo = new BookingRepository(dbFactory);
 
 
 
@@ -56,7 +58,7 @@ namespace EksamenSemEt.UI
 
             tableLayoutPanel1.Controls.Add(sideBar, 0, 0);
 
-            sideBar.BookingClicked += (s, e) => LoadView(new BookingForm(memberRepo, memberTypeRepo, sessionRepo, memberGroupRepo, locationRepo, certificateRepo));
+            sideBar.BookingClicked += (s, e) => LoadView(new BookingForm(memberRepo, memberTypeRepo, sessionRepo, memberGroupRepo, locationRepo, certificateRepo, bookingRepo));
             sideBar.MemberClicked += (s, e) => LoadView(new MemberForm(memberRepo, memberTypeRepo));
             sideBar.SessionClicked += (s, e) => LoadView(new SessionForm(certificateRepo, locationRepo, instructorRepo, instructorGroupRepo, sessionRepo));
             sideBar.InstructorClicked += (s, e) => LoadView(new InstructorForm(instructorRepo, certificateRepo));
