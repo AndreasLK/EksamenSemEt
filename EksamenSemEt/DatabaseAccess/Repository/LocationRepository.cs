@@ -18,9 +18,8 @@ namespace EksamenSemEt.DatabaseAccess.Repository
         public Location Create(Location location)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
-            string sql = @"INSERT INTO Locations 
-                        (Name) Values 
-                        (@Name) RETURNING *;";
+            string sql = @"INSERT INTO Locations (Name) 
+                        OUTPUT INSERTED.* VALUES(@Name);";
             return connection.QuerySingle<Location>(sql, location);
         }
 
@@ -34,9 +33,10 @@ namespace EksamenSemEt.DatabaseAccess.Repository
         public Location Update(Location location)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
-            string sql = @"UPDATE Locations SET 
-                        Name = @Name
-                        WHERE LocationID = @LocationID RETURNING *;";
+            string sql = @"UPDATE Locations 
+                           SET Name = @Name
+                           OUTPUT INSERTED.*
+                           WHERE LocationID = @LocationID;";
             return connection.QuerySingle<Location>(sql, location);
         }
 
@@ -65,7 +65,7 @@ namespace EksamenSemEt.DatabaseAccess.Repository
                 var paramName = $"@term{i}";
                 sqlBuilder.Append(
                                     $@" AND (
-                                    CAST(LocationID AS Text) LIKE {paramName}
+                                    CAST(LocationID AS NVARCHAR(50)) LIKE {paramName}
                                     OR Name LIKE {paramName}
                                     )");
                 parameters.Add(paramName, $"%{searchTerms[i]}%");

@@ -15,9 +15,8 @@ namespace EksamenSemEt.DatabaseAccess.Repository
         public Certificate Create(Certificate certificate)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
-            string sql = @"INSERT INTO Certifications 
-                        (Name) Values 
-                        (@Name) RETURNING *;";
+            string sql = @"INSERT INTO Certifications (Name) 
+                        OUTPUT INSERTED.* Values (@Name);";
             return connection.QuerySingle<Certificate>(sql, certificate);
         }
 
@@ -45,8 +44,9 @@ namespace EksamenSemEt.DatabaseAccess.Repository
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
             string sql = @"INSERT INTO CertificationGroups 
-                        (InstructorID, CertificationID) Values 
-                        (@InstructorID, @CertificationID) RETURNING *;";
+                        (InstructorID, CertificationID) 
+                        OUTPUT INSERTED.* Values 
+                        (@InstructorID, @CertificationID);";
             return connection.QuerySingle<Certificate>(sql, new { InstructorID = InstructorID, CertificationID = CertificationID });
         }
 
@@ -96,7 +96,7 @@ namespace EksamenSemEt.DatabaseAccess.Repository
                 var paramName = $"@term{i}";
                 sqlBuilder.Append(
                                     $@" AND (
-                                    CAST(CertificationID AS Text) LIKE {paramName}
+                                    CAST(CertificationID AS NVARCHAR(59)) LIKE {paramName}
                                     OR Name LIKE {paramName}
                                     )");
                 parameters.Add(paramName, $"%{searchTerms[i]}%");

@@ -72,7 +72,7 @@ namespace EksamenSemEt.DatabaseAccess.Repository
                     parameters.Add(pName, $"%{searchTerms[i]}%");
 
                     sqlBuilder.Append($@"
-                           CAST(mg.MemberID AS TEXT) LIKE {pName}
+                           CAST(mg.MemberID AS NVARCHAR(50)) LIKE {pName}
                         OR c.FirstName LIKE {pName}
                         OR c.LastName LIKE {pName}
                         OR c.PhoneNumber LIKE {pName}
@@ -88,7 +88,7 @@ namespace EksamenSemEt.DatabaseAccess.Repository
             {
                 var searchTerms = instructorSearch.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-                // We use EXISTS to check if the session has an instructor matching the name
+               //hvis instruktør findes 
                 sqlBuilder.Append(@" AND EXISTS (
                     SELECT 1 FROM InstructorGroups ig
                     JOIN Instructors i ON ig.InstructorID = i.InstructorID
@@ -101,7 +101,6 @@ namespace EksamenSemEt.DatabaseAccess.Repository
                     string pName = $"@iTerm{i}";
                     parameters.Add(pName, $"%{searchTerms[i]}%");
 
-                    // Check First OR Last name
                     sqlBuilder.Append($" (i.FirstName LIKE {pName} OR i.LastName LIKE {pName}) ");
                 }
 
@@ -150,7 +149,7 @@ namespace EksamenSemEt.DatabaseAccess.Repository
 
 
             sqlBuilder.Append(" ORDER BY s.DateTime DESC");
-            sqlBuilder.Append(" LIMIT @Limit OFFSET @Offset" );
+            sqlBuilder.Append(" OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY" );
 
             parameters.Add("Limit", limit);
             parameters.Add("Offset", offset);

@@ -15,9 +15,8 @@ namespace DatabaseAccessSem1.Repository
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
-            string sql = @"INSERT INTO Instructors 
-                        (FirstName, LastName) Values 
-                        (@FirstName, @LastName) RETURNING *;";
+            string sql = @"INSERT INTO Instructors (FirstName, LastName) 
+                           OUTPUT INSERTED.* VALUES (@FirstName, @LastName);";
 
             return connection.QuerySingle<Instructor>(sql, instructor);
         }
@@ -27,13 +26,10 @@ namespace DatabaseAccessSem1.Repository
     string? lastName = null)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
-                                                                  // 1. Start with a basic query that selects ALL columns so the Member object can be filled
             var sqlBuilder = new StringBuilder("SELECT InstructorID FROM Instructors WHERE 1=1");
 
-            // 2. Create a container for your safe parameters
             var parameters = new DynamicParameters();
 
-            // 3. Add filters only if they are provided
             if (!string.IsNullOrEmpty(firstName))
             {
                 sqlBuilder.Append(" AND FirstName LIKE @FirstName");
@@ -56,8 +52,9 @@ namespace DatabaseAccessSem1.Repository
 
             //Alt i denne funktion efter denne linje er black magic fuckery.
             //Proceed with caution
-            var sqlBuilder = new StringBuilder("SELECT DISTINCT i.* FROM Instructors i");
+            var sqlBuilder = new StringBuilder("SELECT DISTINCT TOP (@Limit) i.* FROM Instructors i");
             var parameters = new DynamicParameters();
+            parameters.Add("Limit", limit);
 
             bool validcert = certifcationID.HasValue && certifcationID.Value > 0;
             if (validcert)
@@ -99,13 +96,11 @@ namespace DatabaseAccessSem1.Repository
                     sqlBuilder.Append($@" AND (
                     FirstName LIKE {_paramName}
                 OR LastName LIKE {_paramName}
-                OR CAST(i.InstructorID AS TEXT) LIKE {_paramName}
+                OR CAST(i.InstructorID AS NVARCHAR(50)) LIKE {_paramName}
                 )");
                 }
             }
 
-            sqlBuilder.Append(" LIMIT @Limit");
-            parameters.Add("Limit", limit);
             return connection.Query<Instructor>(sqlBuilder.ToString(), parameters);
         }
 

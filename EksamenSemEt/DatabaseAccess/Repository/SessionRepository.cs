@@ -18,8 +18,9 @@ namespace DatabaseAccessSem1.Repository
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
             string sql = @"INSERT INTO Sessions 
-                        (SessionType, DateTime, SessionDuration, MaxMembers, LocationID) Values 
-                        (@SessionType, @DateTime, @SessionDuration, @MaxMembers, @LocationID) RETURNING *;";
+                        (SessionType, DateTime, SessionDuration, MaxMembers, LocationID)
+                        OUTPUT INSERTED.* Values 
+                        (@SessionType, @DateTime, @SessionDuration, @MaxMembers, @LocationID);";
 
             return connection.QuerySingle<Session>(sql, session);
         }

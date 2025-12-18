@@ -16,9 +16,8 @@ namespace DatabaseAccessSem1.Repository
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
-            string sql = @"INSERT INTO Customers 
-                        (FirstName, LastName, DateOfBirth, Email, PhoneNumber, MemberType, Active) Values 
-                        (@FirstName, @LastName, @DateOfBirth, @Email, @PhoneNumber, @MemberType, @Active) RETURNING *;";
+            string sql = @"INSERT INTO Customers (FirstName, LastName, DateOfBirth, Email, PhoneNumber, MemberType, Active) 
+                    OUTPUT INSERTED.* Values (@FirstName, @LastName, @DateOfBirth, @Email, @PhoneNumber, @MemberType, @Active);";
 
             return connection.QuerySingle<Member>(sql, member);
         }
@@ -112,8 +111,8 @@ namespace DatabaseAccessSem1.Repository
                     sqlBuilder.Append($@" AND (
                     FirstName LIKE {_paramName}
                 OR LastName LIKE {_paramName}
-                OR CAST(PhoneNumber AS TEXT) LIKE {_paramName}
-                OR CAST(MemberID AS TEXT) LIKE {_paramName}
+                OR PhoneNumber LIKE {_paramName}
+                OR CAST(MemberID AS NVARCHAR(50)) LIKE {_paramName}
                 )");
                 }
             }
@@ -124,7 +123,7 @@ namespace DatabaseAccessSem1.Repository
 
 
             sqlBuilder.Append(" ORDER BY MemberID");
-            sqlBuilder.Append(" LIMIT @Limit OFFSET @Offset");
+            sqlBuilder.Append(" OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY");
             parameters.Add("Limit", limit);
             parameters.Add("Offset", offset);
 
@@ -192,12 +191,12 @@ namespace DatabaseAccessSem1.Repository
             DateTime endOfWeek = startOfWeek.AddDays(7);
 
             string sql = @"
-        SELECT COUNT(*) 
-        FROM MemberGroups mg
-        INNER JOIN Sessions s ON mg.SessionID = s.SessionID
-        WHERE mg.MemberID = @MemberID
-        AND s.DateTime >= @StartOfWeek
-        AND s.DateTime < @EndOfWeek";
+                    SELECT COUNT(*) 
+                    FROM MemberGroups mg
+                    INNER JOIN Sessions s ON mg.SessionID = s.SessionID
+                    WHERE mg.MemberID = @MemberID
+                    AND s.DateTime >= @StartOfWeek
+                    AND s.DateTime < @EndOfWeek";
 
             return connection.ExecuteScalar<int>(sql, new
             {

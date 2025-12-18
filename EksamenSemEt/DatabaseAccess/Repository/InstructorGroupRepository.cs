@@ -17,8 +17,9 @@ namespace DatabaseAccessSem1.Repository
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
             string sql = @"INSERT INTO InstructorGroups 
-                        (InstructorID, SessionID) Values 
-                        (@InstructorID, @SessionID) RETURNING *;";
+                        (InstructorID, SessionID)
+                        OUTPUT INSERTED.* Values 
+                        (@InstructorID, @SessionID);";
 
             return connection.QuerySingle<InstructorGroup>(sql, instructorGroup);
         }
@@ -27,10 +28,9 @@ namespace DatabaseAccessSem1.Repository
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
-            string sql = @"SELECT Sessions.* FROM InstructorGroups
-                        RIGHT JOIN Sessions
-                        ON InstructorGroups.SessionID = Sessions.SessionID
-                        WHERE InstructorGroups.InstructorID = @InstructorID";
+            string sql = @"SELECT s.* FROM Sessions s
+                   INNER JOIN InstructorGroups ig ON s.SessionID = ig.SessionID
+                   WHERE ig.InstructorID = @InstructorID";
 
             return connection.Query<Session>(sql, new { InstructorID = instructorID });
 
@@ -41,7 +41,7 @@ namespace DatabaseAccessSem1.Repository
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
             string sql = @"SELECT Instructors.* FROM InstructorGroups
-                        RIGHT JOIN Instructors
+                        INNER JOIN Instructors
                         ON InstructorGroups.InstructorID = Instructors.InstructorID
                         WHERE InstructorGroups.SessionID = @SessionID";
 

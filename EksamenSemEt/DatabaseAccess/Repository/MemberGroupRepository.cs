@@ -16,9 +16,8 @@ namespace DatabaseAccessSem1.Repository
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
-            string sql = @"INSERT INTO MemberGroups 
-                        (MemberID, SessionID) Values 
-                        (@MemberID, @SessionID) RETURNING *;";
+            string sql = @"INSERT INTO MemberGroups (MemberID, SessionID) 
+                        OUTPUT INSERTED.* Values (@MemberID, @SessionID);";
 
             return connection.QuerySingle<MemberGroup>(sql, memberGroup);
         }
@@ -27,10 +26,9 @@ namespace DatabaseAccessSem1.Repository
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
-            string sql = @"SELECT Sessions.* FROM MemberGroups
-                        RIGHT JOIN Sessions
-                        ON MemberGroups.SessionID = Sessions.SessionID
-                        WHERE MemberGroups.MemberID = @MemberID";
+            string sql = @"SELECT s.* FROM Sessions s
+                           INNER JOIN MemberGroups mg ON s.SessionID = mg.SessionID
+                           WHERE mg.MemberID = @MemberID";
 
             return connection.Query<Session>(sql, new { MemberID = memberID });
 
@@ -40,10 +38,9 @@ namespace DatabaseAccessSem1.Repository
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
-            string sql = @"SELECT Members.* FROM MemberGroups
-                        RIGHT JOIN Customers
-                        ON MemberGroups.MemberID = Customers.MemberID
-                        WHERE MemberGroups.SessionID = @SessionID";
+            string sql = @"SELECT c.* FROM Customers c
+                           INNER JOIN MemberGroups mg ON c.MemberID = mg.MemberID
+                           WHERE mg.SessionID = @SessionID";
 
             return connection.Query<Member>(sql, new { SessionID = sessionID });
 
@@ -63,7 +60,7 @@ namespace DatabaseAccessSem1.Repository
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
-            string sql = @" UPDATE ´MemberGroups
+            string sql = @" UPDATE MemberGroups
                         SET
                             MemberID = @MemberID,
                             SessionID = @SessionID
