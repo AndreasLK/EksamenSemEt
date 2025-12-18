@@ -18,6 +18,9 @@ namespace Sem1BackupForms.Forms
         private CertificationRepository certificateRepo;
         private DataGridView dgv;
         private BindingSource bindingSource;
+
+        public event EventHandler<Instructor> OnHistoryRequested;
+
         private bool isLoading = false;
         private int queryLimit = 99999; //Mindre gør siden hurtigere at loade
         public InstructorForm(InstructorRepository instructorRepo, CertificationRepository certificateRepo)
@@ -51,6 +54,8 @@ namespace Sem1BackupForms.Forms
             dgv.SelectionChanged += Dgv_SelectionChanged;
 
             dgv.CellValueChanged += Dgv_CellValueChanged;
+
+            dgv.CellDoubleClick += Dgv_CellDoubleClick;
 
             tableLayoutPanel3.Controls.Add(dgv);
 
@@ -100,6 +105,17 @@ namespace Sem1BackupForms.Forms
                 }
             }
             isLoading = false;
+        }
+
+        private void Dgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            var selectedInstructor = dgv.Rows[e.RowIndex].DataBoundItem as Instructor;
+
+            if (selectedInstructor != null)
+            {
+                OnHistoryRequested?.Invoke(this, selectedInstructor);
+            }
         }
 
         private void LoadAllCertificatesIntoList(CheckedListBox box)

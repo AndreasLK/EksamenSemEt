@@ -24,6 +24,9 @@ namespace EksamenSemEt.DatabaseAccess.Repository
             int? locationID = null,
             int? maxMembers = null,
             int? amountBooked = null,
+            int? minCapacity = null,
+            int? maxCapacity = null,
+            int? minAvailable = null,
             int limit = 100,
             int offset = 0)
         {
@@ -128,6 +131,22 @@ namespace EksamenSemEt.DatabaseAccess.Repository
                 sqlBuilder.Append(" AND s.DateTime < @EndDate");
                 parameters.Add("@EndDate", endDate.Value.Date.AddDays(1)); // Next Midnight (covers whole day)
             }
+
+            if (minCapacity.HasValue && minCapacity.Value > 0) {
+                sqlBuilder.Append(" AND s.MaxMembers >= @MinCap");
+                parameters.Add("@MinCap", minCapacity);
+            }
+
+            if (maxCapacity.HasValue && maxCapacity.Value > 0) {
+                sqlBuilder.Append(" AND s.MaxMembers <= @MaxCap");
+                parameters.Add("@MaxCap", maxCapacity);
+            }
+
+            if (minAvailable.HasValue && minAvailable.Value > 0) {
+                sqlBuilder.Append(@" AND (s.MaxMembers - (SELECT COUNT(*) FROM MemberGroups sub WHERE sub.SessionID = s.SessionID)) >= @MinAvail");
+                parameters.Add("MinAvail", minAvailable);
+            }
+
 
 
             sqlBuilder.Append(" ORDER BY s.DateTime DESC");

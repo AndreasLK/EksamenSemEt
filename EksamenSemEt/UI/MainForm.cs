@@ -58,14 +58,36 @@ namespace EksamenSemEt.UI
 
             tableLayoutPanel1.Controls.Add(sideBar, 0, 0);
 
+            sideBar.MemberClicked += (s, e) =>
+            {
+                var form = new MemberForm(memberRepo, memberTypeRepo);
+
+                form.OnHistoryRequested += (sender, member) =>
+                {
+                    LoadHistoryForMember(member, form);
+                };
+
+                LoadView(form);
+            };
+
+            sideBar.InstructorClicked += (s, e) =>
+            {
+                var form = new InstructorForm(instructorRepo, certificateRepo);
+
+                form.OnHistoryRequested += (sender, instructor) =>
+                {
+                    LoadHistoryForInstructor(instructor, form);
+                };
+
+                LoadView(form);
+            };
+
             sideBar.BookingClicked += (s, e) => LoadView(new BookingForm(memberRepo, memberTypeRepo, sessionRepo, memberGroupRepo, locationRepo, certificateRepo, bookingRepo));
-            sideBar.MemberClicked += (s, e) => LoadView(new MemberForm(memberRepo, memberTypeRepo));
             sideBar.SessionClicked += (s, e) => LoadView(new SessionForm(certificateRepo, locationRepo, instructorRepo, instructorGroupRepo, sessionRepo));
-            sideBar.InstructorClicked += (s, e) => LoadView(new InstructorForm(instructorRepo, certificateRepo));
             sideBar.CertificateClicked += (s, e) => LoadView(new CertificateForm(certificateRepo, sessionRepo));
             sideBar.LocationClicked += (s, e) => LoadView(new LocationForm(locationRepo));
 
-            LoadView(new MemberForm(memberRepo, memberTypeRepo));
+            LoadView(new BookingForm(memberRepo, memberTypeRepo, sessionRepo, memberGroupRepo, locationRepo, certificateRepo, bookingRepo));
         }
 
         private void LoadView(UserControl view){
@@ -74,6 +96,21 @@ namespace EksamenSemEt.UI
             ContentPanel.Controls.Add(view);
         }
 
+        private void LoadHistoryForMember(Member member, UserControl returnToView)
+        {
+            var history = new HistoryControl(sessionRepo, memberRepo, instructorRepo, memberGroupRepo, instructorGroupRepo);
+            history.LoadHistory(member);
+            history.CloseRequested += (s, e) => LoadView(returnToView);
 
+            LoadView(history);
+        }
+        private void LoadHistoryForInstructor(Instructor instructor, UserControl returnToView)
+        {
+            var history = new HistoryControl(sessionRepo, memberRepo, instructorRepo, memberGroupRepo, instructorGroupRepo);
+            history.LoadHistory(instructor);
+            history.CloseRequested += (s, e) => LoadView(returnToView);
+
+            LoadView(history);
+        }
     }
 }

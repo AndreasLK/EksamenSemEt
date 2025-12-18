@@ -85,14 +85,14 @@ namespace DatabaseAccessSem1.Repository
 
             return connection.Query<int>(sqlBuilder.ToString(), parameters); // Selve forespørgsel til database
         }
-        public IEnumerable<Member> broadSearch(string searchString, int?sesionID = null, int limit = 100, int offset = 0)
+        public IEnumerable<Member> broadSearch(string searchString, int?sesionID = null, bool? excludeInactive = false,  int limit = 100, int offset = 0)
         {
             using var connection = _dbFactory.CreateConnection();
 
             var sqlBuilder = new StringBuilder("SELECT * FROM Customers WHERE 1=1");
             var parameters = new DynamicParameters();
 
-
+            if (excludeInactive.HasValue && excludeInactive.Value == true) sqlBuilder.Append(" AND Active = 1"); 
             if (sesionID.HasValue) {
                 sqlBuilder.Append(" AND MemberID IN (SELECT MemberID FROM MemberGroups WHERE SessionID = @SessionID)");
                 parameters.Add("SessionID", sesionID.Value);
@@ -180,19 +180,33 @@ namespace DatabaseAccessSem1.Repository
 		//Metode til tælle hvor mange hold et medlem har tilmeldt sig i den nuværrende uge. - Med hjælp fra chatten.
 		public int GetWeeklySessionCount(int memberId)
 		{
-			using var connection = _dbFactory.CreateConnection();               //  Med using lukkes forbindelse automatisk efter metoden er kørt
+            using var connection = _dbFactory.CreateConnection();
 
-			string sql = @"
-                SELECT COUNT(*) 
-                FROM MemberGroups mg                                              
-                INNER JOIN Sessions s ON mg.SessionID = s.SessionID                 //Joiner MemberGroups med Sessions for at få adgang til Session datoer
-                WHERE mg.MemberID = @MemberID                                       //Sikrer at det er det rigtige medlem
-                AND DATEPART(week, s.DateTime) = DATEPART(week, GETDATE())        //Sikrer at det er den aktuelle uge
-                AND DATEPART(year, s.DateTime) = DATEPART(year, GETDATE())";      //Sikrer at det er det aktuelle år
+            DateTime today = DateTime.Now.Date;
 
-			return connection.ExecuteScalar<int>(sql, new { MemberID = memberId });
+            int dayOfWeek = (int)today.DayOfWeek;
+            if (dayOfWeek == 0) dayOfWeek = 7;
 
-		}
+            DateTime startOfWeek = today.AddDays(1 - dayOfWeek);
+
+            DateTime endOfWeek = startOfWeek.AddDays(7);
+
+            string sql = @"
+        SELECT COUNT(*) 
+        FROM MemberGroups mg
+        INNER JOIN Sessions s ON mg.SessionID = s.SessionID
+        WHERE mg.MemberID = @MemberID
+        AND s.DateTime >= @StartOfWeek
+        AND s.DateTime < @EndOfWeek";
+
+            return connection.ExecuteScalar<int>(sql, new
+            {
+                MemberID = memberId,
+                StartOfWeek = startOfWeek,
+                EndOfWeek = endOfWeek
+            });
+
+        }
 
 		public bool IsActive(int memberId)
 		{

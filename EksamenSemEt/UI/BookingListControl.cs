@@ -1,4 +1,5 @@
 ﻿using DatabaseAccessSem1;
+using DatabaseAccessSem1.Repository;
 using EksamenSemEt.DatabaseAccess.Repository;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace EksamenSemEt.UI
     public partial class BookingListControl : UserControl
     {
         private BookingRepository bookingRepo;
+        private MemberGroupRepository memberGroupRepo;
         private DataGridView dgv;
         private BindingSource source = new BindingSource();
 
@@ -23,6 +25,9 @@ namespace EksamenSemEt.UI
         private ComboBox locCombo;
         private DateTimePicker startPicker;
         private DateTimePicker endPicker;
+        private NumericUpDown minCapBox;
+        private NumericUpDown maxCapBox;
+        private NumericUpDown availBox;
 
 
 
@@ -43,9 +48,14 @@ namespace EksamenSemEt.UI
             dgv.AutoGenerateColumns = false;
 
             dgv.ReadOnly = true;
+            dgv.AllowUserToDeleteRows = true;
+            dgv.AllowUserToAddRows = false;
+
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.MultiSelect = false;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgv.UserDeletingRow += Dgv_UserDeletingRow;
 
             dgv.SelectionChanged += (s, e) => BookingSelectionChanged?.Invoke(this, EventArgs.Empty);
 
@@ -65,14 +75,20 @@ namespace EksamenSemEt.UI
 
         public void Configure(
             BookingRepository bookingRepository,
+            MemberGroupRepository memberGroupRepository,
             TextBox memberSearchBox,
             TextBox instructorSearchBox,
             ComboBox typeCombo = null,
             ComboBox locCombo = null,
             DateTimePicker startPicker = null,
-            DateTimePicker endPicker = null
-            ){
+            DateTimePicker endPicker = null,
+            NumericUpDown minCapBox = null,
+            NumericUpDown maxCapBox = null,
+            NumericUpDown availBox = null
+            )
+        {
             this.bookingRepo = bookingRepository;
+            this.memberGroupRepo = memberGroupRepository;
             this.memberSearchField = memberSearchBox;
             this.instructorSearchField = instructorSearchBox;
 
@@ -80,6 +96,9 @@ namespace EksamenSemEt.UI
             this.locCombo = locCombo;
             this.startPicker = startPicker;
             this.endPicker = endPicker;
+            this.minCapBox = minCapBox;
+            this.maxCapBox = maxCapBox;
+            this.availBox = availBox;
 
 
 
@@ -91,6 +110,10 @@ namespace EksamenSemEt.UI
             if (locCombo != null) locCombo.SelectedIndexChanged += SearchInputChanged;
             if (startPicker != null) startPicker.ValueChanged += SearchInputChanged;
             if (endPicker != null) endPicker.ValueChanged += SearchInputChanged;
+            if (minCapBox != null) minCapBox.ValueChanged += SearchInputChanged;
+            if (maxCapBox != null) maxCapBox.ValueChanged += SearchInputChanged;
+            if (availBox != null) availBox.ValueChanged += SearchInputChanged;
+
             FetchData(limit: INIT_LIMIT);
         }
 
@@ -124,15 +147,21 @@ namespace EksamenSemEt.UI
                 DateTime? start = startPicker?.Value;
                 DateTime? end = startPicker.Value;
 
+                int? minC = (minCapBox != null && minCapBox.Value > 0) ? (int)minCapBox.Value : null;
+                int? maxC = (maxCapBox != null && maxCapBox.Value > 0) ? (int)maxCapBox.Value : null;
+                int? avail = (availBox != null && availBox.Value > 0) ? (int)availBox.Value : null;
+
                 var bookings = await Task.Run(() =>
                     bookingRepo.AdvancedSearch(
                         memberSearch: memText,
                         instructorSearch: insText,
-
-                        sessionTypeID: typeID,
-                        locationID: locID,
                         startDate: start,
                         endDate: end,
+                        sessionTypeID: typeID,
+                        locationID: locID,
+                        minCapacity: minC,
+                        maxCapacity: maxC,
+                        minAvailable: avail,
                         limit: limit
                     )
                 );
@@ -211,6 +240,51 @@ namespace EksamenSemEt.UI
             };
             dgv.Columns.Add(col);
             return col;
+        }
+
+
+        private void Dgv_UserDeletingRow(object? sender, DataGridViewRowCancelEventArgs e)
+        {
+            if (e.Row.DataBoundItem is not BookingViewModel selected)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            if (selected.SessionID <= 0 || selected.MemberID == null)
+            {
+                MessageBox.Show("Kan ikke slette: Ugyldigt ID.", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+                return;
+            }
+
+            var result = MessageBox.Show(
+        $"Er du sikker på at du vil slette bookingen for:\n\n" +
+        $"Medlem: {selected.MemberFirstName} {selected.MemberLastName}\n" +
+        $"Hold: {selected.SessionType} ({selected.StartTime})\n\n" +
+        "Dette kan ikke fortrydes.",
+        "Slet Booking",
+        MessageBoxButtons.YesNo,
+        MessageBoxIcon.Warning); //Besked nappet fra Chatten
+
+
+            if (result == DialogResult.No)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            try
+            {
+                memberGroupRepo.DeleteGroup(selected.MemberID.Value, selected.SessionID);
+
+                e.Cancel = true;
+                RefreshData();
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"Kunne ikke slette booking: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
         }
 
 

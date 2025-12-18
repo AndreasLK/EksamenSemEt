@@ -68,6 +68,8 @@
             BookingAvailableSlotsUpDown = new NumericUpDown();
             label19 = new Label();
             InstructorSearch = new TextBox();
+            ResetBookingSearchButton = new Button();
+            ResetSearchButton = new Button();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)SessionListView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)MinMembersUpDown).BeginInit();
@@ -141,6 +143,8 @@
             tableLayoutPanel1.Controls.Add(BookingAvailableSlotsUpDown, 12, 11);
             tableLayoutPanel1.Controls.Add(label19, 13, 10);
             tableLayoutPanel1.Controls.Add(InstructorSearch, 13, 11);
+            tableLayoutPanel1.Controls.Add(ResetBookingSearchButton, 18, 10);
+            tableLayoutPanel1.Controls.Add(ResetSearchButton, 8, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -567,6 +571,29 @@
             InstructorSearch.Size = new Size(274, 23);
             InstructorSearch.TabIndex = 64;
             // 
+            // ResetBookingSearchButton
+            // 
+            tableLayoutPanel1.SetColumnSpan(ResetBookingSearchButton, 3);
+            ResetBookingSearchButton.Dock = DockStyle.Fill;
+            ResetBookingSearchButton.Location = new Point(1639, 523);
+            ResetBookingSearchButton.Name = "ResetBookingSearchButton";
+            tableLayoutPanel1.SetRowSpan(ResetBookingSearchButton, 2);
+            ResetBookingSearchButton.Size = new Size(262, 98);
+            ResetBookingSearchButton.TabIndex = 65;
+            ResetBookingSearchButton.Text = "Nulstil Søgefelter";
+            ResetBookingSearchButton.UseVisualStyleBackColor = true;
+            // 
+            // ResetSearchButton
+            // 
+            tableLayoutPanel1.SetColumnSpan(ResetSearchButton, 4);
+            ResetSearchButton.Dock = DockStyle.Fill;
+            ResetSearchButton.Location = new Point(817, 3);
+            ResetSearchButton.Name = "ResetSearchButton";
+            ResetSearchButton.Size = new Size(247, 54);
+            ResetSearchButton.TabIndex = 66;
+            ResetSearchButton.Text = "Nulstil Søgefelter";
+            ResetSearchButton.UseVisualStyleBackColor = true;
+            // 
             // BookingForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -628,5 +655,7 @@
         private NumericUpDown BookingAvailableSlotsUpDown;
         private Label label19;
         private TextBox InstructorSearch;
+        private Button ResetBookingSearchButton;
+        private Button ResetSearchButton;
     }
 }

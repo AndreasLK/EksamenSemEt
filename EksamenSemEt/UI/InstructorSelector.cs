@@ -197,7 +197,7 @@ namespace EksamenSemEt.UI
                     }
                     else
                     {
-                        instructorGroupRepo.DeleteInstructorFromSession(editingSessionID.Value, id);
+                        instructorGroupRepo.DeleteGroup(editingSessionID.Value, id);
                         cachedAssignedIDs.Remove(id);
                     }
                 }

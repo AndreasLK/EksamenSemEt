@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Collections.Specialized.BitVector32;
 
 namespace DatabaseAccessSem1.Repository
 {
@@ -144,6 +145,42 @@ namespace DatabaseAccessSem1.Repository
                         WHERE SessionID = @SessionID";
             return connection.ExecuteScalar<int>(sql, new { SessionID = sessionID });
         }
+
+        public IEnumerable<Session> GetSessionsByMember(int memberID)
+        {
+            using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
+
+            string sql = @"SELECT   s.*,
+                                    c.Name as SessionTypeName,
+                                    l.Name as LocationName
+                            FROM Sessions s
+                            JOIN MemberGroups mg ON s.SessionID = mg.SessionID
+                            LEFT JOIN Certifications c ON s.SessionType = c.CertificationID
+                            LEFT JOIN Locations l ON s.LocationID = l.LocationID
+                            
+                            WHERE mg.MemberID = @MemberID;";
+
+            return connection.Query<Session>(sql, new { MemberID = memberID });
+        }
+
+        public IEnumerable<Session> GetSessionsByInstructor(int instructorID)
+        {
+            using var connection = _dbFactory.CreateConnection();
+
+            var sql = @"
+                SELECT s.*, 
+                       c.Name as SessionTypeName,
+                       l.Name as LocationName
+                FROM Sessions s
+                JOIN InstructorGroups ig ON s.SessionID = ig.SessionID
+                LEFT JOIN Certifications c ON s.SessionType = c.CertificationID
+                LEFT JOIN Locations l ON s.LocationID = l.LocationID
+
+                WHERE ig.InstructorID = @InstructorID;";
+
+            return connection.Query<Session>(sql, new { InstructorID = instructorID });
+        }
+
 
         public int Update(Session session)
         {

@@ -80,7 +80,7 @@ namespace DatabaseAccessSem1.Repository
             return connection.Execute(sql, new { GroupingID = groupingID }); //Returnere mængden af rækker opdateret (forhåbeligt 1)
         }
 
-        public int DeleteInstructorFromSession(int sessionID, int instructorID)
+        public int DeleteGroup(int sessionID, int instructorID)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
             string sql = @"DELETE FROM InstructorGroups

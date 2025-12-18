@@ -1,5 +1,6 @@
 ﻿using DatabaseAccessSem1;
 using DatabaseAccessSem1.Repository;
+using DatabaseAccessSem1.Services;
 using EksamenSemEt.DatabaseAccess.Repository;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ namespace EksamenSemEt.UI
 
         private BookingListControl bookingListControl;
 
+        private readonly BookingService bookingService;
+
         private BindingSource sessionBindingSource = new BindingSource();
         private BindingSource bookingBindingSource = new BindingSource();
         private bool isInitializing = true;
@@ -45,12 +48,13 @@ namespace EksamenSemEt.UI
             this.locationRepo = locationRepository;
             this.certificationRepo = certificationRepository;
             this.bookingRepo = bookingRepository;
+            this.bookingService = new BookingService(sessionRepo, memberGroupRepo, memberRepo);
 
             InitializeComponent();
 
             if (memberSearch1 != null)
             {
-                memberSearch1.Configure(memberRepo, memberTypeRepo, isReadOnly: true);
+                memberSearch1.Configure(memberRepo, memberTypeRepo, isReadOnly: true, excludeInactive: true);
             }
 
             InitializeSessionTypes();
@@ -64,18 +68,33 @@ namespace EksamenSemEt.UI
             {
                 bookingListControl1.Configure(
                     bookingRepo,
+                    memberGroupRepo,
                     MemberSearch,
                     InstructorSearch,
                     BookingSessionTypeComboBox,
                     BookingSessionLocationComboBox,
                     dateTimePicker1,
-                    dateTimePicker2
+                    dateTimePicker2,
+                    BookingMinMemberUpDown,
+                    BookingMaxMemberUpDown,
+                    BookingAvailableSlotsUpDown
                     );
             }
+
 
             isInitializing = false;
             LoadSearchData();
             CreateBookingButton.Click += CreateBooking_Click;
+
+            if (ResetBookingSearchButton != null)
+            {
+                ResetBookingSearchButton.Click += ResetBookingSearchButton_Click;
+            }
+
+            if (ResetSearchButton != null)
+            {
+                ResetSearchButton.Click += ResetSearchButton_Click;
+            }
         }
 
         private void InitializeSessionTypes()
@@ -213,63 +232,64 @@ namespace EksamenSemEt.UI
 
         private void CreateBooking_Click(object? sender, EventArgs e)
         {
-            if (SessionListView.CurrentRow == null)
-            {
-                MessageBox.Show("Vælg venligst et hold.");
-                return;
-            }
-
+            if (SessionListView.CurrentRow == null) { MessageBox.Show("Vælg venligst et hold."); return; }
             var selectedView = SessionListView.CurrentRow.DataBoundItem as SessionViewModel;
 
-            if (selectedView.BookedCount >= selectedView.MaxMembers)
-            {
-                MessageBox.Show($"Holdet er fyldt! ({selectedView.Availability})");
-                return;
-            }
-
             int? memberID = memberSearch1.GetSelectedMemberID();
-            if (memberID == null)
+            if (memberID == null) { MessageBox.Show("Vælg venligst et medlem."); return; }
+
+            bool success = bookingService.TryBookSession(memberID.Value, selectedView.SessionID);
+
+            if (success)
             {
-                MessageBox.Show("Vælg venligst et medlem.");
-                return;
-            }
-
-
-            try
-            {
-                List<int> existingMembers = memberGroupRepo.GetMembersIDs(selectedView.SessionID).ToList();
-
-                if (existingMembers.Contains(memberID.Value))
-                {
-                    MessageBox.Show("Dette medlem er allerede på holdet.");
-                    return;
-                }
-
-                memberGroupRepo.Create(new MemberGroup
-                {
-                    SessionID = selectedView.SessionID,
-                    MemberID = memberID.Value
-                });
-
-                DataGridHelper.ShowSuccess("Booking oprettet");
-
                 int newCount = sessionRepo.GetMemberCount(selectedView.SessionID);
                 selectedView.BookedCount = newCount;
                 selectedView.Availability = $"{newCount} / {selectedView.MaxMembers}";
-
                 sessionBindingSource.ResetCurrentItem();
 
-                if (bookingListControl1 != null) {
-                    bookingListControl1.RefreshData();
-                }
-
-
+                bookingListControl1?.RefreshData();
             }
-            catch (Exception ex)
+        }
+
+        private void ResetBookingSearchButton_Click(object sender, EventArgs e)
+        {
+            MemberSearch.Text = string.Empty;
+            InstructorSearch.Text = string.Empty;
+
+            BookingSessionTypeComboBox.SelectedIndex = -1;
+            BookingSessionLocationComboBox.SelectedIndex = -1;
+
+            dateTimePicker1.Value = DateTime.Today;
+            dateTimePicker2.Value = DateTime.Today.AddDays(14);
+
+            BookingMinMemberUpDown.Value = 0;
+            BookingMaxMemberUpDown.Value = 0;
+            BookingAvailableSlotsUpDown.Value = 0;
+        }
+
+        private void ResetSearchButton_Click(object? sender, EventArgs e)
+        {
+            isInitializing = true;
+
+            try
             {
-                MessageBox.Show($"Fejl ved booking: {ex.Message}");
-            }
+                SessionTypeComboBox.SelectedIndex = -1;
+                SessionLocationComboBox.SelectedIndex = -1;
 
+ 
+                SessionMinDatePicker.Value = DateTime.Today;
+                SessionMaxDatePicker.Value = DateTime.Today.AddDays(14);
+
+                MinMembersUpDown.Value = 0;
+                MaxMembersUpDown.Value = 0;
+                AvailableSlotsUpDown.Value = 0;
+            }
+            finally
+            {
+                isInitializing = false;
+
+                LoadSearchData();
+            }
         }
 
     }

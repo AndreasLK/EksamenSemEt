@@ -40,6 +40,9 @@ namespace DatabaseAccessSem1
         public required int MaxMembers { get; init; }
         public int? LocationID { get; init; }
         public int? SlotsAvailable { get; init; }
+
+        public string? LocationName { get; init; }
+        public string? SessionTypeName { get; init; }
     }
 
     public record MemberGroup
@@ -128,4 +131,5 @@ namespace DatabaseAccessSem1
         [Browsable(false)]
         public List<Member> BookedMembersList { get; set; } = new();
     }
+
 }

@@ -20,6 +20,7 @@ namespace EksamenSemEt.UI
         private BindingSource source = new BindingSource();
         private TextBox searchField;
 
+        public event EventHandler<int> MemberDoubleClicked;
 
         private MemberGroupRepository memberGroupRepo;
         private int? editingSessionID;
@@ -37,6 +38,7 @@ namespace EksamenSemEt.UI
         public event EventHandler SelectedMemberChanged;
         public int? SelectedMemberID = null;
         public bool isReadOnly = false;
+        private bool excludeInactive = false;
 
         private const string IsSessionMemberColoumnName = "IsBookedOnSession";
 
@@ -66,11 +68,23 @@ namespace EksamenSemEt.UI
             dgv.Scroll += dtp_Scroll;
             dgv.DataError += Dgv_DataError;
 
+            dgv.CellDoubleClick += Dgv_CellDoubleClick;
             searchField.TextChanged += Debounced_SearchFieldText_TextChanged;
 
 
         }
 
+        private void Dgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var member = dgv.Rows[e.RowIndex].DataBoundItem as MemberViewModel;
+
+            if (member != null && member.MemberID.HasValue)
+            {
+                MemberDoubleClicked?.Invoke(this, member.MemberID.Value);
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {
@@ -111,7 +125,9 @@ namespace EksamenSemEt.UI
             MemberTypeRepository memberTypeRepo,
             MemberGroupRepository? memberGroupRepo = null,
             int? editingSessionID = null,
-            bool isReadOnly = false)
+            bool isReadOnly = false,
+            bool excludeInactive = false
+            )
         {
             this.memberRepo = memberRepo;
             this.memberTypeRepo = memberTypeRepo;
@@ -119,6 +135,7 @@ namespace EksamenSemEt.UI
             this.editingSessionID = editingSessionID;
 
             this.isReadOnly = isReadOnly;
+            this.excludeInactive = excludeInactive;
 
             if (this.editingSessionID.HasValue) { 
                 cachedSessionMemberIDs = this.memberGroupRepo.GetMembersIDs(this.editingSessionID.Value).ToHashSet();
@@ -305,7 +322,7 @@ namespace EksamenSemEt.UI
             try
             {
                 var members = await System.Threading.Tasks.Task.Run(() =>
-                    memberRepo.broadSearch(searchString: searchField.Text.Trim(), limit: 100).ToList()
+                    memberRepo.broadSearch(searchString: searchField.Text.Trim(), limit: 100, excludeInactive: excludeInactive).ToList()
                 );
                 UpdateDGVData(members);
             } catch(Exception ex)
@@ -331,7 +348,7 @@ namespace EksamenSemEt.UI
                 int currentCount = source.Count;
 
                 var newMembers = await System.Threading.Tasks.Task.Run(() =>
-                    memberRepo.broadSearch(searchString: searchField.Text.Trim(), limit: 99999, offset: currentCount).ToList()
+                    memberRepo.broadSearch(searchString: searchField.Text.Trim(), limit: 99999, offset: currentCount, excludeInactive: excludeInactive).ToList()
                 );
                 
                 if (newMembers.Count > 0)

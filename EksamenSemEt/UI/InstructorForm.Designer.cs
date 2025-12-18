@@ -59,12 +59,11 @@
             tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Margin = new Padding(3, 4, 3, 4);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
-            tableLayoutPanel1.Size = new Size(2176, 1388);
+            tableLayoutPanel1.Size = new Size(1904, 1041);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // tableLayoutPanel2
@@ -84,8 +83,7 @@
             tableLayoutPanel2.Controls.Add(CertificatesCreateCheckedList, 4, 1);
             tableLayoutPanel2.Controls.Add(AddInstructorButton, 4, 3);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(3, 4);
-            tableLayoutPanel2.Margin = new Padding(3, 4, 3, 4);
+            tableLayoutPanel2.Location = new Point(3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 5;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
@@ -93,7 +91,7 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
-            tableLayoutPanel2.Size = new Size(2170, 408);
+            tableLayoutPanel2.Size = new Size(1898, 306);
             tableLayoutPanel2.TabIndex = 1;
             // 
             // label1
@@ -102,9 +100,9 @@
             label1.BackColor = SystemColors.Control;
             label1.Dock = DockStyle.Fill;
             label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(3, 20);
+            label1.Location = new Point(3, 15);
             label1.Name = "label1";
-            label1.Size = new Size(92, 163);
+            label1.Size = new Size(80, 122);
             label1.TabIndex = 14;
             label1.Text = "Fornavn* :";
             label1.TextAlign = ContentAlignment.TopRight;
@@ -115,9 +113,9 @@
             label2.BackColor = SystemColors.Control;
             label2.Dock = DockStyle.Fill;
             label2.ForeColor = SystemColors.ControlText;
-            label2.Location = new Point(3, 183);
+            label2.Location = new Point(3, 137);
             label2.Name = "label2";
-            label2.Size = new Size(92, 102);
+            label2.Size = new Size(80, 76);
             label2.TabIndex = 1;
             label2.Text = "Efternavn* :";
             label2.TextAlign = ContentAlignment.TopRight;
@@ -127,10 +125,9 @@
             FirstNameTextBox.BackColor = SystemColors.Window;
             FirstNameTextBox.Dock = DockStyle.Fill;
             FirstNameTextBox.ForeColor = SystemColors.WindowText;
-            FirstNameTextBox.Location = new Point(101, 24);
-            FirstNameTextBox.Margin = new Padding(3, 4, 3, 4);
+            FirstNameTextBox.Location = new Point(89, 18);
             FirstNameTextBox.Name = "FirstNameTextBox";
-            FirstNameTextBox.Size = new Size(503, 27);
+            FirstNameTextBox.Size = new Size(439, 23);
             FirstNameTextBox.TabIndex = 3;
             // 
             // LastNameTextBox
@@ -138,10 +135,9 @@
             LastNameTextBox.BackColor = SystemColors.Window;
             LastNameTextBox.Dock = DockStyle.Fill;
             LastNameTextBox.ForeColor = SystemColors.WindowText;
-            LastNameTextBox.Location = new Point(101, 187);
-            LastNameTextBox.Margin = new Padding(3, 4, 3, 4);
+            LastNameTextBox.Location = new Point(89, 140);
             LastNameTextBox.Name = "LastNameTextBox";
-            LastNameTextBox.Size = new Size(503, 27);
+            LastNameTextBox.Size = new Size(439, 23);
             LastNameTextBox.TabIndex = 2;
             // 
             // label3
@@ -150,9 +146,9 @@
             label3.BackColor = SystemColors.Control;
             label3.Dock = DockStyle.Fill;
             label3.ForeColor = SystemColors.ControlText;
-            label3.Location = new Point(610, 20);
+            label3.Location = new Point(534, 15);
             label3.Name = "label3";
-            label3.Size = new Size(156, 163);
+            label3.Size = new Size(136, 122);
             label3.TabIndex = 15;
             label3.Text = "Certifikater:";
             label3.TextAlign = ContentAlignment.TopRight;
@@ -164,11 +160,10 @@
             CertificatesCreateCheckedList.Dock = DockStyle.Fill;
             CertificatesCreateCheckedList.ForeColor = SystemColors.WindowText;
             CertificatesCreateCheckedList.FormattingEnabled = true;
-            CertificatesCreateCheckedList.Location = new Point(772, 24);
-            CertificatesCreateCheckedList.Margin = new Padding(3, 4, 3, 4);
+            CertificatesCreateCheckedList.Location = new Point(676, 18);
             CertificatesCreateCheckedList.Name = "CertificatesCreateCheckedList";
             tableLayoutPanel2.SetRowSpan(CertificatesCreateCheckedList, 2);
-            CertificatesCreateCheckedList.Size = new Size(259, 257);
+            CertificatesCreateCheckedList.Size = new Size(226, 192);
             CertificatesCreateCheckedList.TabIndex = 16;
             // 
             // AddInstructorButton
@@ -176,10 +171,9 @@
             AddInstructorButton.BackColor = SystemColors.Window;
             AddInstructorButton.Dock = DockStyle.Fill;
             AddInstructorButton.ForeColor = SystemColors.WindowText;
-            AddInstructorButton.Location = new Point(772, 289);
-            AddInstructorButton.Margin = new Padding(3, 4, 3, 4);
+            AddInstructorButton.Location = new Point(676, 216);
             AddInstructorButton.Name = "AddInstructorButton";
-            AddInstructorButton.Size = new Size(259, 53);
+            AddInstructorButton.Size = new Size(226, 39);
             AddInstructorButton.TabIndex = 13;
             AddInstructorButton.Text = "Tilføj Instruktør";
             AddInstructorButton.UseVisualStyleBackColor = false;
@@ -199,13 +193,12 @@
             tableLayoutPanel3.Controls.Add(label4, 2, 0);
             tableLayoutPanel3.Dock = DockStyle.Fill;
             tableLayoutPanel3.ForeColor = SystemColors.ControlText;
-            tableLayoutPanel3.Location = new Point(3, 420);
-            tableLayoutPanel3.Margin = new Padding(3, 4, 3, 4);
+            tableLayoutPanel3.Location = new Point(3, 315);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 2;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 85F));
-            tableLayoutPanel3.Size = new Size(2170, 964);
+            tableLayoutPanel3.Size = new Size(1898, 723);
             tableLayoutPanel3.TabIndex = 2;
             // 
             // CertificateCheckedList
@@ -215,10 +208,9 @@
             CertificateCheckedList.Dock = DockStyle.Fill;
             CertificateCheckedList.ForeColor = SystemColors.WindowText;
             CertificateCheckedList.FormattingEnabled = true;
-            CertificateCheckedList.Location = new Point(1747, 148);
-            CertificateCheckedList.Margin = new Padding(3, 4, 3, 4);
+            CertificateCheckedList.Location = new Point(1528, 111);
             CertificateCheckedList.Name = "CertificateCheckedList";
-            CertificateCheckedList.Size = new Size(420, 812);
+            CertificateCheckedList.Size = new Size(367, 609);
             CertificateCheckedList.TabIndex = 17;
             // 
             // InstructorListView
@@ -226,8 +218,7 @@
             InstructorListView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableLayoutPanel3.SetColumnSpan(InstructorListView, 2);
             InstructorListView.Dock = DockStyle.Fill;
-            InstructorListView.Location = new Point(3, 148);
-            InstructorListView.Margin = new Padding(3, 4, 3, 4);
+            InstructorListView.Location = new Point(3, 111);
             InstructorListView.Name = "InstructorListView";
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
@@ -238,7 +229,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             InstructorListView.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             InstructorListView.RowHeadersWidth = 51;
-            InstructorListView.Size = new Size(1738, 812);
+            InstructorListView.Size = new Size(1519, 609);
             InstructorListView.TabIndex = 3;
             InstructorListView.UserDeletingRow += InstructorListView_UserDeletingRow;
             // 
@@ -248,7 +239,7 @@
             label6.Dock = DockStyle.Fill;
             label6.Location = new Point(3, 0);
             label6.Name = "label6";
-            label6.Size = new Size(38, 144);
+            label6.Size = new Size(30, 108);
             label6.TabIndex = 1;
             label6.Text = "Søg:";
             label6.TextAlign = ContentAlignment.BottomRight;
@@ -259,10 +250,9 @@
             SearchFieldText.BorderStyle = BorderStyle.FixedSingle;
             SearchFieldText.Dock = DockStyle.Bottom;
             SearchFieldText.ForeColor = SystemColors.WindowText;
-            SearchFieldText.Location = new Point(47, 113);
-            SearchFieldText.Margin = new Padding(3, 4, 3, 4);
+            SearchFieldText.Location = new Point(39, 82);
             SearchFieldText.Name = "SearchFieldText";
-            SearchFieldText.Size = new Size(1694, 27);
+            SearchFieldText.Size = new Size(1483, 23);
             SearchFieldText.TabIndex = 2;
             SearchFieldText.TextChanged += SearchFieldText_TextChanged;
             // 
@@ -272,21 +262,20 @@
             label4.BackColor = SystemColors.Control;
             label4.Dock = DockStyle.Bottom;
             label4.ForeColor = SystemColors.ControlText;
-            label4.Location = new Point(1747, 124);
+            label4.Location = new Point(1528, 93);
             label4.Name = "label4";
-            label4.Size = new Size(420, 20);
+            label4.Size = new Size(367, 15);
             label4.TabIndex = 18;
             label4.Text = "Certifikater";
             // 
             // InstructorForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             Controls.Add(tableLayoutPanel1);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "InstructorForm";
-            Size = new Size(2176, 1388);
+            Size = new Size(1904, 1041);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();

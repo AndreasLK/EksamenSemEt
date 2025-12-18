@@ -10,7 +10,7 @@ namespace Sem1BackupForms
     {
         private MemberRepository memberRepo;
         private MemberTypeRepository memberTypeRepo;
-
+        public event EventHandler<Member> OnHistoryRequested;
         public MemberForm(MemberRepository memberRepo, MemberTypeRepository memberTypeRepo)
         {
             this.memberRepo = memberRepo;
@@ -22,9 +22,21 @@ namespace Sem1BackupForms
             if (memberSearch1 != null)
             {
                 memberSearch1.Configure(memberRepo, memberTypeRepo, isReadOnly: false);
+
+                memberSearch1.MemberDoubleClicked += MemberSearch1_MemberDoubleClicked;
             }
 
             
+        }
+
+        private void MemberSearch1_MemberDoubleClicked(object sender, int memberId)
+        {
+            var member = memberRepo.GetByID(memberId);
+
+            if (member != null)
+            {
+                OnHistoryRequested?.Invoke(this, member);
+            }
         }
 
 

@@ -20,34 +20,70 @@ namespace DatabaseAccessSem1.Services
 			_memberRepository = memberRepository;
 		}
 
-		public string TryBookSession(int memberId, Membership membership, int sessionId)
+		public bool TryBookSession(int memberID, int sessionID)
 		{
-
-			// 0) Tjekker og medlemmet er aktivt
-			if (!_memberRepository.IsActive(memberId))
-				return "Dit medlemskab er inaktivt.";
-
-			// 1) Tjek om medlemmet kan booke flere hold denne uge
-			if (!CanBook(memberId, membership))
-				return "Du har nået dit maksimale antal hold for denne uge." +
-					"\n Vil du opgradere dit medlemsskab for 200kr ekstra pr mdr.";
-
-
-			// 2) Tjek om der er plads på holdet 
-			int slotsAvailable = _sessionRepository.GetSlotsAvailable(sessionId);
-			if (slotsAvailable <= 0)
-				return "Der er ikke flere pladser tilbage på holdet";
-
-			// 3) Booker medlemmet på holdet
-			var memberGroup = new MemberGroup
+			try
 			{
-				MemberID = memberId,
-				SessionID = sessionId
-			};
-			_memberGroupRepository.Create(memberGroup);
+				var member = _memberRepository.GetByID(memberID);
+				if (member == null)
+				{
+					MessageBox.Show("Medlem ikke fundet.", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return false;
+				}
 
-			var session = _sessionRepository.GetByID(sessionId);
-			return $"Booking gennemført\nHold: {session.SessionType}\nTidspunkt: {session.DateTime}";
+				if (!member.Active)
+				{
+					MessageBox.Show("Dit medlemskab er inaktivt.", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return false;
+				}
+
+				var membership = new Membership((MembershipType)member.MemberType);
+				if (!CanBook(memberID, membership))
+				{
+					MessageBox.Show(
+						"Grænse nået, Opgrader Medlemstype?",
+						"Grænse Nået",
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Information);
+					return false;
+				}
+
+				int slotsAvailable = _sessionRepository.GetSlotsAvailable(sessionID);
+				if (slotsAvailable <= 0)
+				{
+					MessageBox.Show("Der er ikke flere pladser tilbage på holdet.", "Hold Fyldt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return false;
+				}
+
+				var memberGroup = new MemberGroup
+				{
+					MemberID = memberID,
+					SessionID = sessionID
+				};
+				_memberGroupRepository.Create(memberGroup);
+
+				var session = _sessionRepository.GetByID(sessionID);
+
+				MessageBox.Show(
+					$"Booking gennemført\n\nHold: {session.SessionType}\nTidspunkt: {session.DateTime:dd-MM-yyyy HH:mm}",
+					"Succes",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Information);
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				if (ex.Message.Contains("UNIQUE constraint failed") || ex.Message.Contains("PRIMARY KEY"))
+				{
+					MessageBox.Show("Medlemmet er allerede tilmeldt dette hold.", "Dublet", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show($"Fejl ved booking: {ex.Message}", "System Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+				return false;
+			}
 		}
 
 		public bool CanBook(int memberId, Membership membership)

@@ -23,9 +23,37 @@ namespace EksamenSemEt.UI
 
         public void SetValues(DateTime startDateTime, int durationSeconds)
         {
+            if (startDateTime < SessionDatePicker.MinDate || startDateTime > SessionDatePicker.MaxDate)
+            {
+                MessageBox.Show(
+            $"Ugyldig dato modtaget fra databasen: {startDateTime:dd-MM-yyyy}\n\n" +
+            "Datoen er uden for det tilladte interval. Editoren nulstilles til dags dato.",
+            "Data Fejl",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning);
+                startDateTime = DateTime.Now;
+            }
+
             SessionDatePicker.Value = startDateTime.Date;
             SessionStartTimePicker.Value = startDateTime;
-            SessionEndTimePicker.Value = startDateTime.AddSeconds(durationSeconds);
+
+
+            DateTime endDateTime;
+            try
+            {
+                endDateTime = startDateTime.AddSeconds(durationSeconds);
+            }
+            catch
+            {
+                endDateTime = startDateTime.AddMinutes(45);
+            }
+
+            if (endDateTime < SessionEndTimePicker.MinDate || endDateTime > SessionEndTimePicker.MaxDate)
+            {
+                endDateTime = startDateTime.AddMinutes(45);
+            }
+
+            SessionEndTimePicker.Value = endDateTime;
         }
 
         public int GetNewDuration()
