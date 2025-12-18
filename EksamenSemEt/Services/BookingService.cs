@@ -41,20 +41,28 @@ namespace DatabaseAccessSem1.Services
 					return false;
 				}
 
-				var membership = _memberTypeRepository.GetByID(member.MemberID ?? -1);
+                var session = _sessionRepository.GetByID(sessionID);
+                if (session == null)
+                {
+                    MessageBox.Show("Holdet blev ikke fundet.", "Fejl");
+                    return false;
+                }
 
-				/*
-				if (!CanBook(memberID, membership))
+				if (_memberGroupRepository.IsMemberAlreadyBooked(memberID, sessionID)){
+                    MessageBox.Show("Medlemmet er allerede tilmeldt dette hold.", "Allerede Booket", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
+
+                if (member.MemberType == 0)
 				{
-					MessageBox.Show(
-						"Grænse nået, Opgrader Medlemstype?",
-						"Grænse Nået",
-						MessageBoxButtons.OK,
-						MessageBoxIcon.Information);
-					return false;
+					int currentWeeklyBookings = _memberRepository.GetWeeklySessionCount(memberID, session.DateTime);
+					if (currentWeeklyBookings >= 2)
+					{
+                        MessageBox.Show("Basis-medlemmer kan kun booke 2 hold om ugen.", "Grænse nået");
+                        return false;
+                    }
 				}
 
-				*/
 
 				int slotsAvailable = _sessionRepository.GetSlotsAvailable(sessionID);
 				if (slotsAvailable <= 0)
@@ -69,8 +77,6 @@ namespace DatabaseAccessSem1.Services
 					SessionID = sessionID
 				};
 				_memberGroupRepository.Create(memberGroup);
-
-				var session = _sessionRepository.GetByID(sessionID);
 
 				MessageBox.Show(
 					$"Booking gennemført\n\nHold: {session.SessionType}\nTidspunkt: {session.DateTime:dd-MM-yyyy HH:mm}",
@@ -94,13 +100,5 @@ namespace DatabaseAccessSem1.Services
 			}
 		}
 
-		/*
-		public bool CanBook(int memberId, MemberTypeOption membership)
-		{
-			int weeklyCount = _memberRepository.GetWeeklySessionCount(memberId);
-			return weeklyCount < membership.GetWeeklyVisit();
-		}
-
-		*/
 	}
 }

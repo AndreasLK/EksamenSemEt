@@ -86,5 +86,14 @@ namespace DatabaseAccessSem1.Repository
                         WHERE MemberID = @MemberID AND SessionID = @SessionID;";
             return connection.Execute(sql, new { MemberID = memberID, SessionID = sessionID});
         }
+
+        public bool IsMemberAlreadyBooked(int memberID, int sessionID)
+        {
+            using var connection = _dbFactory.CreateConnection();
+            string sql = @"SELECT COUNT(1) FROM MemberGroups 
+                    WHERE MemberID = @MemberID AND SessionID = @SessionID";
+
+            return connection.ExecuteScalar<int>(sql, new { MemberID = memberID, SessionID = sessionID }) > 0;
+        }
     }
 }

@@ -262,12 +262,12 @@
             // 
             // CreateSessionButton
             // 
-            tableLayoutPanel1.SetColumnSpan(CreateSessionButton, 4);
+            tableLayoutPanel1.SetColumnSpan(CreateSessionButton, 6);
             CreateSessionButton.Dock = DockStyle.Fill;
             CreateSessionButton.Location = new Point(529, 215);
             CreateSessionButton.Margin = new Padding(3, 4, 3, 4);
             CreateSessionButton.Name = "CreateSessionButton";
-            CreateSessionButton.Size = new Size(375, 126);
+            CreateSessionButton.Size = new Size(532, 126);
             CreateSessionButton.TabIndex = 14;
             CreateSessionButton.Text = "Opret Hold";
             CreateSessionButton.UseVisualStyleBackColor = true;
@@ -347,8 +347,8 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 3.7815125F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 7.352941F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 2.58215952F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 2.40610337F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5.567227F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 4.64154434F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 3.30882359F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8.455882F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1.701878F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 2.9936974F));
@@ -382,7 +382,7 @@
             tableLayoutPanel1.Controls.Add(label17, 18, 7);
             tableLayoutPanel1.Controls.Add(AvailableSpacesSearchUpDown, 18, 8);
             tableLayoutPanel1.Controls.Add(CreationTimeEditor, 5, 0);
-            tableLayoutPanel1.Controls.Add(InstructorCreateSelector, 10, 0);
+            tableLayoutPanel1.Controls.Add(InstructorCreateSelector, 12, 0);
             tableLayoutPanel1.Controls.Add(InstructorSearchSelector, 17, 9);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
@@ -414,23 +414,24 @@
             // 
             // CreationTimeEditor
             // 
-            tableLayoutPanel1.SetColumnSpan(CreationTimeEditor, 4);
+            tableLayoutPanel1.SetColumnSpan(CreationTimeEditor, 6);
+            CreationTimeEditor.Dock = DockStyle.Fill;
             CreationTimeEditor.Location = new Point(529, 5);
             CreationTimeEditor.Margin = new Padding(3, 5, 3, 5);
             CreationTimeEditor.Name = "CreationTimeEditor";
             tableLayoutPanel1.SetRowSpan(CreationTimeEditor, 4);
-            CreationTimeEditor.Size = new Size(374, 201);
+            CreationTimeEditor.Size = new Size(532, 201);
             CreationTimeEditor.TabIndex = 34;
             // 
             // InstructorCreateSelector
             // 
             tableLayoutPanel1.SetColumnSpan(InstructorCreateSelector, 5);
             InstructorCreateSelector.Dock = DockStyle.Fill;
-            InstructorCreateSelector.Location = new Point(966, 5);
+            InstructorCreateSelector.Location = new Point(1139, 5);
             InstructorCreateSelector.Margin = new Padding(3, 5, 3, 5);
             InstructorCreateSelector.Name = "InstructorCreateSelector";
             tableLayoutPanel1.SetRowSpan(InstructorCreateSelector, 5);
-            InstructorCreateSelector.Size = new Size(453, 335);
+            InstructorCreateSelector.Size = new Size(548, 335);
             InstructorCreateSelector.TabIndex = 35;
             // 
             // InstructorSearchSelector

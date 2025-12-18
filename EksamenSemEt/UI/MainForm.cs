@@ -1,6 +1,7 @@
 ﻿using DatabaseAccessSem1;
 using DatabaseAccessSem1.Repository;
 using EksamenSemEt.DatabaseAccess.Repository;
+using Microsoft.Data.Sqlite;
 using Sem1BackupForms;
 using Sem1BackupForms.Forms;
 using System;
@@ -30,14 +31,16 @@ namespace EksamenSemEt.UI
         {
             InitializeComponent();
 
-
+            /*
             //INIT DB CONNECTION
             string _runningPath = AppDomain.CurrentDomain.BaseDirectory;
             string _projectPath = Path.GetFullPath(Path.Combine(_runningPath, @"..\..\..\"));
             string _dbPath = Path.Combine(_projectPath, "DatabaseAccess", "Data", "EksamenSem1.db"); //Fulde path doneret af Gemini
             string sqliteConnString = $"Data Source={_dbPath}"; //Alt dette er for at sikre der ændres i den rigtige database. Slipper vi for med MSSQL serveren
+            */
 
-            IDbConnectionFactory dbFactory = new SqliteConnectionFactory(sqliteConnString);
+            string sqliteConnString = "Server=LAPTOP-DVIHMMRN;Database=EksamenDB;Trusted_Connection=True;TrustServerCertificate=True;";
+            IDbConnectionFactory dbFactory = new SqlServerConnectionFactory(sqliteConnString);
 
             memberRepo = new MemberRepository(dbFactory);
             sessionRepo = new SessionRepository(dbFactory);

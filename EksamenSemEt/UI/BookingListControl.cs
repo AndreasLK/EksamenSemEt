@@ -144,8 +144,8 @@ namespace EksamenSemEt.UI
 
                 int? typeID = (typeCombo.SelectedValue is int t && t > 0) ? t : null;
                 int? locID = (locCombo.SelectedValue is int l && l > 0) ? l : null;
-                DateTime? start = startPicker?.Value;
-                DateTime? end = startPicker.Value;
+                DateTime? start = startPicker?.Value.Date;
+                DateTime? end = endPicker.Value.Date;
 
                 int? minC = (minCapBox != null && minCapBox.Value > 0) ? (int)minCapBox.Value : null;
                 int? maxC = (maxCapBox != null && maxCapBox.Value > 0) ? (int)maxCapBox.Value : null;

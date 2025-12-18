@@ -177,16 +177,16 @@ namespace DatabaseAccessSem1.Repository
 
 
 		//Metode til tælle hvor mange hold et medlem har tilmeldt sig i den nuværrende uge. - Med hjælp fra chatten.
-		public int GetWeeklySessionCount(int memberId)
+		public int GetWeeklySessionCount(int memberId, DateTime targetDate)
 		{
             using var connection = _dbFactory.CreateConnection();
 
-            DateTime today = DateTime.Now.Date;
+            DateTime baseDate = targetDate.Date;
 
-            int dayOfWeek = (int)today.DayOfWeek;
+            int dayOfWeek = (int)baseDate.DayOfWeek;
             if (dayOfWeek == 0) dayOfWeek = 7;
 
-            DateTime startOfWeek = today.AddDays(1 - dayOfWeek);
+            DateTime startOfWeek = baseDate.AddDays(1 - dayOfWeek);
 
             DateTime endOfWeek = startOfWeek.AddDays(7);
 

@@ -110,35 +110,35 @@ namespace EksamenSemEt.DatabaseAccess.Repository
             if (sessionTypeID.HasValue && sessionTypeID.Value > 0)
             {
                 sqlBuilder.Append(" AND s.SessionType = @SessionTypeID");
-                parameters.Add("@SessionTypeID", sessionTypeID);
+                parameters.Add("SessionTypeID", sessionTypeID);
             }
 
             if (locationID.HasValue && locationID.Value > 0)
             {
                 sqlBuilder.Append(" AND s.LocationID = @LocationID");
-                parameters.Add("@LocationID", locationID);
+                parameters.Add("LocationID", locationID);
             }
 
             if (startDate.HasValue)
             {
                 sqlBuilder.Append(" AND s.DateTime >= @StartDate");
-                parameters.Add("@StartDate", startDate.Value.Date); // Midnight
+                parameters.Add("StartDate", startDate.Value.Date);
             }
 
             if (endDate.HasValue)
             {
-                sqlBuilder.Append(" AND s.DateTime < @EndDate");
-                parameters.Add("@EndDate", endDate.Value.Date.AddDays(1)); // Next Midnight (covers whole day)
+                sqlBuilder.Append(" AND s.DateTime <= @EndDate");
+                parameters.Add("EndDate", endDate.Value.Date.AddDays(1));
             }
 
             if (minCapacity.HasValue && minCapacity.Value > 0) {
                 sqlBuilder.Append(" AND s.MaxMembers >= @MinCap");
-                parameters.Add("@MinCap", minCapacity);
+                parameters.Add("MinCap", minCapacity);
             }
 
             if (maxCapacity.HasValue && maxCapacity.Value > 0) {
                 sqlBuilder.Append(" AND s.MaxMembers <= @MaxCap");
-                parameters.Add("@MaxCap", maxCapacity);
+                parameters.Add("MaxCap", maxCapacity);
             }
 
             if (minAvailable.HasValue && minAvailable.Value > 0) {

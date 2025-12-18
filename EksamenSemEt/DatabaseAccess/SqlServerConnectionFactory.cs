@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,7 +17,7 @@ namespace DatabaseAccessSem1
 
         public IDbConnection CreateConnection()
         {
-            return new SqliteConnection(_connectionString);
+            return new SqlConnection(_connectionString);
         }
     }
 }

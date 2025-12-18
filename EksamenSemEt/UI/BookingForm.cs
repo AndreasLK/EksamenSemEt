@@ -142,6 +142,9 @@ namespace EksamenSemEt.UI
         {
             SessionMinDatePicker.Value = DateTime.Today;
             SessionMaxDatePicker.Value = DateTime.Today.AddDays(14);
+
+            dateTimePicker1.Value = DateTime.Today;
+            dateTimePicker2.Value = DateTime.Today.AddDays(14);
         }
 
 
