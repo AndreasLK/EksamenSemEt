@@ -7,7 +7,7 @@ using Microsoft.Data.Sqlite;
 
 namespace DatabaseAccessSem1
 {
-    public class SqliteConnectionFactory : IDbConnectionFactory
+    public class SqliteConnectionFactory : IDbConnectionFactory //Lavet af Andreas
     {
         private readonly string _connectionString; //Destination af database
 

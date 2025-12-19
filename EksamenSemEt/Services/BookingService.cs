@@ -6,7 +6,7 @@ using EksamenSemEt.DatabaseAccess.Repository;
 
 namespace DatabaseAccessSem1.Services
 {
-	public class BookingService
+	public class BookingService //Lavet af Jesper
 	{
 		private readonly SessionRepository _sessionRepository;
 		private readonly MemberGroupRepository _memberGroupRepository;
@@ -14,13 +14,16 @@ namespace DatabaseAccessSem1.Services
 		private readonly MemberTypeRepository _memberTypeRepository;
 
 
-        public BookingService(SessionRepository sessionRepository, MemberGroupRepository memberGroupRepository, MemberRepository memberRepository, MemberTypeRepository memberTypeRepository)
+        public BookingService(SessionRepository sessionRepository, 
+			MemberGroupRepository memberGroupRepository, 
+			MemberRepository memberRepository, 
+			
+			MemberTypeRepository memberTypeRepository)
 		{
 			_memberRepository = memberRepository;
 			_sessionRepository = sessionRepository;
 			_memberGroupRepository = memberGroupRepository;
 			_memberTypeRepository = memberTypeRepository;
-
 		}
 
 		public bool TryBookSession(int memberID, int sessionID)

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace EksamenSemEt.DatabaseAccess.Repository
 {
-    public class LocationRepository
+    public class LocationRepository // Lavet af Andreas
     {
         private readonly IDbConnectionFactory _dbFactory;
         public LocationRepository(IDbConnectionFactory dbFactory) { _dbFactory = dbFactory; }

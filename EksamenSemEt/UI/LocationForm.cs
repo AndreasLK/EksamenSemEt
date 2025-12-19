@@ -10,7 +10,7 @@ using DatabaseAccessSem1;
 
 namespace EksamenSemEt.UI
 {
-    public partial class LocationForm : UserControl
+    public partial class LocationForm : UserControl //Lavet af Andreas
     {
 
         private LocationRepository locationRepo;

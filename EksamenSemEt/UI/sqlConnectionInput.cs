@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace EksamenSemEt.UI
 {
-    public partial class sqlConnectionInput : UserControl
+    public partial class sqlConnectionInput : UserControl //Lavet af Andreas
     {
         public string NewConnectionString => textBox1.Text;
         public sqlConnectionInput(string currentString, string errorMessage)

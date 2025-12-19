@@ -12,7 +12,7 @@ using DatabaseAccessSem1;
 using Timer = System.Windows.Forms.Timer;
 namespace EksamenSemEt.UI
 {
-    public partial class InstructorSelector : UserControl
+    public partial class InstructorSelector : UserControl //Lavet af Andreas
     {
 
         private InstructorRepository instructorRepo;

@@ -12,7 +12,7 @@ using Sem1BackupForms.Forms;
 
 namespace EksamenSemEt.UI
 {
-    public partial class SideBar : UserControl
+    public partial class SideBar : UserControl //Lavet af Andreas
     {
         public event EventHandler BookingClicked;
         public event EventHandler MemberClicked;

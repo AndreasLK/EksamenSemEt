@@ -6,7 +6,7 @@ using EksamenSemEt.UI;
 using EksamenSemEt.DatabaseAccess.Repository;
 namespace Sem1BackupForms
 {
-    public partial class MemberForm : UserControl
+    public partial class MemberForm : UserControl //Lavet af Rasmus (Design og opsætning) og Andreas
     {
         private MemberRepository memberRepo;
         private MemberTypeRepository memberTypeRepo;

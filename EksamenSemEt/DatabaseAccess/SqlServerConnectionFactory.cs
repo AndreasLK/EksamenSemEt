@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DatabaseAccessSem1
 {
-    public class SqlServerConnectionFactory : IDbConnectionFactory
+    public class SqlServerConnectionFactory : IDbConnectionFactory //Lavet af Andreas
     {
         private readonly string _connectionString; //Destination af database
 

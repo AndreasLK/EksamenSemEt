@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DatabaseAccessSem1.Repository
 {
-    public class MemberGroupRepository
+    public class MemberGroupRepository //Lavet af Andreas Og Sandra
     {
         private readonly IDbConnectionFactory _dbFactory;
         public MemberGroupRepository(IDbConnectionFactory dbFactory) { _dbFactory = dbFactory; }

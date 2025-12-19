@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DatabaseAccessSem1.Repository
 {
-    public class MemberRepository
+    public class MemberRepository //Lavet af Andreas, Sandra, Jesper
     {
         private readonly IDbConnectionFactory _dbFactory;
         public MemberRepository(IDbConnectionFactory dbFactory) {_dbFactory = dbFactory;}
@@ -102,13 +102,12 @@ namespace DatabaseAccessSem1.Repository
     bool? active = null)
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
-                                                                  // 1. Start with a basic query that selects ALL columns so the Member object can be filled
+                                                                  
             var sqlBuilder = new StringBuilder("SELECT MemberID FROM Customers WHERE 1=1");
 
-            // 2. Create a container for your safe parameters
             var parameters = new DynamicParameters();
 
-            //Tilføj filtrer hvis de har 
+            //Tilføj filtrer hvis de har en værdi
             if (!string.IsNullOrEmpty(firstName))
             {
                 sqlBuilder.Append(" AND FirstName LIKE @FirstName");

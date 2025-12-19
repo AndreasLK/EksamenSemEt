@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EksamenSemEt.DatabaseAccess.Repository
 {
-    public class BookingRepository
+    public class BookingRepository // Lavet af Andreas
     {
         private readonly IDbConnectionFactory _dbFactory;
 

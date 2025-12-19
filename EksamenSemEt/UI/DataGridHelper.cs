@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EksamenSemEt.UI
 {
-    public static class DataGridHelper
+    public static class DataGridHelper //Lavet af Andreas
     {
         //ingen init fordi det er en static klasse
         public static void LoadData<T>(DataGridView dgv, ref BindingSource bindingSource,IEnumerable<T> data)

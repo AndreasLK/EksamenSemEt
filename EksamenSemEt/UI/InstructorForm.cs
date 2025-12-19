@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Sem1BackupForms.Forms
 {
-    public partial class InstructorForm : UserControl
+    public partial class InstructorForm : UserControl //Lavet af Andreas
     {
         private InstructorRepository instructorRepo;
         private CertificationRepository certificateRepo;

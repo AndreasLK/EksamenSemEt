@@ -4,7 +4,7 @@ using EksamenSemEt.UI;
 using Sem1BackupForms;
 namespace EksamenSemEt
 {
-    internal static class Program
+    internal static class Program //Lavet af Jesper
     {
 
         [STAThread]

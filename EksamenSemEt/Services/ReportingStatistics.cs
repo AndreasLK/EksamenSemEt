@@ -10,7 +10,7 @@ using System.Text;
 //Ændret af sandra - ved hjælp af Gemini - oprettelse af selve rapporten
 namespace EksamenSemEt.Services;
 
-public class ReportingStatistics
+public class ReportingStatistics //Lavet af Sandra
 {
     private readonly MemberRepository _memberRepository;
     private readonly MemberGroupRepository _memberGroupRepository;

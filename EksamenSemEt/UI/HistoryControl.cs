@@ -13,7 +13,7 @@ using System.Xml.Linq;
 namespace EksamenSemEt.UI
 {
     public enum HistoryMode { Member, Instructor}
-    public partial class HistoryControl : UserControl
+    public partial class HistoryControl : UserControl //Lavet af Andreas
     {
         private readonly SessionRepository sessionRepository;
         private readonly MemberRepository memberRepository;

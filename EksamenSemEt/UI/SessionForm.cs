@@ -14,7 +14,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace EksamenSemEt.UI
 {
-    public partial class SessionForm : UserControl
+    public partial class SessionForm : UserControl //Lavet af Andreas
     {
         private readonly SessionRepository sessionRepo;
         private readonly InstructorRepository instructorRepo;

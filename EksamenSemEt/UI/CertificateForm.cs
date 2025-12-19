@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace EksamenSemEt.UI
 {
-    public partial class CertificateForm : UserControl
+    public partial class CertificateForm : UserControl //Lavet af Andreas
     {
         private CertificationRepository certRepo;
         private SessionRepository sessionRepo;

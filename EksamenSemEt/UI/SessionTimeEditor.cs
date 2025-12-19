@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace EksamenSemEt.UI
 {
-    public partial class SessionTimeEditor : UserControl
+    public partial class SessionTimeEditor : UserControl //Lavet af Andreas
     {
 
         public event EventHandler EditingDone;

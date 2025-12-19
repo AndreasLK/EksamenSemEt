@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace EksamenSemEt.UI
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form //Lavet af Andreas
     {
         private readonly MemberRepository memberRepo;
         private readonly MemberGroupRepository memberGroupRepo;

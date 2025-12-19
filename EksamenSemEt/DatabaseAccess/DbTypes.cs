@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace DatabaseAccessSem1
+namespace DatabaseAccessSem1 // Lavet af Andreas og Sandra
 {
 
     //Basically en klasse der ikke (nemt) kan ændres.

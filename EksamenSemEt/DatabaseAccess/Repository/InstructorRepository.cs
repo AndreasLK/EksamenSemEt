@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DatabaseAccessSem1.Repository
 {
-    public class InstructorRepository
+    public class InstructorRepository // Lavet af Andreas
     {
         private readonly IDbConnectionFactory _dbFactory;
         public InstructorRepository(IDbConnectionFactory dbFactory) { _dbFactory = dbFactory; }
@@ -137,12 +137,12 @@ namespace DatabaseAccessSem1.Repository
         {
             using var connection = _dbFactory.CreateConnection(); //med using lukkes forbindelse automatisk efter metoden er kørt
 
-            //Delete certs
+            //Delete certificat grupperinger af instruktøren
             string sqlCerts = @"DELETE FROM CertificationGroups
                         WHERE InstructorID = @InstructorID";
             connection.Execute(sqlCerts, new { InstructorID = instructorID });
 
-            //Delete instructor
+            //Delete selve instruktøren
             string sql = @"DELETE FROM Instructors
                         WHERE InstructorID = @InstructorID";
 

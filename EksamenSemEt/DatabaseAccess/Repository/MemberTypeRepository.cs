@@ -7,7 +7,7 @@ using System.Text;
 
 namespace EksamenSemEt.DatabaseAccess.Repository
 {
-    public class MemberTypeRepository
+    public class MemberTypeRepository //Lavet af Andreas
     {
         private readonly IDbConnectionFactory _dbFactory;
         public MemberTypeRepository(IDbConnectionFactory dbFactory) { _dbFactory = dbFactory; }

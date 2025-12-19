@@ -6,7 +6,7 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace DatabaseAccessSem1.Repository
 {
-    public class SessionRepository
+    public class SessionRepository //Lavet af Andreas
     {
         private readonly IDbConnectionFactory _dbFactory;
         public SessionRepository(IDbConnectionFactory dbFactory) { _dbFactory = dbFactory; }

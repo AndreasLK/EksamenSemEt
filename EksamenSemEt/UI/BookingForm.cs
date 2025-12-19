@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace EksamenSemEt.UI
 {
-    public partial class BookingForm : UserControl
+    public partial class BookingForm : UserControl //Lavet af Sandra (design og opsætning) og Andreas
     {
         private readonly MemberRepository memberRepo;
         private readonly MemberTypeRepository memberTypeRepo;

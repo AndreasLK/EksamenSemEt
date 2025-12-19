@@ -12,7 +12,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace EksamenSemEt.UI
 {
-    public partial class MemberSearch : UserControl
+    public partial class MemberSearch : UserControl //Lavet af Andreas
     {
         private MemberRepository memberRepo;
         private MemberTypeRepository memberTypeRepo;
