@@ -1,7 +1,8 @@
 ﻿using DatabaseAccessSem1;
 using DatabaseAccessSem1.Repository;
 using EksamenSemEt.DatabaseAccess.Repository;
-using Microsoft.Data.Sqlite;
+using EksamenSemEt.Services;
+using Microsoft.Data.SqlClient;
 using Sem1BackupForms;
 using Sem1BackupForms.Forms;
 using System;
@@ -25,7 +26,10 @@ namespace EksamenSemEt.UI
         private readonly CertificationRepository certificateRepo;
         private readonly LocationRepository locationRepo;
         private readonly BookingRepository bookingRepo;
+        private readonly ReportingStatistics reportingStatistics;
 
+        private readonly IDbConnectionFactory dbFactory;
+        private string sqlConnString = "Server=LAPTOP-DVIHMMRN;Database=EksamenDB;Trusted_Connection=True;TrustServerCertificate=True;";
 
         public MainForm()
         {
@@ -38,9 +42,11 @@ namespace EksamenSemEt.UI
             string _dbPath = Path.Combine(_projectPath, "DatabaseAccess", "Data", "EksamenSem1.db"); //Fulde path doneret af Gemini
             string sqliteConnString = $"Data Source={_dbPath}"; //Alt dette er for at sikre der ændres i den rigtige database. Slipper vi for med MSSQL serveren
             */
+            ValidateAndConnect();
 
-            string sqliteConnString = "Server=LAPTOP-DVIHMMRN;Database=EksamenDB;Trusted_Connection=True;TrustServerCertificate=True;";
-            IDbConnectionFactory dbFactory = new SqlServerConnectionFactory(sqliteConnString);
+            dbFactory = new SqlServerConnectionFactory(sqlConnString); 
+            
+            
 
             memberRepo = new MemberRepository(dbFactory);
             sessionRepo = new SessionRepository(dbFactory);
@@ -51,7 +57,7 @@ namespace EksamenSemEt.UI
             certificateRepo = new CertificationRepository(dbFactory);
             locationRepo = new LocationRepository(dbFactory);
             bookingRepo = new BookingRepository(dbFactory);
-
+            reportingStatistics = new ReportingStatistics(memberRepo, memberGroupRepo);
 
 
             //INIT SIDEBAR
@@ -89,7 +95,7 @@ namespace EksamenSemEt.UI
             sideBar.SessionClicked += (s, e) => LoadView(new SessionForm(certificateRepo, locationRepo, instructorRepo, instructorGroupRepo, sessionRepo));
             sideBar.CertificateClicked += (s, e) => LoadView(new CertificateForm(certificateRepo, sessionRepo));
             sideBar.LocationClicked += (s, e) => LoadView(new LocationForm(locationRepo));
-
+            sideBar.ReportClicked += (s, e) => reportingStatistics.GenerateReport();
             LoadView(new BookingForm(memberRepo, memberTypeRepo, sessionRepo, memberGroupRepo, locationRepo, certificateRepo, bookingRepo));
         }
 
@@ -114,6 +120,46 @@ namespace EksamenSemEt.UI
             history.CloseRequested += (s, e) => LoadView(returnToView);
 
             LoadView(history);
+        }
+
+        private void ValidateAndConnect()
+        {
+            bool isConnected = false;
+
+            while (!isConnected)
+            {
+                try
+                {
+                    using (var connection = new SqlConnection(sqlConnString))
+                    {
+                        connection.Open();
+                        isConnected = true;
+                    }
+                } catch (Exception ex)
+                {
+                    using (Form dialog = new Form())
+                    {
+                        var inputControl = new sqlConnectionInput(sqlConnString, ex.Message);
+                        inputControl.Dock = DockStyle.Fill;
+
+                        dialog.Text = "Kunne ikke tilslutte database";
+                        dialog.Size = new Size(1200, 350);
+                        dialog.StartPosition = FormStartPosition.CenterScreen;
+                        dialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+                        dialog.MaximizeBox = false;
+                        dialog.Controls.Add(inputControl);
+
+                        if (dialog.ShowDialog() == DialogResult.OK)
+                        {
+                            sqlConnString = inputControl.NewConnectionString.Trim();
+                        }
+                        else
+                        {
+                            Environment.Exit(0);
+                        }
+                    }
+                }
+            }
         }
 
     }

@@ -8,6 +8,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using ComboBox = System.Windows.Forms.ComboBox;
 using Timer = System.Windows.Forms.Timer;
 
 namespace EksamenSemEt.UI
@@ -87,28 +89,50 @@ namespace EksamenSemEt.UI
 
         private void InitializeSessionType()
         {
-
-            var comboBoxes = new List<ComboBox> { SessionTypeComboBox, SessionTypeSearchComboBox };
-
-            foreach (var comboBox in comboBoxes)
+            try
             {
+                var allCerts = certRepo.GetAll().OrderBy(c => c.Name).ToList();
 
-                comboBox.DisplayMember = "Name";
-                comboBox.ValueMember = "CertificationID";
-                comboBox.DataSource = certRepo.GetAll().OrderBy(c => c.Name).ToList(); //sortere efter navn
+                SessionTypeComboBox.DisplayMember = "Name";
+                SessionTypeComboBox.ValueMember = "CertificationID";
+                SessionTypeComboBox.DataSource = new List<Certificate>(allCerts);
+
+
+                var searchList = new List<Certificate>(allCerts);
+                searchList.Insert(0, new Certificate { CertificationID = -1, Name = "-- Alle Typer --" });
+
+                SessionTypeSearchComboBox.DisplayMember = "Name";
+                SessionTypeSearchComboBox.ValueMember = "CertificationID";
+                SessionTypeSearchComboBox.DataSource = searchList;
+
+
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"Fejl ved indhentning af holdtyper {ex.Message}", "Fejl Holdtyper", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
         }
 
         private void InitializeLocation()
         {
-            var comboBoxes = new List<ComboBox> { LocationComboBox, LocationSearchComboBox };
-            foreach (var comboBox in comboBoxes)
+            try
             {
+                var allLocations = locationRepo.GetAll();
 
-                comboBox.DisplayMember = "Name";
-                comboBox.ValueMember = "LocationID";
-                comboBox.DataSource = locationRepo.GetAll().OrderBy(c => c.Name).ToList();
+                LocationComboBox.DisplayMember = "Name";
+                LocationComboBox.ValueMember = "LocationID";
+                LocationComboBox.DataSource = new List<Location>(allLocations);
+
+                var searchList = new List<Location>(allLocations);
+                searchList.Insert(0, new Location { LocationID = -1, Name = "--Alle Lokationer--" });
+
+                LocationSearchComboBox.DisplayMember = "Name";
+                LocationSearchComboBox.ValueMember = "LocationID";
+                LocationSearchComboBox.DataSource = searchList;
+
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"Fejl ved indhentning af lokatoner {ex.Message}", "Fejl Lokationer", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
         }

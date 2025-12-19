@@ -132,4 +132,25 @@ namespace DatabaseAccessSem1
         public List<Member> BookedMembersList { get; set; } = new();
     }
 
+    public record SessionPopularityData // record er en type klasse, som er den mest sikre og effektive måde at transportere en uoverskuelig række data fra databasen til en rapport. 
+    {
+        public required string SessionType { get; init; }
+        public required int ParticipantCount { get; init; }
+        public required decimal ParticipantPercentage { get; init; }
+        // get & init = accessors. get betyder du kan læse værdien. init sikrer dataene forbliver de samme, som de var i databasen.
+        // required betyder, at en værdi skal tildeles når du opretter objektet. dette forhindrer man glemmer at give recordet en værdi.
+    }
+
+    public record SessionDayData
+    {
+        // Mandag, Tirsdag, etc.
+        public required string DayOfWeek { get; init; }
+
+        // Holdnavnet
+        public required string SessionType { get; init; }
+
+        // Det samlede antal deltagere på den ugedag
+        public required int ParticipantCount { get; init; }
+    }
+
 }

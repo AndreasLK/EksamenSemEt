@@ -20,6 +20,7 @@ namespace EksamenSemEt.UI
         public event EventHandler InstructorClicked;
         public event EventHandler CertificateClicked;
         public event EventHandler LocationClicked;
+        public event EventHandler ReportClicked;
         public SideBar()
         {
             InitializeComponent();
@@ -55,6 +56,12 @@ namespace EksamenSemEt.UI
             LocationClicked?.Invoke(this, EventArgs.Empty);
         }
 
+        private void ReportButton_Click(object sender, EventArgs e)
+        {
+            ReportClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+
         public void ReFormatAllButtons()
         {
             var allButtons = new List<Button>
@@ -64,7 +71,8 @@ namespace EksamenSemEt.UI
                 SessionButton,
                 InstructorButton,
                 CertificateButton,
-                LocationButton
+                LocationButton,
+                ReportButton
             };
 
             foreach (Button button in allButtons)
@@ -73,5 +81,7 @@ namespace EksamenSemEt.UI
             }
 
         }
+
+
     }
 }

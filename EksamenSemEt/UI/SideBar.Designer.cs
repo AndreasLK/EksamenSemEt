@@ -35,6 +35,7 @@
             InstructorButton = new Button();
             CertificateButton = new Button();
             LocationButton = new Button();
+            ReportButton = new Button();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -48,26 +49,30 @@
             tableLayoutPanel1.Controls.Add(InstructorButton, 0, 3);
             tableLayoutPanel1.Controls.Add(CertificateButton, 0, 4);
             tableLayoutPanel1.Controls.Add(LocationButton, 0, 5);
+            tableLayoutPanel1.Controls.Add(ReportButton, 0, 7);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Margin = new Padding(3, 4, 3, 4);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 7;
+            tableLayoutPanel1.RowCount = 8;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 40F));
-            tableLayoutPanel1.Size = new Size(298, 614);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel1.Size = new Size(341, 819);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // BookingButton
             // 
             BookingButton.Dock = DockStyle.Fill;
-            BookingButton.Location = new Point(3, 3);
+            BookingButton.Location = new Point(3, 4);
+            BookingButton.Margin = new Padding(3, 4, 3, 4);
             BookingButton.Name = "BookingButton";
-            BookingButton.Size = new Size(292, 55);
+            BookingButton.Size = new Size(335, 73);
             BookingButton.TabIndex = 0;
             BookingButton.Text = "Booking";
             BookingButton.UseVisualStyleBackColor = true;
@@ -76,9 +81,10 @@
             // MemberButton
             // 
             MemberButton.Dock = DockStyle.Fill;
-            MemberButton.Location = new Point(3, 64);
+            MemberButton.Location = new Point(3, 85);
+            MemberButton.Margin = new Padding(3, 4, 3, 4);
             MemberButton.Name = "MemberButton";
-            MemberButton.Size = new Size(292, 55);
+            MemberButton.Size = new Size(335, 73);
             MemberButton.TabIndex = 1;
             MemberButton.Text = "Medlemmer";
             MemberButton.UseVisualStyleBackColor = true;
@@ -87,9 +93,10 @@
             // SessionButton
             // 
             SessionButton.Dock = DockStyle.Fill;
-            SessionButton.Location = new Point(3, 125);
+            SessionButton.Location = new Point(3, 166);
+            SessionButton.Margin = new Padding(3, 4, 3, 4);
             SessionButton.Name = "SessionButton";
-            SessionButton.Size = new Size(292, 55);
+            SessionButton.Size = new Size(335, 73);
             SessionButton.TabIndex = 2;
             SessionButton.Text = "Hold";
             SessionButton.UseVisualStyleBackColor = true;
@@ -98,9 +105,10 @@
             // InstructorButton
             // 
             InstructorButton.Dock = DockStyle.Fill;
-            InstructorButton.Location = new Point(3, 186);
+            InstructorButton.Location = new Point(3, 247);
+            InstructorButton.Margin = new Padding(3, 4, 3, 4);
             InstructorButton.Name = "InstructorButton";
-            InstructorButton.Size = new Size(292, 55);
+            InstructorButton.Size = new Size(335, 73);
             InstructorButton.TabIndex = 3;
             InstructorButton.Text = "Instruktører";
             InstructorButton.UseVisualStyleBackColor = true;
@@ -109,9 +117,10 @@
             // CertificateButton
             // 
             CertificateButton.Dock = DockStyle.Fill;
-            CertificateButton.Location = new Point(3, 247);
+            CertificateButton.Location = new Point(3, 328);
+            CertificateButton.Margin = new Padding(3, 4, 3, 4);
             CertificateButton.Name = "CertificateButton";
-            CertificateButton.Size = new Size(292, 55);
+            CertificateButton.Size = new Size(335, 73);
             CertificateButton.TabIndex = 4;
             CertificateButton.Text = "Certifikater";
             CertificateButton.UseVisualStyleBackColor = true;
@@ -120,21 +129,34 @@
             // LocationButton
             // 
             LocationButton.Dock = DockStyle.Fill;
-            LocationButton.Location = new Point(3, 308);
+            LocationButton.Location = new Point(3, 409);
+            LocationButton.Margin = new Padding(3, 4, 3, 4);
             LocationButton.Name = "LocationButton";
-            LocationButton.Size = new Size(292, 55);
+            LocationButton.Size = new Size(335, 73);
             LocationButton.TabIndex = 5;
             LocationButton.Text = "Lokationer";
             LocationButton.UseVisualStyleBackColor = true;
             LocationButton.Click += LocationButton_Click;
             // 
+            // ReportButton
+            // 
+            ReportButton.Dock = DockStyle.Fill;
+            ReportButton.Location = new Point(3, 734);
+            ReportButton.Name = "ReportButton";
+            ReportButton.Size = new Size(335, 82);
+            ReportButton.TabIndex = 7;
+            ReportButton.Text = "Udskriv Rapport";
+            ReportButton.UseVisualStyleBackColor = true;
+            ReportButton.Click += ReportButton_Click;
+            // 
             // SideBar
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "SideBar";
-            Size = new Size(298, 614);
+            Size = new Size(341, 819);
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -148,5 +170,6 @@
         private Button InstructorButton;
         private Button CertificateButton;
         private Button LocationButton;
+        private Button ReportButton;
     }
 }
